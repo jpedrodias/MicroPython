@@ -1,0 +1,11 @@
+{
+    "broker": "172.16.4.1",
+    "username": "iot",
+    "password": "iot",
+    "delay": 60,
+    "chatty": 1,
+    "client_id": "0000",
+    "topic_debug" : "debug",
+    "topic_status" : "devices/{device_id}/status",
+    "topic_control" : "devices/{device_id}/control"
+}
