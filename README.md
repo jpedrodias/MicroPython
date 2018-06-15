@@ -115,7 +115,13 @@ from machine import Pin, I2C
 i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
 from sensors_manager import Sensor_BME280
 sensor = Sensor_BME280(i2c=i2c, address=0x76) # to find address use i2c.scan()
+
 sensor.read()
 sensor.values
 sensor.values_dict
+```
+Note: also need to put the file `bme280.py` in folder `libs` using: 
+```
+ampy -p /dev/ttyUSB0 mkdir libs
+ampy -p /dev/ttyUSB0 put bme280.py libs/bme280.py
 ```
