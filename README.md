@@ -1,5 +1,5 @@
 # MicroPython
-Some tools to help when using MicroPython
+Some tools to help when using MicroPython (tested on wemos d1 mini - esp8266)
 
 <ul>
   <li>how to use wlan manager</li>
