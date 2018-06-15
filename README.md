@@ -15,7 +15,7 @@ Send wlan_manager.py to board using:
 ampy -p /dev/ttyUSB0 put wlan_manager.py
 ```
 
-The first time you need to run the setup() function. This function will creat the file wlan_manager.json to store SSID and password
+The first time you need to run the `setup()` function. This function will creat the file wlan_manager.json to store SSID and password
 ```
 from wlan_manager import *
 wlan_client = WLAN_Manager()
