@@ -73,3 +73,23 @@ chatty_client =  bool(mqtt_client.CONFIG.get('chatty', True))
 mqtt_client.broker.set_callback(MQTT_subscribe_callback_function)
 mqtt_client.broker.subscribe(TOPIC_SUB)
 ```
+
+
+# sensors manager :: setup
+Send sensors_manager.py to board using:
+```
+ampy -p /dev/ttyUSB0 put sensors_manager.py
+```
+
+# Sensors manager :: BME280 example
+```
+from gc import collect
+from machine import Pin, I2C
+
+i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
+from sensors_manager.py import Sensor_BME280
+sensor = Sensor_BME280(i2c=i2c, address=0x76) # to find address use i2c.scan()
+sensor.read()
+sensor.values
+sensor.values_dict
+```
