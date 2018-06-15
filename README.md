@@ -9,7 +9,7 @@ Some tools to help when using MicroPython
 
 
 
-# wlan manager :: setup
+# WLAN Manager :: Setup
 Send wlan_manager.py to board using:
 ```
 ampy -p /dev/ttyUSB0 put wlan_manager.py
@@ -23,7 +23,7 @@ wlan_client.setup()
 wlan_client.start()
 ```
 
-# wlan manager :: main loop example
+# WLAN Manager :: main loop example
 ```
 # Connection to Wireless
 from gc import collect
@@ -39,14 +39,14 @@ del(Done)
 collect()
 ```
 
-# mqtt manager :: setup
+# MQTT Manager :: Setup
 Send mqtt_manager.py and mqtt_manager.json (change where your mqtt setting first) to board using:
 ```
 ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 
-# mqtt manager :: main loop example
+# MQTT Manager :: main loop example
 ```
 # Connection to MQTT Broker
 from gc import collect
@@ -75,19 +75,45 @@ mqtt_client.broker.subscribe(TOPIC_SUB)
 ```
 
 
-# sensors manager :: setup
+# Sensors Manager :: Setup
 Send sensors_manager.py to board using:
 ```
 ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```
 
-# Sensors manager :: BME280 example
+# Sensors Manager :: Using DHT22 (or DHT11) example
+```
+from gc import collect
+from machine import Pin
+
+from sensors_manager import Sensor_DHT22 # or DHT11
+sensor = Sensor_DHT22(Pin(5)) # Pin 5 = D1 
+
+sensor.read()
+sensor.values
+sensor.values_dict
+```
+
+# Sensors Manager :: Using DS18B20 example
+```
+from gc import collect
+from machine import Pin
+
+from sensors_manager import Sensor_DS18B20
+sensor = Sensor_DS18B20(Pin(5)) # Pin 5 = D1
+
+sensor.read()
+sensor.values
+sensor.values_dict
+```
+
+# Sensors Manager :: Using BME280 example
 ```
 from gc import collect
 from machine import Pin, I2C
 
 i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
-from sensors_manager.py import Sensor_BME280
+from sensors_manager import Sensor_BME280
 sensor = Sensor_BME280(i2c=i2c, address=0x76) # to find address use i2c.scan()
 sensor.read()
 sensor.values
