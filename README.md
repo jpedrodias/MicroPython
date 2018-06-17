@@ -75,8 +75,8 @@ mqtt_client.broker.subscribe(TOPIC_SUB)
 ```
 
 
-# Sensors Manager :: Setup
-Send sensors_manager.py to board using:
+# Sensor Manager :: Setup
+Send sensor_manager.py to board using:
 ```
 ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```
@@ -86,7 +86,7 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 from gc import collect
 from machine import Pin
 
-from sensors_manager import Sensor_DHT22 # or DHT11
+from sensor_manager import Sensor_DHT22 # or DHT11
 sensor = Sensor_DHT22(Pin(5)) # Pin 5 = D1 
 
 sensor.read()
@@ -94,12 +94,12 @@ sensor.values
 sensor.values_dict
 ```
 
-# Sensors Manager :: Using DS18B20 example
+# Sensor Manager :: Using DS18B20 example
 ```
 from gc import collect
 from machine import Pin
 
-from sensors_manager import Sensor_DS18B20
+from sensor_manager import Sensor_DS18B20
 sensor = Sensor_DS18B20(Pin(5)) # Pin 5 = D1
 
 sensor.read()
@@ -107,13 +107,13 @@ sensor.values
 sensor.values_dict
 ```
 
-# Sensors Manager :: Using BME280 example
+# Sensor Manager :: Using BME280 example
 ```
 from gc import collect
 from machine import Pin, I2C
 
 i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
-from sensors_manager import Sensor_BME280
+from sensor_manager import Sensor_BME280
 sensor = Sensor_BME280(i2c=i2c, address=0x76) # to find address use i2c.scan()
 
 sensor.read()
