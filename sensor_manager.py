@@ -121,3 +121,4 @@ if __name__ == "__main__":
         sensor.read()
         print(sensor.new_event)
         sleep(1)
+        
