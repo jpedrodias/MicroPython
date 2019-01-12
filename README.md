@@ -131,7 +131,7 @@ import time
 
 from sensor_manager import HCSR04 as UltraSonic
 
-sensor = UltraSonic( trigger_pin=5, echo_pin=4)
+sensor = UltraSonic( trigger_pin=5, echo_pin=4 )
 
 
 while True:
