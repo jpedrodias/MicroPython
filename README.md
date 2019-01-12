@@ -84,10 +84,9 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 # Sensors Manager :: Using DHT22 (or DHT11) example
 ```
 from gc import collect
-from machine import Pin
 
 from sensor_manager import Sensor_DHT22 # or DHT11
-sensor = Sensor_DHT22(Pin(5)) # Pin 5 = D1 
+sensor = Sensor_DHT22( 5 ) # Pin 5 = D1 
 
 sensor.read()
 sensor.values
@@ -97,10 +96,9 @@ sensor.values_dict
 # Sensor Manager :: Using DS18B20 example
 ```
 from gc import collect
-from machine import Pin
 
 from sensor_manager import Sensor_DS18B20
-sensor = Sensor_DS18B20(Pin(5)) # Pin 5 = D1
+sensor = Sensor_DS18B20( 5 ) # Pin 5 = D1
 
 sensor.read()
 sensor.values
