@@ -1,10 +1,13 @@
-#Sensors_MadeEasy.py
+# filename: sensors_manager.py
+import machine
+import time
 
 class Sensor_DHT22():
-  def __init__(self, PinObject):
+  def __init__(self, dht22_pin):
     from dht import DHT22
-    self.sensor = DHT22(PinObject)
-    sleep( 1 ) # delay to stabilize sensor
+    pin = machine.Pin(dht22_pin)
+    self.sensor = DHT22(pin)
+    time.sleep( 1 ) # delay to stabilize sensor
     self.t = None
     self.h = None
   def read(self):
@@ -20,10 +23,11 @@ class Sensor_DHT22():
     return [self.t, self.h]
 
 class Sensor_DHT11():
-  def __init__(self, PinObject):
-    from dht import DHT11 as DHT
-    self.sensor = DHT11(PinObject)
-    sleep(1) # delay to stabilize sensor
+  def __init__(self, dht11_pin):
+    from dht import DHT11
+    pin = machine.Pin(dht11_pin)
+    self.sensor = DHT11(pin)
+    time.sleep(1) # delay to stabilize sensor
     self.t = None
     self.h = None
   def read(self):
@@ -40,8 +44,8 @@ class Sensor_DHT11():
         
 class Sensor_BME280():
   def __init__(self, i2c, address=0x76):
-    from libs import bme280 as bme280
-    self.bme = bme280.BME280(i2c=i2c,address=address)
+    from bme280 import BME280
+    self.bme = BME280(i2c=i2c,address=address)
     self.t = None
     self.h = None
     self.p = None
@@ -59,10 +63,11 @@ class Sensor_BME280():
     return [self.t, self.h, self.p]
 
 class Sensor_DS18B20():
-  def __init__(self, PinObject):
+  def __init__(self, ds18b20_pin):
     from onewire import OneWire
     from ds18x20 import DS18X20
-    ow = OneWire(PinObject) 
+    pin = machine.Pin(ds18b20_pin)
+    ow = OneWire(pin) 
     ow.scan()
     ow.reset()
     self.ds18b20 = DS18X20(ow)
@@ -70,7 +75,7 @@ class Sensor_DS18B20():
     self.temps = [None for rom in self.roms]
   def read(self):
     self.ds18b20.convert_temp()
-    sleep_ms(750)
+    time.sleep_ms(750)
     for i, rom in enumerate(self.roms):
       t = self.ds18b20.read_temp(rom)
       self.temps[i] = round(t, 1)
@@ -112,43 +117,40 @@ class Sensor_BUTTONS():
     return self.states
 
 class HCSR04():
-  from machine import Pin, time_pulse_us
-  from time import sleep_us
-
-  def __init__(self, trigger_pin, echo_pin, echo_timeout_us=50000):
+  def __init__(self, trigger_pin, echo_pin, echo_timeout_us=500000):
+    self.trigger = machine.Pin(trigger_pin, mode=machine.Pin.OUT, pull=None)
+    self.echo = machine.Pin(echo_pin, mode=machine.Pin.IN, pull=None)
     self.echo_timeout_us = echo_timeout_us
-    self.trigger = Pin(trigger_pin, mode=Pin.OUT, pull=None)
     self.trigger.value(0)
-    self.echo = Pin(echo_pin, mode=Pin.IN, pull=None)
-    
+    self.pulse_time = None
   def _send_pulse_and_wait(self):
     self.trigger.value(0)
-    sleep_us(5)
+    time.sleep_us(5)
     self.trigger.value(1)
-    sleep_us(10)
+    time.sleep_us(10)
     self.trigger.value(0)
     try:
-      pulse_time = time_pulse_us(self.echo, 1, self.echo_timeout_us)
+      pulse_time = machine.time_pulse_us(self.echo, 1, self.echo_timeout_us)
       return pulse_time
     except OSError as ex:
       if ex.args[0] == 110: # 110 = ETIMEDOUT
         raise OSError('Out of range')
       raise ex
+  def read(self):
+    self.pulse_time = self._send_pulse_and_wait()
+    return self.pulse_time
+  @property
   def distance_mm(self):
-    pulse_time = self._send_pulse_and_wait()
-    return pulse_time * 100 // 582
-  
+    if self.pulse_time:
+      return self.pulse_time * 100 // 582
+    else:
+      return None
+  @property
   def distance_cm(self):
-    pulse_time = self._send_pulse_and_wait()
-    return (pulse_time / 2) / 29.1
-    
+    if self.pulse_time:
+      return (self.pulse_time / 2) / 29.1
+    else:
+      return None
+  
 if __name__ == "__main__":
-    from machine import Pin
-    from time import sleep
-    #from Sensors_MadeEasy import Sensor_BUTTONS
-    sensor = Sensor_BUTTONS([Pin(13, Pin.IN, Pin.PULL_UP)]) # Pin 13 = D7
-    for i in range(11):
-        sensor.read()
-        print(sensor.new_event)
-        sleep(1)
-        
+  print('Sensor manager')
