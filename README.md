@@ -105,7 +105,7 @@ sensor.values
 sensor.values_dict
 ```
 
-# Sensor Manager :: Using BME280 example
+# Sensor Manager :: example using the BME280 (pressure, temperature and humidity sensor)
 ```
 from gc import collect
 from machine import Pin, I2C
@@ -120,6 +120,22 @@ sensor.values_dict
 ```
 Note: also need to put the file `bme280.py` in folder `libs` using: 
 ```
-ampy -p /dev/ttyUSB0 mkdir libs
-ampy -p /dev/ttyUSB0 put bme280.py libs/bme280.py
+ampy -p /dev/ttyUSB0 put bme280.py bme280.py
+```
+
+
+# Sensor Manager :: example using the HC-SR04 (UltraSonic sensor) 
+```
+import machine
+import time
+
+from sensor_manager import HCSR04 as UltraSonic
+
+sensor = UltraSonic( trigger_pin=5, echo_pin=4)
+
+
+while True:
+  sensor.read()
+  print(sensor.distance_mm, sensor.distance_cm)
+  time.sleep(1)
 ```
