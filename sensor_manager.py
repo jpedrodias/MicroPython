@@ -62,6 +62,30 @@ class Sensor_BME280():
   def values(self):
     return [self.t, self.h, self.p]
 
+
+class Sensor_BH1750FVI():
+  #adaptation from https://github.com/catdog2/mpy_bh1750fvi_esp8266
+  def __init__(self, i2c, address=0x23):
+    self.i2c = i2c
+    self.address = address
+    self.lux = None
+  def read(self):
+    self.i2c.writeto(self.address, b"\x00")  # make sure device is in a clean state
+    self.i2c.writeto(self.address, b"\x01")  # power up
+    self.i2c.writeto(self.address, bytes([0x23]))  # set measurement mode
+    time.sleep_ms(180)
+    raw = self.i2c.readfrom(self.address, 2)
+    self.i2c.writeto(self.address, b"\x00")  # power down again
+    # we must divide the end result by 1.2 to get the lux
+    self.lux = ((raw[0] << 24) | (raw[1] << 16)) // 78642
+    return self.lux
+  @property
+  def values_dict(self):
+    return {"lux": self.lux}
+  @property
+  def values(self):
+    return [self.lux]
+    
 class Sensor_DS18B20():
   def __init__(self, ds18b20_pin):
     from onewire import OneWire
@@ -154,3 +178,4 @@ class HCSR04():
   
 if __name__ == "__main__":
   print('Sensor manager')
+  
