@@ -21,6 +21,7 @@ class Sensor_DHT22():
   @property
   def values(self):
     return [self.t, self.h]
+#End of Sensor_DHT22
 
 class Sensor_DHT11():
   def __init__(self, dht11_pin):
@@ -41,7 +42,8 @@ class Sensor_DHT11():
   @property
   def values(self):
     return [self.t, self.h]
-        
+#End of Sensor_DHT11
+
 class Sensor_BME280():
   def __init__(self, i2c, address=0x76):
     from bme280 import BME280
@@ -61,7 +63,7 @@ class Sensor_BME280():
   @property
   def values(self):
     return [self.t, self.h, self.p]
-
+#End of Sensor_BME280
 
 class Sensor_BH1750FVI():
   #adaptation from https://github.com/catdog2/mpy_bh1750fvi_esp8266
@@ -85,7 +87,8 @@ class Sensor_BH1750FVI():
   @property
   def values(self):
     return [self.lux]
-    
+#End of Sensor_BH1750FVI
+
 class Sensor_DS18B20():
   def __init__(self, ds18b20_pin):
     from onewire import OneWire
@@ -113,6 +116,7 @@ class Sensor_DS18B20():
   @property
   def values(self):
     return self.temps
+#End of Sensor_DS18B20
 
 class Sensor_BUTTONS():
   def __init__(self, PinObjects):
@@ -139,11 +143,16 @@ class Sensor_BUTTONS():
   @property
   def values(self):
     return self.states
+#End Sensor_BUTTONS
 
 class HCSR04():
   def __init__(self, trigger_pin, echo_pin, echo_timeout_us=500000):
-    self.trigger = machine.Pin(trigger_pin, mode=machine.Pin.OUT, pull=None)
-    self.echo = machine.Pin(echo_pin, mode=machine.Pin.IN, pull=None)
+    import machine, time
+    if isinstance(trigger_pin, int) and isinstance(echo_pin, int):
+      self.trigger = machine.Pin(trigger_pin, mode=machine.Pin.OUT, pull=None)    
+      self.echo = machine.Pin(echo_pin, mode=machine.Pin.IN, pull=None)
+    else:
+      raise ValueError('trigger_pin and echo_pin must be integer')
     self.echo_timeout_us = echo_timeout_us
     self.trigger.value(0)
     self.pulse_time = None
@@ -175,6 +184,7 @@ class HCSR04():
       return (self.pulse_time / 2) / 29.1
     else:
       return None
+#End of HCSR04
   
 if __name__ == "__main__":
   print('Sensor manager')
