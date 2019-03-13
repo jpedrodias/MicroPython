@@ -1,4 +1,4 @@
-# filename: sensors_manager.py
+# filename: sensor_manager.py
 import machine
 import time
 
