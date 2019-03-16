@@ -19,7 +19,7 @@ The first time you need to run the `setup()` function. This function will creat 
 ```
 from wlan_manager import *
 wlan_client = WLAN_Manager()
-wlan_client.setup()
+wlan_client.setup() # this creats wlan_manager.json file to store SSID and password
 wlan_client.start()
 ```
 
