@@ -1,5 +1,5 @@
 {
-    "broker": "172.16.4.1",
+    "broker": "broker.hivemq.com",
     "username": "iot",
     "password": "iot",
     "delay": 60,
