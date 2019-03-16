@@ -17,6 +17,8 @@ ampy -p /dev/ttyUSB0 put wlan_manager.py
 
 The first time you need to run the `setup()` function. This function will creat the file wlan_manager.json to store SSID and password
 ```
+from time import sleep
+
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 wlan_client.setup() # this creats wlan_manager.json file to store SSID and password
@@ -25,8 +27,9 @@ wlan_client.start()
 
 # WLAN Manager :: main loop example
 ```
-# Connection to Wireless
+from time import sleep
 from gc import collect
+# Connection to Wireless
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 sleep(1)
@@ -48,8 +51,10 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.json
 
 # MQTT Manager :: main loop example
 ```
-# Connection to MQTT Broker
+from time import sleep
 from gc import collect
+
+# Connection to MQTT Broker
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 print( 'client_id:', mqtt_client.CONFIG['client_id'] )
@@ -83,8 +88,6 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 
 # Sensors Manager :: Using DHT22 (or DHT11) example
 ```
-from gc import collect
-
 from sensor_manager import Sensor_DHT22 # or DHT11
 sensor = Sensor_DHT22( 5 ) # Pin 5 = D1 
 
@@ -95,8 +98,6 @@ sensor.values_dict
 
 # Sensor Manager :: Using DS18B20 example
 ```
-from gc import collect
-
 from sensor_manager import Sensor_DS18B20
 sensor = Sensor_DS18B20( 5 ) # Pin 5 = D1
 
@@ -107,7 +108,6 @@ sensor.values_dict
 
 # Sensor Manager :: example using the BME280 (pressure, temperature and humidity sensor)
 ```
-from gc import collect
 from machine import Pin, I2C
 
 i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
