@@ -19,7 +19,9 @@ The first time you need to run the `setup()` function. This function will creat 
 ```
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
-wlan_client.setup() # this creats wlan_manager.json file to store SSID and password
+wlan_client.setup() # wlan_manager.json file to store SSID and password
+wlan_client.setup('HOME', 'password', append=False) # overwrite the file and store this settings
+wlan_client.setup('WORK', 'password', append=True)  # appends this settings to the file
 wlan_client.start()
 ```
 
