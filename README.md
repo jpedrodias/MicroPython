@@ -17,8 +17,6 @@ ampy -p /dev/ttyUSB0 put wlan_manager.py
 
 The first time you need to run the `setup()` function. This function will creat the file wlan_manager.json to store SSID and password
 ```
-from time import sleep
-
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 wlan_client.setup() # this creats wlan_manager.json file to store SSID and password
@@ -29,6 +27,7 @@ wlan_client.start()
 ```
 from time import sleep
 from gc import collect
+
 # Connection to Wireless
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
@@ -71,7 +70,7 @@ collect()
 # optional: Config comunication MQTT Topics 
 TOPIC_SUB = mqtt_client.get_topic('control')
 TOPIC_PUB = mqtt_client.get_topic('status')
-chatty_client =  bool(mqtt_client.CONFIG.get('chatty', True))
+chatty_client = bool(mqtt_client.CONFIG.get('chatty', True))
 
 
 # optional: Subscribe to MQTT Topics status & control 
@@ -126,16 +125,13 @@ ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 
 # Sensor Manager :: example using the HC-SR04 (UltraSonic sensor) 
 ```
-import machine
-import time
+from time import sleep
 
 from sensor_manager import HCSR04 as UltraSonic
-
 sensor = UltraSonic( trigger_pin=5, echo_pin=4 )
-
 
 while True:
   sensor.read()
   print(sensor.distance_mm, sensor.distance_cm)
-  time.sleep(1)
+  sleep(1)
 ```
