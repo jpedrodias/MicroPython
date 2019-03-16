@@ -44,7 +44,7 @@ collect()
 ```
 
 # MQTT Manager :: Setup
-Send mqtt_manager.py and mqtt_manager.json (change where your mqtt setting first) to board using:
+Send mqtt_manager.py and mqtt_manager.json (change here your mqtt setting first) to board using:
 ```
 ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
