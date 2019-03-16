@@ -17,7 +17,7 @@ ampy -p /dev/ttyUSB0 put wlan_manager.py
 
 The first time you need to run the `setup()` function. This function will creat the file wlan_manager.json to store SSID and password
 ```
-from wlan_manager import *
+from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 wlan_client.setup() # this creats wlan_manager.json file to store SSID and password
 wlan_client.start()
@@ -27,7 +27,7 @@ wlan_client.start()
 ```
 # Connection to Wireless
 from gc import collect
-from wlan_manager import *
+from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 sleep(1)
 Done = False
@@ -50,7 +50,7 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 # Connection to MQTT Broker
 from gc import collect
-from mqtt_manager import *
+from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 print( 'client_id:', mqtt_client.CONFIG['client_id'] )
 Done = False
