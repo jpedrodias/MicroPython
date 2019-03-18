@@ -1,5 +1,6 @@
-import micropython, machine
-import time # sleep_us, ticks_us, ticks_diff
+# WEMOS D1 Mini Board GPIO Map: D8 pull_down, D4 pull_down
+# D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15
+import os, gc, micropython, machine, random, time
 
 DEBUG = micropython.const(1) # Change from 1 debug mode to 0 production mode
 DEBUG_TIME = micropython.const(10) # Run in debug mode for this amount of seconds
