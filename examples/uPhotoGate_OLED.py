@@ -21,7 +21,7 @@ from sensor_manager import PhotoGate
 g1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0
 BSIZE = micropython.const(8)
 data = list(0.0 for i in range(BSIZE))
-CURLINED = {True: '==>', False: '   '}
+CURLINED = {True: 'ms>', False: '   '}
 CURLINE = 0
   
 oled.fill(0)
@@ -33,8 +33,9 @@ oled.show()
 def update_oled():
   oled.fill(0)
   for i in range(BSIZE):
-    cl = CURLINED[i == CURLINE]
-    oled.text('{} {:.3f}'.format(cl, data[i]), 0, i * 8)
+    cl = CURLINED[i == 7] # 
+    vi = (i + BSIZE + CURLINE + 1) % BSIZE # Virtual Index
+    oled.text('{} {:.3f}'.format(cl, data[vi]), 0, i * 8)
   oled.show()
   
 while True:
