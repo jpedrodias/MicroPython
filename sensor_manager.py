@@ -162,7 +162,6 @@ class Sensor_BUTTONS():
     return buttons_dict
 #End Sensor_BUTTONS
 
-
 class HCSR04():
   def __init__(self, trigger, echo, echo_timeout_us=500000):
     if isinstance(trigger, int) and isinstance(echo, int):
@@ -208,7 +207,38 @@ class HCSR04():
   def values_dict(self):
     return {'d': self.distance_cm}
 #End of HCSR04
-  
+
+class PhotoGate():  
+  def __init__(self, pin, mode=True):
+    if not isinstance(pin, int):
+      raise TypeError('pin must be integer')
+    self.pin =  machine.Pin(pin, machine.Pin.IN)
+    self.mode = mode
+    self.now = mode
+    self.last = mode
+    self.t_ini = None
+    self.t_end = None
+  def start_time(self):
+    self.t_ini = time.ticks_us()
+  def stop_time(self):
+    self.t_end = time.ticks_us()
+  def show_ms(self):
+    return round(time.ticks_diff(self.t_end, self.t_ini) / 1000, 3)
+  def show_us(self):
+    return round(time.ticks_diff(self.t_end, self.t_ini), 0)
+  def event_change_to(self, direction=0):
+    if direction == self.mode:
+      return self.last - self.now == 1
+    else:
+      return self.now - self.last == 1
+  def read(self):
+    self.now = self.pin.value()
+  def store(self):
+    self.last = self.now # store value in the end of the loop
+  def value(self):
+    return self.now
+#End class PhotoGate
+
 if __name__ == '__main__':
   print('Sensor manager')
 
