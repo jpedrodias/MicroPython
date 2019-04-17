@@ -41,7 +41,7 @@ class PhotoGate():
 #End class PhotoGate
 
 
-g1 = PhotoGate(GATE_PIN, mode=0) # mode = 1 | 0 
+g1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0 
 while True:
   g1.read()
   if g1.event_change_to(1):
