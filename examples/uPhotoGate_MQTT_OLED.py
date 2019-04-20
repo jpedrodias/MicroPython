@@ -66,4 +66,3 @@ while True:
   else:
     time.sleep_us(DELAY_TIME)
 #End while loops
-
