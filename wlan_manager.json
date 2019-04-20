@@ -1,0 +1,6 @@
+{"wifi": 
+  [
+    {"SSID": "network1", "PASSWORD": "password1"},
+    {"SSID": "network2", "PASSWORD": "password2"},
+  ]
+}
