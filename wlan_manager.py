@@ -59,14 +59,17 @@ class WLAN_Manager():
       self.wlan.active( True )
       
       for cfg in data['wifi']:
-        print('\nconnecting to:', cfg['SSID'], end='')
+        print('\nconnecting to:', cfg['SSID'], end=' ')
+        if self.wlan.isconnected():
+          break
         self.wlan.connect(cfg['SSID'], cfg['PASSWORD'])
         for i in range(20):
           if self.wlan.isconnected():
             break
           time.sleep(1)
           print('.', end='')
-    
+        if self.wlan.isconnected():
+          break
     print('\nnetwork config:', self.wlan.ifconfig())
     return self.wlan.active()
   #End start
@@ -84,7 +87,7 @@ class WLAN_Manager():
 #End class 
 
 if __name__ == '__main__':
-  
+  from time import sleep
   wlan_client = WLAN_Manager()
   
   #First time, use :
@@ -103,5 +106,4 @@ if __name__ == '__main__':
   
   print('Starting wlan in STA mode:', wlan_client.start() )
   print('Checking wlan:', wlan_client.check())
-  sleep(1)
   
