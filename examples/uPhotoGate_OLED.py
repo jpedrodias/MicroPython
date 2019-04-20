@@ -5,13 +5,14 @@ import os, gc, micropython, machine, time, json
 
 # Broker
 # https://www.hivemq.com/public-mqtt-broker/
-# TOPIC: devices/esp8266_f5ede900/status
+# TOPIC: devices/???/status
 
 GATE_PIN = micropython.const(13) # D7
 GATE_MODE = micropython.const(0) # 0 for always on | 1 for always off
 DEBUG = micropython.const(1) # Change from 1 debug mode to 0 production mode
 DEBUG_TIME = micropython.const(10) # Run in debug mode for this amount of seconds
 DELAY_TIME = micropython.const(1)  # Delay between loops
+
 print('PhotoGate in MicroPython')
 
 from wlan_manager import WLAN_Manager # Wireless Connection
@@ -66,6 +67,3 @@ while True:
     time.sleep_us(DELAY_TIME)
 #End while loops
 
-
-#if __name__ == '__main__':
-#  main()
