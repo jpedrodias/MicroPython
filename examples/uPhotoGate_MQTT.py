@@ -5,7 +5,7 @@ import os, gc, micropython, machine, time, json
 
 # Broker
 # https://www.hivemq.com/public-mqtt-broker/
-# TOPIC: devices/esp8266_f5ede900/status
+# TOPIC: devices/???/status
 
 GATE_PIN = micropython.const(13) # D7
 GATE_MODE = micropython.const(0) # 0 for always on | 1 for always off
