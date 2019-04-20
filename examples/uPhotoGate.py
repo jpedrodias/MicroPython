@@ -1,3 +1,4 @@
+# filename: main_photogate.py
 # WEMOS D1 Mini Board GPIO Map: D8 pull_down, D4 pull_down
 # D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15
 import os, gc, micropython, machine, time
@@ -7,53 +8,23 @@ GATE_MODE = micropython.const(0) # 0 for always on | 1 for always off
 DEBUG = micropython.const(1) # Change from 1 debug mode to 0 production mode
 DEBUG_TIME = micropython.const(10) # Run in debug mode for this amount of seconds
 DELAY_TIME = micropython.const(1)  # Delay between loops
-print('PhotoGate in MicroPython - v0.1')
 
-class PhotoGate():  
-  def __init__(self, pin, mode=True):
-    if not isinstance(pin, int):
-      raise TypeError('pin must be integer')
-    self.pin =  machine.Pin(pin, machine.Pin.IN)
-    self.mode = mode
-    self.now = mode
-    self.last = mode
-    self.t_ini = None
-    self.t_end = None
-  def start_time(self):
-    self.t_ini = time.ticks_us()
-  def stop_time(self):
-    self.t_end = time.ticks_us()
-  def show_ms(self):
-    return round(time.ticks_diff(self.t_end, self.t_ini) / 1000, 3)
-  def show_us(self):
-    return round(time.ticks_diff(self.t_end, self.t_ini), 0)
-  def event_change_to(self, direction=0):
-    if direction == self.mode:
-      return self.last - self.now == 1
-    else:
-      return self.now - self.last == 1
-  def read(self):
-    self.now = self.pin.value()
-  def store(self):
-    self.last = self.now # store value in the end of the loop
-  def value(self):
-    return self.now
-#End class PhotoGate
+print('PhotoGate in MicroPython')
 
+from sensor_manager import PhotoGate
+g1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0
 
-g1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0 
+gc.collect()
 while True:
   g1.read()
   if g1.event_change_to(1):
     g1.start_time()
   if g1.event_change_to(0):
     g1.stop_time()
-    
-    print(g1.show_ms(), 'ms')
+    print(g1.millis)
   g1.store()
-  time.sleep_us(DELAY_TIME)
+  if DEBUG:
+    time.sleep_us(DEBUG_TIME)
+  else:
+    time.sleep_us(DELAY_TIME)
 #End while loops
-
-
-#if __name__ == '__main__':
-#  main()
