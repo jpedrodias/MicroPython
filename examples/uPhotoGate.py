@@ -27,4 +27,4 @@ while True:
     time.sleep_us(DEBUG_TIME)
   else:
     time.sleep_us(DELAY_TIME)
-#End while loops
+#End while loop
