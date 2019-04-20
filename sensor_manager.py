@@ -222,9 +222,11 @@ class PhotoGate():
     self.t_ini = time.ticks_us()
   def stop_time(self):
     self.t_end = time.ticks_us()
-  def show_ms(self):
+  @property
+  def millis(self):
     return round(time.ticks_diff(self.t_end, self.t_ini) / 1000, 3)
-  def show_us(self):
+  @property
+  def micros(self):
     return round(time.ticks_diff(self.t_end, self.t_ini), 0)
   def event_change_to(self, direction=0):
     if direction == self.mode:
@@ -238,6 +240,21 @@ class PhotoGate():
   def value(self):
     return self.now
 #End class PhotoGate
+
+class PhotoGateData(PhotoGate):
+  BSIZE = micropython.const(8)
+  def __init__(self, pin, mode=True):
+    PhotoGate.__init__(self, pin, mode=mode)
+    self.data = list(0.0 for i in range(self.BSIZE))
+    self.cl = 0 # Current Line
+  def storedata(self):
+    self.data[self.cl] = self.micros
+    self.cl = (self.cl + 1) % self.BSIZE  # Virtual Index
+  @property
+  def ordered(self):
+    return list(self.data[(i + self.cl) % self.BSIZE] for i in range(self.BSIZE))
+#End class PhotoGateData
+
 
 if __name__ == '__main__':
   print('Sensor manager')
