@@ -1,4 +1,3 @@
-
 # FILENAME: mqtt_manager.py
 from umqtt.simple import MQTTClient
 #from mqtt.robust import MQTTClient
