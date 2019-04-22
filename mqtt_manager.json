@@ -1,5 +1,8 @@
+
 {
     "broker": "broker.hivemq.com",
+    "port": 1883,
+    "ssl": false,
     "username": "iot",
     "password": "iot",
     "delay": 60,
