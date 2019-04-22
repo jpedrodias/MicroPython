@@ -7,7 +7,7 @@ class Sensor_BME280():
     if not isinstance(i2c, machine.I2C):
       raise TypeError('I2C object required.')
       
-    from bme280 import BME280
+    from bme280_ import BME280
     self.bme = BME280(i2c=i2c,address=address)
     self.t = None
     self.h = None
