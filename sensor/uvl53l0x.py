@@ -202,6 +202,6 @@ class VL53L0X:
     return value
 #End class VL53L0X
 
-i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4))
-vl53 = VL53L0X(i2c)
-print(vl53.read())
+#i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4))
+#vl53 = VL53L0X(i2c)
+#vl53.read()
