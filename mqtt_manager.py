@@ -1,3 +1,4 @@
+
 # FILENAME: mqtt_manager.py
 from umqtt.simple import MQTTClient
 #from mqtt.robust import MQTTClient
@@ -22,8 +23,11 @@ class MQTT_Manager(MQTTClient):
     self.broker = MQTTClient(
       client_id = self.CONFIG['client_id'],
       server = self.CONFIG['broker'],
+      port = self.CONFIG['port'],
+      ssl = self.CONFIG['ssl'],
       user = self.CONFIG.get('username', None),
-      password = self.CONFIG.get('password', None),)
+      password = self.CONFIG.get('password', None),
+    )
       
   def get_topic(self, topic):
     # get topics from json file
@@ -81,9 +85,8 @@ if __name__ == "__main__":
   print('Sending:', msg)
 
   mqtt_client.send('debug' , msg)
-  print('Subscrive', TOPIC_SUB)
-  print('Subscrive', TOPIC_PUB)
   msg = 'PUB {} SUB {}'.format( TOPIC_PUB , TOPIC_SUB ) 
   mqtt_client.send('debug' , msg)
-  mqtt_client.close()
+  print(msg)
+  #mqtt_client.close()
 #end if main
