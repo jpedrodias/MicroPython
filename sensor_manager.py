@@ -7,7 +7,6 @@ class Sensor_DHT22():
   def __init__(self, pin):
     if not isinstance(pin, int):
       raise TypeError('pin must be integer')
-    
     from dht import DHT22
     self.sensor = DHT22(machine.Pin(pin))
     time.sleep( 1 ) # some delay to stabilize sensor
@@ -30,7 +29,6 @@ class Sensor_DHT11():
   def __init__(self, pin):
     if not isinstance(pin, int):
       raise TypeError('pin must be integer')
-      
     from dht import DHT11
     self.sensor = DHT11(machine.Pin(pin))
     time.sleep(1) # some delay to stabilize sensor
@@ -53,7 +51,6 @@ class Sensor_BME280():
   def __init__(self, i2c, address=0x76):
     if not isinstance(i2c, machine.I2C):
       raise TypeError('I2C object required.')
-      
     from bme280 import BME280
     self.bme = BME280(i2c=i2c,address=address)
     self.t = None
@@ -103,7 +100,6 @@ class Sensor_DS18B20():
   def __init__(self, pin):
     if not isinstance(pin, int):
       raise TypeError('pin must be integer')
-    
     from onewire import OneWire
     from ds18x20 import DS18X20
     ow = OneWire(machine.Pin(ds18b20_pin)) 
@@ -134,7 +130,6 @@ class Sensor_BUTTONS():
   def __init__(self, pins):
     if not isinstance(pins, list):
       raise TypeError('pins must be a list of pins')
-    
     self.buttons = []
     for pin in pins:
       if not isinstance(pin, int):
