@@ -5,7 +5,7 @@ import micropython, machine, ustruct, time
 
 class TimeoutError(RuntimeError):
   pass
-    
+
 class VL53L0X:
   _IO_TIMEOUT = micropython.const(1000)
   _SYSRANGE_START = micropython.const(0x00)
@@ -201,6 +201,18 @@ class VL53L0X:
     self._register(self._INTERRUPT_CLEAR, 0x01)
     return value
 #End class VL53L0X
+
+class Sensor_VL53L0X(VL53L0X):
+  def __init__(self, i2c):
+    self.v53 = VL53L0X.__init__(self, i2c)
+    self.value = None
+  def read(self):
+    self.value = self.v53.read()
+  def values(self):
+    return [self.value]
+  def values_dict(self):
+    return {'d': self.value}
+      
 
 #i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4))
 #vl53 = VL53L0X(i2c)
