@@ -1,7 +1,7 @@
 # filename: sensor_manager.py
 # WEMOS D1 Mini Board GPIO Map: D8 pull_down, D4 pull_down
 # D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15
-import machine, time
+import micropython, machine, ustruct, time
 
 class Sensor_DHT22():
   def __init__(self, pin):
@@ -453,6 +453,20 @@ class VL53L0X:
     self._register(self._INTERRUPT_CLEAR, 0x01)
     return value
 #End class VL53L0X
+
+class Sensor_VL53L0X(VL53L0X):
+  def __init__(self, i2c, address=0x29):
+    if not isinstance(i2c, machine.I2C):
+      raise TypeError('I2C object required.')
+    self.v53 = VL53L0X.__init__(self, i2c, address=address)
+    self.value = None
+  def read(self):
+    self.value = self.v53.read()
+  def values(self):
+    return [self.value]
+  def values_dict(self):
+    return {'d': self.value}
+#End class Sensor_VL53L0X
 
 if __name__ == '__main__':
   print('Sensor manager')
