@@ -215,8 +215,4 @@ class Sensor_VL53L0X(VL53L0X):
     return [self.value]
   def values_dict(self):
     return {'d': self.value}
-      
-
-#i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4))
-#vl53 = VL53L0X(i2c)
-#vl53.read()
+#End class Sensor_VL53L0X
