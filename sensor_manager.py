@@ -253,6 +253,7 @@ class PhotoGateData(PhotoGate):
 #import micropython, machine, ustruct, time
 class TimeoutError(RuntimeError):
   pass
+
 class VL53L0X:
   _IO_TIMEOUT = micropython.const(1000)
   _SYSRANGE_START = micropython.const(0x00)
@@ -450,15 +451,18 @@ class VL53L0X:
 #End class VL53L0X
 
 class Sensor_VL53L0X(VL53L0X):
-  def __init__(self, i2c, address=0x29):
+  def __init__(self,  *args, **kwargs):
     if not isinstance(i2c, machine.I2C):
       raise TypeError('I2C object required.')
-    self.v53 = VL53L0X.__init__(self, i2c, address=address)
+    super().__init__(*args, **kwargs)
     self.value = None
   def read(self):
-    self.value = self.v53.read()
+    self.value = super().read()
+    return self.value
+  @property
   def values(self):
     return [self.value]
+  @property
   def values_dict(self):
     return {'d': self.value}
 #End class Sensor_VL53L0X
