@@ -91,35 +91,42 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 
 # Sensors Manager :: Using DHT22 (or DHT11) example
 ```
+import machine, time
+
 from sensor_manager import Sensor_DHT22 # or DHT11
 sensor = Sensor_DHT22( 5 ) # Pin 5 = D1 
 
-sensor.read()
-sensor.values
-sensor.values_dict
+while True:
+  sensor.read()
+  print(sensor.values, sensor.values_dict)
+  time.sleep(1)
 ```
 
 # Sensor Manager :: Using DS18B20 example
 ```
+import machine, time
+
 from sensor_manager import Sensor_DS18B20
 sensor = Sensor_DS18B20( 5 ) # Pin 5 = D1
 
-sensor.read()
-sensor.values
-sensor.values_dict
+while True:
+  sensor.read()
+  print(sensor.values, sensor.values_dict)
+  time.sleep(1)
 ```
 
 # Sensor Manager :: example using the BME280 (pressure, temperature and humidity sensor)
 ```
-from machine import Pin, I2C
+import machine, time
 
-i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
+i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4)) # Pin 5 = D1 | Pin 4 = D2
 from sensor_manager import Sensor_BME280
 sensor = Sensor_BME280(i2c=i2c, address=0x76) # to find address use i2c.scan()
 
-sensor.read()
-sensor.values
-sensor.values_dict
+while True:
+  sensor.read()
+  print(sensor.values, sensor.values_dict)
+  time.sleep(1)
 ```
 Note: also need to put the file `bme280.py` in folder `libs` using: 
 ```
@@ -129,40 +136,41 @@ ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 
 # Sensor Manager :: example using the HC-SR04 (UltraSonic sensor) 
 ```
-from time import sleep
+import machine, time
 
-from sensor_manager import HCSR04 as UltraSonic
-sensor = UltraSonic( trigger_pin=5, echo_pin=4 )
+from sensor_manager import Sensor_HCSR04
+sensor = Sensor_HCSR04(trigger=5, echo=4)
 
 while True:
   sensor.read()
-  print(sensor.distance_mm, sensor.distance_cm)
-  sleep(1)
+  print(sensor.values, sensor.values_dict, sensor.distance_mm, sensor.distance_cm)
+  time.sleep(1)
 ```
 
 # Sensor Manager :: example using the VL53L0X (Light Distance sensor) 
 ```
-from machine import Pin, I2C
+import machine, time
 
-i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
+i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4)) # Pin 5 = D1 | Pin 4 = D2
 from sensor_manager import Sensor_VL53L0X
 sensor = Sensor_VL53L0X(i2c=i2c, address=0x29) # to find address use i2c.scan()
 
-sensor.read()
-sensor.values
-sensor.values_dict
-
+while True:
+  sensor.read()
+  print(sensor.values, sensor.values_dict)
+  time.sleep(1)
 ```
 
 # Sensor Manager :: example using the BH1750FVI (Lux sensor) 
 ```
-from machine import Pin, I2C
+import machine, time
 
-i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
+i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4)) # Pin 5 = D1 | Pin 4 = D2
 from sensor_manager import Sensor_BH1750FVI
 sensor = Sensor_BH1750FVI(i2c=i2c, address=0x23) # to find address use i2c.scan()
 
-sensor.read()
-sensor.values
-sensor.values_dict
+while True:
+  sensor.read()
+  print(sensor.values, sensor.values_dict)
+  time.sleep(1)
 ```
