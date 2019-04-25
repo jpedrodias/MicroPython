@@ -78,6 +78,8 @@ chatty_client = bool(mqtt_client.CONFIG.get('chatty', True))
 # optional: Subscribe to MQTT Topics status & control 
 mqtt_client.broker.set_callback(MQTT_subscribe_callback_function)
 mqtt_client.broker.subscribe(TOPIC_SUB)
+
+mqtt_client.send(TOPIC_PUB, 'Hello World')
 ```
 
 
