@@ -203,16 +203,26 @@ class VL53L0X:
 #End class VL53L0X
 
 class Sensor_VL53L0X(VL53L0X):
-  def __init__(self, i2c, address=0x29):
+  def __init__(self,  *args, **kwargs):
     if not isinstance(i2c, machine.I2C):
       raise TypeError('I2C object required.')
-      
-    self.v53 = VL53L0X.__init__(self, i2c, address=address)
+    super().__init__(*args, **kwargs)
     self.value = None
   def read(self):
-    self.value = self.v53.read()
+    self.value = super().read()
+    return self.value
+  @property
   def values(self):
     return [self.value]
+  @property
   def values_dict(self):
     return {'d': self.value}
 #End class Sensor_VL53L0X
+
+
+if __name__ == '__main__':
+  i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4)) # Pin 5 = D1 | Pin 4 = D2
+  sensor = Sensor_VL53L0X(i2c=i2c, address=0x29) # to find address use i2c.scan()
+  sensor.read()
+  print(sensor.values)
+  print(sensor.values_dict)
