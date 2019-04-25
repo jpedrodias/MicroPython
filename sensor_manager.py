@@ -3,6 +3,7 @@
 # D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15
 import micropython, machine, ustruct, time
 
+#import machine, time
 class Sensor_DHT22():
   def __init__(self, pin):
     if not isinstance(pin, int):
@@ -25,6 +26,7 @@ class Sensor_DHT22():
     return {'t': self.t, 'h': self.h}
 #End of Sensor_DHT22
 
+#import machine, time
 class Sensor_DHT11():
   def __init__(self, pin):
     if not isinstance(pin, int):
@@ -47,6 +49,7 @@ class Sensor_DHT11():
     return {'t': self.t, 'h': self.h}
 #End of Sensor_DHT11
 
+#import machine, time
 class Sensor_BME280():
   def __init__(self, i2c, address=0x76):
     if not isinstance(i2c, machine.I2C):
@@ -70,6 +73,7 @@ class Sensor_BME280():
     return {'t': self.t, 'h': self.h, 'p': self.p}
 #End of Sensor_BME280
 
+#import machine, time
 class Sensor_BH1750FVI():
   #adaptation from https://github.com/catdog2/mpy_bh1750fvi_esp8266
   def __init__(self, i2c, address=0x23):
@@ -126,6 +130,7 @@ class Sensor_DS18B20():
     return temps_dict
 #End of Sensor_DS18B20
 
+#import machine, time
 class Sensor_BUTTONS():
   def __init__(self, pins):
     if not isinstance(pins, list):
@@ -157,6 +162,7 @@ class Sensor_BUTTONS():
     return buttons_dict
 #End Sensor_BUTTONS
 
+#import machine, time
 class Sensor_HCSR04():
   def __init__(self, trigger, echo, echo_timeout_us=500000):
     if isinstance(trigger, int) and isinstance(echo, int):
@@ -203,6 +209,7 @@ class Sensor_HCSR04():
     return {'d': self.distance_cm}
 #End of HCSR04
 
+#import machine, time
 class PhotoGate():  
   def __init__(self, pin, mode=True):
     if not isinstance(pin, int):
@@ -250,10 +257,10 @@ class PhotoGateData(PhotoGate):
     return list(self.data[(i + self.cl) % self.BSIZE] for i in range(self.BSIZE))
 #End class PhotoGateData
 
+
 #import micropython, machine, ustruct, time
 class TimeoutError(RuntimeError):
   pass
-
 class VL53L0X:
   _IO_TIMEOUT = micropython.const(1000)
   _SYSRANGE_START = micropython.const(0x00)
