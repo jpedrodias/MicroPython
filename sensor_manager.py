@@ -458,10 +458,7 @@ class VL53L0X:
 #End class VL53L0X
 
 class Sensor_VL53L0X(VL53L0X):
-  VERSION = 1
   def __init__(self,  *args, **kwargs):
-    if not isinstance(i2c, machine.I2C):
-      raise TypeError('I2C object required.')
     super().__init__(*args, **kwargs)
     self.value = None
   def read(self):
