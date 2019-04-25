@@ -157,7 +157,7 @@ class Sensor_BUTTONS():
     return buttons_dict
 #End Sensor_BUTTONS
 
-class HCSR04():
+class Sensor_HCSR04():
   def __init__(self, trigger, echo, echo_timeout_us=500000):
     if isinstance(trigger, int) and isinstance(echo, int):
       self.trigger = machine.Pin(trigger, mode=machine.Pin.OUT, pull=None)    
