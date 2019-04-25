@@ -7,6 +7,7 @@ Some tools to help when using MicroPython (tested on wemos d1 mini - esp8266)
   <li>how to use sensors manager</li>
 </ul>
 
+PS: My personilized version of MicroPython (in compiled folder) already has this files [wlan_manager, mqtt_manager, sensor_manager and sensors folder] 
 
 
 # WLAN Manager :: Setup
