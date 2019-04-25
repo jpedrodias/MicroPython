@@ -146,7 +146,7 @@ from machine import Pin, I2C
 
 i2c = I2C(scl=Pin(5), sda=Pin(4)) # Pin 5 = D1 | Pin 4 = D2
 from sensor_manager import Sensor_VL53L0X
-sensor = VL53L0X(i2c=i2c, address=0x29) # to find address use i2c.scan()
+sensor = Sensor_VL53L0X(i2c=i2c, address=0x29) # to find address use i2c.scan()
 
 sensor.read()
 sensor.values
