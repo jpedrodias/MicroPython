@@ -51,8 +51,8 @@ motor1 = Motor(13, 15) # D7 = 13, D8 = 15
 motor2 = Motor(14, 12) # D5 = 14, D6 = 12
 robot = Robot(motor1, motor2)
 
-from sensor_manager import HCSR04
-dsensor = HCSR04(trigger=5, echo=4) # D1=5, D4=4
+from sensor_manager import Sensor_HCSR04
+dsensor = HCSR04(trigger=5, echo=4) # D1=5, D2=4
 
 green = machine.Pin(0, machine.Pin.OUT, value=0)  #D3
 yellow = machine.Pin(2, machine.Pin.OUT, value=0) #D4
