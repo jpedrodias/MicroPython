@@ -13,9 +13,19 @@ PS: My personilized version of MicroPython (in compiled folder) already has this
 <table>
 <tr><TD>PIN: <TD>D0<TD>D1<TD>D2<TD>D3<TD>D4<TD>D5<TD>D6<TD>D7<TD>D8
 <TR><TD>GPIO:<TD>16<TD> 5<TD> 4<TD> 0<TD> 2<TD>14<TD>12<TD>13<TD>15
-<TR><TD>Note:<TD> N<TD> Y<TD> Y<TD> Y<TD> Y<TD>14<TD> Y<TD> Y<TD> Y
+<TR><TD>PWM: <TD> N<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y
 </table>
- 
+  
+# WEMOS D1 MINI BOOT MODE Options
+<table>
+  <tr><td>GPIO15<td>GPIO0<td>GPIO2<td>Mode <td>Comment
+  <tr><td> D8 <td> D3 <td> D4 <td>  <td>Comment
+  <tr><td>L     <td>H    <td>H    <td>Flash<td>boot from SPI Flash  
+  <tr><td>L     <td>L    <td>H    <td>UART<td>Program via UART (TX/RX)
+  <tr><td>H     <td>any  <td>any  <td>SDIO<td>Boot from SD card
+</table>
+
+
 
   
 # WLAN Manager :: Setup
