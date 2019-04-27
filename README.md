@@ -11,8 +11,8 @@ PS: My personilized version of MicroPython (in compiled folder) already has this
 
 # WEMOS D1 MINI GPIO
 <table>
-<tr><TD>D0<TD>D1<TD>
-<TR><TD>16<TD> 5<TD>
+<tr><TD>D0<TD>D1<TD>D2<TD>D3<TD>D4<TD>D5<TD>D6<TD>D7<TD>D8
+<TR><TD>16<TD> 5<TD> 4<TD> 0<TD> 2<TD>14<TD>16<TD>13<TD>15
 </table>
 
 # WLAN Manager :: Setup
