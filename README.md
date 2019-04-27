@@ -9,6 +9,11 @@ Some tools to help when using MicroPython (tested on wemos d1 mini - esp8266)
 
 PS: My personilized version of MicroPython (in compiled folder) already has this files [wlan_manager, mqtt_manager, sensor_manager and sensors folder] 
 
+# WEMOS D1 MINI GPIO
+<table>
+<tr><TD>D0<TD>D1<TD>
+<TR><TD>16<TD> 5<TD>
+</table>
 
 # WLAN Manager :: Setup
 Send wlan_manager.py to board using:
