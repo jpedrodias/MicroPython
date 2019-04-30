@@ -147,7 +147,7 @@ while True:
   print(sensor.values, sensor.values_dict)
   time.sleep(1)
 ```
-Note: also need to put the file `bme280.py` in folder `libs` using: 
+Note: also need to put the file `bme280.py` (or `bme280.mpy`) in the root folder using: 
 ```
 ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 ```
