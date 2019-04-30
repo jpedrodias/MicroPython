@@ -8,3 +8,5 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.mpy
 ampy -p /dev/ttyUSB0 put sensor_manager.mpy
 
 ```
+
+
