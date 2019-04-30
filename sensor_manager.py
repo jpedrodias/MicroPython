@@ -106,7 +106,7 @@ class Sensor_DS18B20():
       raise TypeError('pin must be integer')
     from onewire import OneWire
     from ds18x20 import DS18X20
-    ow = OneWire(machine.Pin(ds18b20_pin)) 
+    ow = OneWire(machine.Pin(pin)) 
     ow.scan()
     ow.reset()
     self.ds18b20 = DS18X20(ow)
