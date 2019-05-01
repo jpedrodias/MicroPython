@@ -2,21 +2,25 @@
 Some tools to help when using MicroPython (tested on Wemos D1 Mini - esp8266)
 
 <ul>
-  <li>how to use wlan manager</li>
-  <li>how to use mqtt manager</li>
-  <li>how to use sensors manager</li>
+  <li>how to use WLAN Manager</li>
+  <li>how to use MQTT Manager</li>
+  <li>how to use Sensors Manager</li>
+  <li>how to use Board Manager (at work)</li>
+  <li>how to use Robot Manager (at work) </li>
 </ul>
 
-PS: My personilized version of MicroPython (in compiled folder) already has this files [wlan_manager, mqtt_manager, sensor_manager and sensors folder] 
+PS: My personilized version of MicroPython (in compiled folder) already has this files [wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager] 
 
-# WEMOS D1 MINI GPIO
+
+# Wemos D1 mini :: GPIO MAP
 <table>
 <tr><TD>PIN: <TD>D0<TD>D1<TD>D2<TD>D3<TD>D4<TD>D5<TD>D6<TD>D7<TD>D8
 <TR><TD>GPIO:<TD>16<TD> 5<TD> 4<TD> 0<TD> 2<TD>14<TD>12<TD>13<TD>15
 <TR><TD>PWM: <TD> N<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y
 </table>
-  
-# WEMOS D1 MINI BOOT MODE Options
+
+
+# Wemos D1 mini :: Boot Mode Options
 <table>
   <tr><td>GPIO15<td>GPIO0<td>GPIO2<td>Mode <td>Comment
   <tr><td> D8 <td> D3 <td> D4 <td>  <td>Comment
@@ -26,8 +30,6 @@ PS: My personilized version of MicroPython (in compiled folder) already has this
 </table>
 
 
-
-  
 # WLAN Manager :: Setup
 Send wlan_manager.py to board using:
 ```
@@ -43,6 +45,7 @@ wlan_client.setup('HOME', 'password', append=False) # overwrite the file and sto
 wlan_client.setup('WORK', 'password', append=True)  # appends this settings to the file
 wlan_client.start()
 ```
+
 
 # WLAN Manager :: main loop example
 ```
@@ -62,12 +65,14 @@ del(Done)
 collect()
 ```
 
+
 # MQTT Manager :: Setup
-Send mqtt_manager.py and mqtt_manager.json (change here your mqtt setting first) to board using:
+Send mqtt_manager.py and <b>mqtt_manager.json</b> (change here your mqtt setting before send) to board using:
 ```
 ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
+
 
 # MQTT Manager :: main loop example
 ```
@@ -108,6 +113,7 @@ Send sensor_manager.py to board using:
 ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```
 
+
 # Sensors Manager :: Using DHT22 (or DHT11) example
 ```
 import machine, time
@@ -121,6 +127,7 @@ while True:
   time.sleep(1)
 ```
 
+
 # Sensor Manager :: Using DS18B20 example
 ```
 import machine, time
@@ -133,6 +140,7 @@ while True:
   print(sensor.values, sensor.values_dict)
   time.sleep(1)
 ```
+
 
 # Sensor Manager :: example using the BME280 (pressure, temperature and humidity sensor)
 ```
@@ -166,6 +174,7 @@ while True:
   time.sleep(1)
 ```
 
+
 # Sensor Manager :: example using the VL53L0X (Light Distance sensor) 
 ```
 import machine, time
@@ -179,6 +188,7 @@ while True:
   print(sensor.values, sensor.values_dict)
   time.sleep(1)
 ```
+
 
 # Sensor Manager :: example using the BH1750FVI (Lux sensor) 
 ```
@@ -194,3 +204,5 @@ while True:
   time.sleep(1)
 ```
 
+
+<h1>End of File</h1>
