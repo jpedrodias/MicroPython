@@ -1,7 +1,30 @@
 # FILENAME: mqtt_manager.py
 from umqtt.simple import MQTTClient
 #from mqtt.robust import MQTTClient
-#from libs.mqtt_robust import MQTTClient
+
+"""#MQTT Manager Usage:
+from mqtt_manager import MQTT_Manager
+mqtt_client = MQTT_Manager()
+#mqtt_client.setup() # Need to run this setup before use mqtt_manager.json
+
+# optional: Config comunication MQTT Topics 
+TOPIC_SUB = mqtt_client.get_topic('control')
+TOPIC_PUB = mqtt_client.get_topic('status')
+chatty_client = bool(mqtt_client.CONFIG.get('chatty', True))
+
+
+# optional: Subscribe to MQTT Topics status & control 
+mqtt_client.broker.set_callback(MQTT_subscribe_callback_function)
+mqtt_client.broker.subscribe(TOPIC_SUB)
+
+is_connected = mqtt_client.check()
+
+if is_connected:
+  mqtt_client.send(TOPIC_PUB, 'Hello World')
+"""
+__author__ = "Pedro Dias"
+__license__ = "MIT"
+__version__ = "0.2"
 
 class MQTT_Manager(MQTTClient):
   def __init__(self):
