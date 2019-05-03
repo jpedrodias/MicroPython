@@ -31,17 +31,17 @@ class MQTT_Manager(MQTTClient):
     with open("mqtt_manager.json", "w") as f:
       f.write("""\
 {
-    "broker": "broker.hivemq.com",
-    "port": 1883,
-    "ssl": false,
-    "username": "iot",
-    "password": "iot",
-    "delay": 60,
-    "chatty": 1,
-    "client_id": "0000",
-    "topic_debug" : "debug",
-    "topic_status" : "devices/{device_id}/status",
-    "topic_control" : "devices/{device_id}/control"
+  "broker": "broker.hivemq.com",
+  "port": 1883,
+  "ssl": false,
+  "username": "iot",
+  "password": "iot",
+  "delay": 60,
+  "chatty": 1,
+  "client_id": "0000",
+  "topic_debug" : "debug",
+  "topic_status" : "devices/{device_id}/status",
+  "topic_control" : "devices/{device_id}/control"
 }
 """)
     return True
