@@ -27,7 +27,25 @@ class MQTT_Manager(MQTTClient):
       user = self.CONFIG.get('username', None),
       password = self.CONFIG.get('password', None),
     )
-      
+  
+  def setup(self):
+    with open("mqtt_manager.json", "w") as f:
+      f.write("""\
+{
+    "broker": "broker.hivemq.com",
+    "port": 1883,
+    "ssl": false,
+    "username": "iot",
+    "password": "iot",
+    "delay": 60,
+    "chatty": 1,
+    "client_id": "0000",
+    "topic_debug" : "debug",
+    "topic_status" : "devices/{device_id}/status",
+    "topic_control" : "devices/{device_id}/control"
+}
+""")
+    return True
   def get_topic(self, topic):
     # get topics from json file
     if not topic:
