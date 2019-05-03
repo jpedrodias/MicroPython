@@ -106,4 +106,3 @@ if __name__ == '__main__':
   
   print('Starting wlan in STA mode:', wlan_client.start() )
   print('Checking wlan:', wlan_client.check())
-  
