@@ -40,29 +40,10 @@ The first time you need to run the `setup()` function. This function will creat 
 ```
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
-wlan_client.setup() # wlan_manager.json file to store SSID and password
+wlan_client.setup() # creates wlan_manager.json file to store your SSID and password
 wlan_client.setup('HOME', 'password', append=False) # overwrite the file and store this settings
 wlan_client.setup('WORK', 'password', append=True)  # appends this settings to the file
 wlan_client.start()
-```
-
-
-# WLAN Manager :: main loop example
-```
-from time import sleep
-from gc import collect
-
-# Connection to Wireless
-from wlan_manager import WLAN_Manager
-wlan_client = WLAN_Manager()
-sleep(1)
-Done = False
-while not Done:
-  wlan_client.start()
-  Done = wlan_client.check()
-  sleep(1)
-del(Done)
-collect()
 ```
 
 
@@ -73,37 +54,38 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 
-
-# MQTT Manager :: main loop example
-```
-from time import sleep
-from gc import collect
-
-# Connection to MQTT Broker
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
+mqtt_client.setup() # creates mqtt_manager.json file to store your broker settings
 print( 'client_id:', mqtt_client.CONFIG['client_id'] )
-Done = False
-print('MQTT check', end='')
-while not Done:
-  Done = mqtt_client.check()
-  print('.', end='')
-  sleep(1)
-del(Done)
-print()
-collect()
-
-# optional: Config comunication MQTT Topics 
-TOPIC_SUB = mqtt_client.get_topic('control')
-TOPIC_PUB = mqtt_client.get_topic('status')
-chatty_client = bool(mqtt_client.CONFIG.get('chatty', True))
 
 
-# optional: Subscribe to MQTT Topics status & control 
-mqtt_client.broker.set_callback(MQTT_subscribe_callback_function)
-mqtt_client.broker.subscribe(TOPIC_SUB)
+# WLAN and MQTT Manager :: main loop example
+```
+def reconnect():
+  wlan_client.start()
+  success = wlan_client.check() and mqtt_client.check()
+  if success:
+    mqtt_client.broker.subscribe(TOPIC_SUB)
+  return success
+  
+from wlan_manager import WLAN_Manager
+wlan_client = WLAN_Manager()
 
-mqtt_client.send(TOPIC_PUB, 'Hello World')
+from mqtt_manager import MQTT_Manager
+mqtt_client = MQTT_Manager()
+
+TOPIC_SUB = mqtt_client.get_topic('control') # You talking to the sensor
+TOPIC_PUB = mqtt_client.get_topic('status')  # The sensor talking to you
+chatty_client =  bool(mqtt_client.CONFIG.get('chatty', True))
+mqtt_client.broker.set_callback(mqtt_callback)
+print( 'client_id:', mqtt_client.CONFIG['client_id'] )
+
+connected = reconnect()
+if connected:
+  mqtt_client.send('debug', TOPIC_SUB)
+  mqtt_client.send('debug', TOPIC_PUB)
+  mqtt_client.send('debug', app_name)
 ```
 
 
@@ -114,7 +96,7 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```
 
 
-# Sensors Manager :: Using DHT22 (or DHT11) example
+# Sensors Manager :: Using DHT22 (or DHT11) example (temperature and humidity sensor)
 ```
 import machine, time
 
@@ -128,7 +110,7 @@ while True:
 ```
 
 
-# Sensor Manager :: Using DS18B20 example
+# Sensor Manager :: Using DS18B20 example (temperature sensor)
 ```
 import machine, time
 
@@ -161,7 +143,7 @@ ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 ```
 
 
-# Sensor Manager :: example using the HC-SR04 (UltraSonic sensor) 
+# Sensor Manager :: example using the HC-SR04 (UltraSonic distance sensor) 
 ```
 import machine, time
 
@@ -175,7 +157,7 @@ while True:
 ```
 
 
-# Sensor Manager :: example using the VL53L0X (Light Distance sensor) 
+# Sensor Manager :: example using the VL53L0X (Light distance sensor) 
 ```
 import machine, time
 
@@ -204,5 +186,4 @@ while True:
   time.sleep(1)
 ```
 
-
-<h1>End of File</h1>
+# End of File
