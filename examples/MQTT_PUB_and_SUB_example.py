@@ -16,8 +16,9 @@ mqtt_client.broker.set_callback(mqtt_callback)
 mqtt_client.broker.subscribe(TOPIC_SUB)
 
 # Change this to your sensor
+from board_manager import D1
 from sensor_manager import Sensor_DS18B20
-sensor = Sensor_DS18B20( 5 ) # Pin 5 = D1
+sensor = Sensor_DS18B20(D1) # Pin 5 = D1
 
 DELAY = 5 * 1000 # DELAY in milliseconds
 while True:
