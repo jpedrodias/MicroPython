@@ -1,9 +1,8 @@
 # filename: main_oled.py
-# WEMOS D1 Mini Board GPIO Map: D8 pull_down, D4 pull_down
-# D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15
 import os, gc, micropython, machine, time, json
+from board_manager import D1, D2, D7
 
-GATE_PIN = micropython.const(13) # D7
+GATE_PIN = micropython.const(D7) # D7
 GATE_MODE = micropython.const(0) # 0 for always on | 1 for always off
 DEBUG = micropython.const(1) # Change from 1 debug mode to 0 production mode
 DEBUG_TIME = micropython.const(10) # Run in debug mode for this amount of seconds
@@ -13,7 +12,7 @@ print('PhotoGate in MicroPython')
 
 # ssd1306 version
 import ssd1306
-i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4))
+i2c = machine.I2C(scl=machine.Pin(D1), sda=machine.Pin(D2))
 oled = ssd1306.SSD1306_I2C(128, 64, i2c, 0x3c)
 
 from sensor_manager import PhotoGate
@@ -35,6 +34,7 @@ def update_oled(data):
 gc.collect()
 while True:
   g1.read()
+
   if g1.event_change_to(1):
     g1.start_time()
   if g1.event_change_to(0):
