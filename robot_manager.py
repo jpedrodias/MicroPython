@@ -71,14 +71,48 @@ class Robot2WD():
       self.M2.backward()
 #End class Robot
 
+
+#https://github.com/m5stack/M5Cloud/blob/master/lib/servo.py
+class Servo:
+    """
+    A simple class for controlling hobby servos.
+
+    Args:
+        pin (machine.Pin): The pin where servo is connected. Must support PWM.
+        freq (int): The frequency of the signal, in hertz.
+        min_us (int): The minimum signal length supported by the servo.
+        max_us (int): The maximum signal length supported by the servo.
+        angle (int): The angle between the minimum and maximum positions.
+
+    """
+    def __init__(self, pin, freq=50, min_us=600, max_us=2400, angle=180):
+        self.min_us = min_us
+        self.max_us = max_us
+        self.us = 0
+        self.freq = freq
+        self.angle = angle
+        
+        self.pwm = machine.PWM(machine.Pin(pin,machine.Pin.OUT), freq=freq, duty=0)
+
+    def write_us(self, us):
+        """Set the signal to be ``us`` microseconds long. Zero disables it."""
+        if us == 0:
+            self.pwm.duty(0)
+            return
+        us = min(self.max_us, max(self.min_us, us))
+        duty = us * 1024 * self.freq // 1000000
+        self.pwm.duty(duty)
+
+    def write_angle(self, degrees=None, radians=None):
+        """Move to the specified angle in ``degrees`` or ``radians``."""
+        if degrees is None:
+            degrees = math.degrees(radians)
+        degrees = degrees % 360
+        total_range = self.max_us - self.min_us
+        us = self.min_us + total_range * degrees // self.angle
+        self.write_us(us)
+#End Class Servo
+#m1 = Servo(D3)
+
 if __name__ == '__main__':
-  from board_manager import D5, D6, D7, D8
-  motor1 = MotorPWM(D7, D8)
-  motor2 = MotorPWM(D6, D5)
-  motor1.speed(20)
-  motor2.speed(20)
-  motor1.forward()
-  motor2.forward()
-  time.sleep(1)
-  motor1.stop()
-  motor2.stop()
+  pass
