@@ -22,7 +22,7 @@ PS: My personilized version of MicroPython in compiled folder, already has this 
 
 
 # Wemos D1 mini :: Boot Mode Options
-<table>
+<table border="0">
   <tr><td>GPIO15<td>GPIO0<td>GPIO2<td>Mode <td>Comment
   <tr><td> D8 <td> D3 <td> D4 <td>  <td>Comment
   <tr><td>L     <td>H    <td>H    <td>Flash<td>boot from SPI Flash  
