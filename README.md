@@ -14,7 +14,7 @@ PS: My personilized version of MicroPython in compiled folder, already has this 
 
 
 # Wemos D1 mini :: GPIO MAP
-<table>
+<table style="border: 0px;">
 <tr><TD>PIN: <TD>D0<TD>D1<TD>D2<TD>D3<TD>D4<TD>D5<TD>D6<TD>D7<TD>D8
 <TR><TD>GPIO:<TD>16<TD> 5<TD> 4<TD> 0<TD> 2<TD>14<TD>12<TD>13<TD>15
 <TR><TD>PWM: <TD> N<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y<TD> Y
