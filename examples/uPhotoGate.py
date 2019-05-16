@@ -11,17 +11,17 @@ DELAY_TIME = micropython.const(1)  # Delay between loops
 print('PhotoGate in MicroPython')
 
 from sensor_manager import PhotoGate
-g1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0
+gate1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0
 
 gc.collect()
 while True:
-  g1.read()
-  if g1.event_change_to(1):
-    g1.start_time()
-  if g1.event_change_to(0):
-    g1.stop_time()
-    print(g1.millis)
-  g1.store()
+  gate1.read()
+  if gate1.event_change_to(1):
+    gate1.start_time()
+  if gate1.event_change_to(0):
+    gate1.stop_time()
+    print(gate1.millis)
+  gate1.store()
   if DEBUG:
     time.sleep_us(DEBUG_TIME)
   else:
