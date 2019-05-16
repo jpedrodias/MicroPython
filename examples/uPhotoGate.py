@@ -22,8 +22,6 @@ while True:
     gate1.stop_time()
     print(gate1.millis)
   gate1.store()
-  if DEBUG:
-    time.sleep_us(DEBUG_TIME)
-  else:
-    time.sleep_us(DELAY_TIME)
+  if DEBUG: time.sleep_us(DEBUG_TIME)
+  if not DEBUG: time.sleep_us(DELAY_TIME)
 #End while loop
