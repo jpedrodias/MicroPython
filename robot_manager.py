@@ -62,10 +62,24 @@ class Robot2WD():
     self.M1.backward()
     self.M2.backward()
   def turn(self, mode=0):
-    if mode == 1:
+    if mode ==1:
       self.M1.forward()
+      self.M2.backward()
     elif mode == 2:
+      self.M1.backward()
       self.M2.forward()
+    elif mode == 3:
+      self.M1.stop()
+      self.M2.forward()
+    if mode == 4:
+      self.M1.stop()
+      self.M2.backward()
+    elif mode == 5:
+      self.M1.forward()
+      self.M2.stop()
+    elif mode == 6:
+      self.M1.backward()
+      self.M2.stop()
     else:
       self.M1.forward()
       self.M2.backward()
