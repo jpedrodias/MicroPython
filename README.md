@@ -100,9 +100,10 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 # Sensors Manager :: Using DHT22 (or DHT11) example (temperature and humidity sensor)
 ```
 import machine, time
-
+from board_manager import * # D1, ... , D8
 from sensor_manager import Sensor_DHT22 # or DHT11
-sensor = Sensor_DHT22( 5 ) # Pin 5 = D1 
+
+sensor = Sensor_DHT22(D1)
 
 while True:
   sensor.read()
@@ -114,9 +115,10 @@ while True:
 # Sensor Manager :: Using DS18B20 example (temperature sensor)
 ```
 import machine, time
-
+from board_manager import * # D1, ... , D8
 from sensor_manager import Sensor_DS18B20
-sensor = Sensor_DS18B20( 5 ) # Pin 5 = D1
+
+sensor = Sensor_DS18B20(D1)
 
 while True:
   sensor.read()
@@ -128,9 +130,10 @@ while True:
 # Sensor Manager :: example using the BME280 (pressure, temperature and humidity sensor)
 ```
 import machine, time
-
-i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4)) # Pin 5 = D1 | Pin 4 = D2
+from board_manager import * # D1, ... , D8
 from sensor_manager import Sensor_BME280
+
+i2c = machine.I2C(scl=machine.Pin(D1), sda=machine.Pin(D2))
 sensor = Sensor_BME280(i2c=i2c, address=0x76) # to find address use i2c.scan()
 
 while True:
@@ -147,9 +150,10 @@ ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 # Sensor Manager :: example using the HC-SR04 (UltraSonic distance sensor) 
 ```
 import machine, time
-
+from board_manager import * # D1, ... , D8
 from sensor_manager import Sensor_HCSR04
-sensor = Sensor_HCSR04(trigger=5, echo=4)
+
+sensor = Sensor_HCSR04(trigger=D1, echo=D2) # or sensor = Sensor_HCSR04(D1, D2)
 
 while True:
   sensor.read()
@@ -161,9 +165,10 @@ while True:
 # Sensor Manager :: example using the VL53L0X (Light distance sensor) 
 ```
 import machine, time
-
-i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4)) # Pin 5 = D1 | Pin 4 = D2
+from board_manager import * # D1, ... , D8
 from sensor_manager import Sensor_VL53L0X
+
+i2c = machine.I2C(scl=machine.Pin(D1), sda=machine.Pin(D2))
 sensor = Sensor_VL53L0X(i2c=i2c, address=0x29) # to find address use i2c.scan()
 
 while True:
@@ -176,9 +181,9 @@ while True:
 # Sensor Manager :: example using the BH1750FVI (Lux sensor) 
 ```
 import machine, time
-
-i2c = machine.I2C(scl=machine.Pin(5), sda=machine.Pin(4)) # Pin 5 = D1 | Pin 4 = D2
 from sensor_manager import Sensor_BH1750FVI
+
+i2c = machine.I2C(scl=machine.Pin(D1), sda=machine.Pin(D2))
 sensor = Sensor_BH1750FVI(i2c=i2c, address=0x23) # to find address use i2c.scan()
 
 while True:
