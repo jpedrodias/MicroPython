@@ -38,7 +38,7 @@ class MQTT_Manager(MQTTClient):
   "password": "iot",
   "delay": 60,
   "chatty": 1,
-  "client_id": "0000",
+  "client_id": "?",
   "topic_debug" : "debug",
   "topic_status" : "devices/{device_id}/status",
   "topic_control" : "devices/{device_id}/control"
@@ -46,7 +46,6 @@ class MQTT_Manager(MQTTClient):
 """)
     return True
   def get_topic(self, topic):
-    # get topics from json file
     if not topic:
       key = 'debug'
     else:
