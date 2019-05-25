@@ -1,6 +1,4 @@
 # filename: sensor_manager.py
-# WEMOS D1 Mini Board GPIO Map: D8 pull_down, D4 pull_down
-# D0=16, D1=5, D2=4, D3=0, D4=2, D5=14, D6=12, D7=13, D8=15
 import micropython, machine, ustruct, time
 
 #import machine, time
@@ -257,7 +255,6 @@ class PhotoGateData(PhotoGate):
     return list(self.data[(i + self.cl) % self.BSIZE] for i in range(self.BSIZE))
 #End class PhotoGateData
 
-
 #import micropython, machine, ustruct, time
 class TimeoutError(RuntimeError):
   pass
@@ -474,5 +471,4 @@ class Sensor_VL53L0X(VL53L0X):
 
 if __name__ == '__main__':
   print('Sensor manager')
-
 #End of file
