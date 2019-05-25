@@ -97,7 +97,7 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```
 
 
-# Sensors Manager :: Using DHT22 (or DHT11) example (temperature and humidity sensor)
+# Sensors Manager :: Using DHT22 (or DHT11) (temperature and humidity sensor)
 ```
 import machine, time
 from board_manager import * # D1, ... , D8
@@ -112,7 +112,7 @@ while True:
 ```
 
 
-# Sensor Manager :: Using DS18B20 example (temperature sensor)
+# Sensor Manager :: Using DS18B20 (temperature sensor)
 ```
 import machine, time
 from board_manager import * # D1, ... , D8
@@ -127,7 +127,7 @@ while True:
 ```
 
 
-# Sensor Manager :: example using the BME280 (pressure, temperature and humidity sensor)
+# Sensor Manager :: Using BME280 (pressure, temperature and humidity sensor)
 ```
 import machine, time
 from board_manager import * # D1, ... , D8
@@ -147,7 +147,7 @@ ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 ```
 
 
-# Sensor Manager :: example using the HC-SR04 (UltraSonic distance sensor) 
+# Sensor Manager :: Using HC-SR04 (UltraSonic distance sensor) 
 ```
 import machine, time
 from board_manager import * # D1, ... , D8
@@ -162,7 +162,7 @@ while True:
 ```
 
 
-# Sensor Manager :: example using the VL53L0X (Light distance sensor) 
+# Sensor Manager :: Using VL53L0X (Light distance sensor) 
 ```
 import machine, time
 from board_manager import * # D1, ... , D8
@@ -178,7 +178,7 @@ while True:
 ```
 
 
-# Sensor Manager :: example using the BH1750FVI (Lux sensor) 
+# Sensor Manager :: Using BH1750FVI (Lux sensor) 
 ```
 import machine, time
 from sensor_manager import Sensor_BH1750FVI
