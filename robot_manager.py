@@ -112,7 +112,7 @@ class Servo:
         us = self.min_us + total_range * degrees // self.angle
         self.write_us(us)
 #End Class Servo
-#m1 = Servo(D3)
 
 if __name__ == '__main__':
+  #m1 = Servo(D3)
   pass
