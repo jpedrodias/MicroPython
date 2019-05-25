@@ -85,7 +85,6 @@ class Robot2WD():
       self.M2.backward()
 #End class Robot
 
-
 #https://github.com/m5stack/M5Cloud/blob/master/lib/servo.py
 class Servo:
     """
