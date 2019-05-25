@@ -12,5 +12,3 @@ D5 = micropython.const(14)
 D6 = micropython.const(12)
 D7 = micropython.const(13)
 D8 = micropython.const(15)
-
-
