@@ -30,7 +30,7 @@ time.sleep(5) # time to Ctrl+C into REPL
 try:
   while 1:
     sensor.read()
-    d = sensor.values[0]
+    d = sensor.distance_cm
     if d < 5:
       next_action = ROBOT_STOP
     elif d > 5 and d < 10:
