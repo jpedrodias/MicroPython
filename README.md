@@ -10,7 +10,7 @@ Some tools to help when using MicroPython (tested on Wemos D1 Mini - esp8266)
 </ul>
 
 
-PS: My personilized version of MicroPython in compiled folder, already has this files (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager) 
+PS: My personilized version of MicroPython (in the folder "<a href="conpiled">compiled</a>") already has this files (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager). 
 
 
 # Wemos D1 mini :: GPIO MAP
