@@ -58,7 +58,7 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.json
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 mqtt_client.setup() # creates mqtt_manager.json file to store your broker settings
-print( 'client_id:', mqtt_client.CONFIG['client_id'] )
+print( "client_id:", mqtt_client.CONFIG["client_id"] )
 
 
 # WLAN and MQTT Manager :: main loop example
@@ -76,17 +76,17 @@ wlan_client = WLAN_Manager()
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 
-TOPIC_SUB = mqtt_client.get_topic('control') # You talking to the sensor
-TOPIC_PUB = mqtt_client.get_topic('status')  # The sensor talking to you
-chatty_client =  bool(mqtt_client.CONFIG.get('chatty', True))
+TOPIC_SUB = mqtt_client.get_topic("control") # You talking to the sensor
+TOPIC_PUB = mqtt_client.get_topic("status")  # The sensor talking to you
+chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
 mqtt_client.broker.set_callback(mqtt_callback)
-print( 'client_id:', mqtt_client.CONFIG['client_id'] )
+print( "client_id:", mqtt_client.CONFIG["client_id"] )
 
 connected = reconnect()
 if connected:
-  mqtt_client.send('debug', TOPIC_SUB)
-  mqtt_client.send('debug', TOPIC_PUB)
-  mqtt_client.send('debug', app_name)
+  mqtt_client.send("debug", TOPIC_SUB)
+  mqtt_client.send("debug", TOPIC_PUB)
+  mqtt_client.send("debug", app_name)
 ```
 
 
