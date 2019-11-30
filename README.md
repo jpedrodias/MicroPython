@@ -69,7 +69,10 @@ def reconnect():
   if success:
     mqtt_client.broker.subscribe(TOPIC_SUB)
   return success
-  
+
+def mqtt_callback(topic, msg):
+  print('MSG! Topic: {}; Data {}'.format(topic, msg))
+
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 
