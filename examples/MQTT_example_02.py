@@ -1,17 +1,27 @@
 import machine, time, json
 
 from wlan_manager import WLAN_Manager # Wireless Connection 
-wlan_client = WLAN_Manager()
-wlan_client.start()
-
 from mqtt_manager import MQTT_Manager # MQTT Connection
+
+wlan_client = WLAN_Manager()
 mqtt_client = MQTT_Manager()
-mqtt_client.check() # Open connection to broker
-TOPIC_SUB = mqtt_client.get_topic('control')
-TOPIC_PUB = mqtt_client.get_topic('status')
+
+def reconnect():
+  wlan_client.start()
+  success = wlan_client.check() and mqtt_client.check()
+  if success:
+    mqtt_client.broker.subscribe(TOPIC_SUB)
+  return success
 
 def mqtt_callback(topic, msg):
   print('MSG! Topic:{}; Data{}'.format(topic, msg))
+  
+TOPIC_SUB = mqtt_client.get_topic('control')
+TOPIC_PUB = mqtt_client.get_topic('status')
+
+print("TOPIC_SUB", TOPIC_SUB)
+print("TOPIC_PUB", TOPIC_PUB)
+
 mqtt_client.broker.set_callback(mqtt_callback)
 mqtt_client.broker.subscribe(TOPIC_SUB)
 
