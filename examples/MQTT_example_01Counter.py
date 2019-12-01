@@ -16,8 +16,9 @@ def mqtt_callback(topic, msg):
   print('MSG! Topic:{}; Data{}'.format(topic, msg))
 
 
-TOPIC_SUB = mqtt_client.get_topic("control") # OUVIR
-TOPIC_PUB = mqtt_client.get_topic("status")  # FALAR
+PREFIX = "Personal" # Put something personal that ends with /
+TOPIC_SUB = "/".join( [PREFIX, mqtt_client.get_topic("control"), "#"] )
+TOPIC_PUB = "/".join( [PREFIX, mqtt_client.get_topic("status") ] )
 
 chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
 mqtt_client.broker.set_callback(mqtt_callback)
