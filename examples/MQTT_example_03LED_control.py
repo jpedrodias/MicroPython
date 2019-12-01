@@ -9,7 +9,13 @@ wlan_client = WLAN_Manager()
 mqtt_client = MQTT_Manager()
 
 def reconnect():
+  print("Wireless connection")
   wlan_client.start()
+  for i in range(30):
+    if wlan_client.check(): break
+    print(".", end="")
+    sleep(1)
+  sleep(5)
   success = wlan_client.check() and mqtt_client.check()
   if success:
     mqtt_client.broker.subscribe(TOPIC_SUB)
@@ -32,10 +38,14 @@ def mqtt_callback(topic, msg):
     print("Error getting the value.")
     return False
   
+  if object not in [i for i in range(len(objects))] or value not in [0, 1]:
+    print("Error in Object={} or value={}".format(object, value))
+    return False
+  
   status[ object ] = value
   return True
 
-PREFIX = "Personal" # Put something personal
+PREFIX = "Personal" # Put something personal that ends with /
 TOPIC_SUB = "/".join( [PREFIX, mqtt_client.get_topic("control"), "#"] )
 TOPIC_PUB = "/".join( [PREFIX, mqtt_client.get_topic("status") ] )
 
@@ -43,27 +53,26 @@ chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
 mqtt_client.broker.set_callback(mqtt_callback)
 print( "client_id:", mqtt_client.CONFIG["client_id"] )
 
-connected = reconnect()
-if connected:
-  mqtt_client.send("debug", TOPIC_SUB)
-  mqtt_client.send("debug", TOPIC_PUB)
 
 G = Pin(D0, Pin.OUT, value = 0)
 R = Pin(D1, Pin.OUT, value = 0)
-
 
 objects = [G, R]
 status = [object.value() for object in objects]
 last_status = None
 
-while True:
-  sucess = mqtt_client.check_msg()
-  if not sucess:
-    sucess = mqtt_client.check()
-    if not sucess: 
-      sucess = reconnect()  
+
+if not wlan_client.check():
+  reconnect()
   
-  if status != last_status:
+while True:
+  success = mqtt_client.check_msg()
+  if not success:
+    success = mqtt_client.check()
+    if not success and wlan_client.check():
+      success = reconnect()
+  
+  if success and status != last_status:
     print("Data changed")
     for index, object in enumerate(objects):
       object.value( status[index] )
@@ -72,5 +81,6 @@ while True:
       mqtt_client.send( topic, data )
       
     last_status = [s for s in status]
-    
+  
   sleep(1)
+#end of file
