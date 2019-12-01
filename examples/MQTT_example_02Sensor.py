@@ -16,8 +16,9 @@ def reconnect():
 def mqtt_callback(topic, msg):
   print('MSG! Topic:{}; Data{}'.format(topic, msg))
   
-TOPIC_SUB = mqtt_client.get_topic('control')
-TOPIC_PUB = mqtt_client.get_topic('status')
+PREFIX = "Personal" # Put something personal that ends with /
+TOPIC_SUB = "/".join( [PREFIX, mqtt_client.get_topic("control"), "#"] )
+TOPIC_PUB = "/".join( [PREFIX, mqtt_client.get_topic("status") ] )
 
 print("TOPIC_SUB", TOPIC_SUB)
 print("TOPIC_PUB", TOPIC_PUB)
