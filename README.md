@@ -55,11 +55,12 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 
+```
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 mqtt_client.setup() # creates mqtt_manager.json file to store your broker settings
 print( "client_id:", mqtt_client.CONFIG["client_id"] )
-
+````
 
 # WLAN and MQTT Manager :: main loop example
 ```
