@@ -3,18 +3,7 @@ from machine import Pin
 from board_manager import *
 from wlan_manager import WLAN_Manager
 from mqtt_manager import MQTT_Manager
-from sensor_manager import Sensor_HCSR04
-from ssd1306 import SSD1306_I2C
 from json import dumps, loads
-
-#Ligação i2C
-i2c = machine.I2C(scl=Pin(D1), sda=Pin(D2))
-#Ligação ao Display OLED
-oled = SSD1306_I2C(128, 64, i2c, 0x3c)
-
-# Ligação ao sensor ultrasónico
-sensor = Sensor_HCSR04(D3, D4)
-
 
 wlan_client = WLAN_Manager()
 mqtt_client = MQTT_Manager()
@@ -56,7 +45,7 @@ def mqtt_callback(topic, msg):
   status[ object ] = value
   return True
   
-PREFIX = "Atlantico"
+PREFIX = "Presonal"
 TOPIC_SUB = "/".join( [PREFIX, mqtt_client.get_topic("control"), "#"] ) #Canal onde recebe e interpreta as mensagens
 TOPIC_PUB = "/".join( [PREFIX, mqtt_client.get_topic("status") ] ) #Canal onde manda as mensagens
 chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
