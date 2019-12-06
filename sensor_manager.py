@@ -1,4 +1,3 @@
-
 # filename: sensor_manager.py
 import micropython, machine, ustruct, time, math
 
