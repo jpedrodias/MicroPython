@@ -1,7 +1,6 @@
 # filename: sensor_manager.py
 import micropython, machine, ustruct, time, math
 
-#import machine, time
 class Sensor_DHT11():
   def __init__(self, pin):
     if not isinstance(pin, int):
@@ -24,7 +23,6 @@ class Sensor_DHT11():
     return {'t': self.t, 'h': self.h}
 #End of Sensor_DHT11
 
-#import machine, time
 class Sensor_DHT22():
   def __init__(self, pin):
     if not isinstance(pin, int):
@@ -74,12 +72,10 @@ class Sensor_BMP085():
         for _ in range(128):
             next(self.gauge)
             time.sleep_ms(1)
-
     def compvaldump(self):
         return [self._AC1, self._AC2, self._AC3, self._AC4, self._AC5,
                 self._AC6, self._B1, self._B2, self._MB, self._MC, self._MD,
                 self._oversample]
-    
     def makegauge(self):
         while True:
             self._COMMAND[0] = 0x2e
@@ -93,7 +89,6 @@ class Sensor_BMP085():
                                                 self._UT_raw)
             except:
                 yield None
-
             self._COMMAND[0] = 0x34 | (self._oversample << 6)
             self._bmp_i2c.writeto_mem(self._bmp_addr, 0xF4, self._COMMAND)
             t_pressure_ready = self._delays[self._oversample]
@@ -107,26 +102,21 @@ class Sensor_BMP085():
             except:
                 yield None
             yield True
-
     def blocking_read(self):
         if next(self.gauge) is not None:
             pass
         while next(self.gauge) is None:
             pass
-
     @property
     def sealevel(self):
         return self._baseline
-
     @sealevel.setter
     def sealevel(self, value):
         if 300 < value < 1200:  # just ensure some reasonable value
             self._baseline = value
-
     @property
     def oversample(self):
         return self._oversample
-
     @oversample.setter
     def oversample(self, value):
         if value in range(4):
@@ -134,7 +124,6 @@ class Sensor_BMP085():
         else:
             print('oversample can only be 0, 1, 2 or 3, using 3 instead')
             self._oversample = 3
-
     @property
     def temperature(self):
         next(self.gauge)
@@ -142,7 +131,6 @@ class Sensor_BMP085():
         X2 = (self._MC << 11) // (X1 + self._MD)
         self._B5 = X1 + X2
         return ((self._B5 + 8) >> 4) / 10.0
-
     @property
     def pressure(self):
         self.temperature  # Get values for temperature AND pressure
@@ -382,8 +370,21 @@ class PhotoGateData(PhotoGate):
     return list(self.data[(i + self.cl) % self.BSIZE] for i in range(self.BSIZE))
 #End class PhotoGateData
 
-class TimeoutError(RuntimeError):
-  pass
+class Sensor_VL53L0X(VL53L0X):
+  def __init__(self,  *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.value = None
+  def read(self):
+    self.value = super().read()
+    return self.value
+  @property
+  def values(self):
+    return [self.value]
+  @property
+  def values_dict(self):
+    return {'d': self.value}
+#End class Sensor_VL53L0X
+
 class VL53L0X:
   _IO_TIMEOUT = micropython.const(1000)
   _SYSRANGE_START = micropython.const(0x00)
@@ -402,7 +403,6 @@ class VL53L0X:
   _RESULT_RANGE_STATUS = micropython.const(0x14)
   _OSC_CALIBRATE = micropython.const(0xf8)
   _MEASURE_PERIOD = micropython.const(0x04)
-
   def __init__(self, i2c, address=0x29):
     if isinstance(i2c, str):
       self.i2c = I2C(i2c)
@@ -412,11 +412,9 @@ class VL53L0X:
       self.i2c = i2c
     else:
       raise ValueError("Invalid I2C instance")
-
     self.address = address
     self.init()
     self._started = False
-
   def _registers(self, register, values=None, struct='B'):
     if values is None:
       size = ustruct.calcsize(struct)
@@ -425,12 +423,10 @@ class VL53L0X:
       return values
     data = ustruct.pack(struct, *values)
     self.i2c.writeto_mem(self.address, register, data)
-
   def _register(self, register, value=None, struct='B'):
     if value is None:
       return self._registers(register, struct=struct)[0]
     self._registers(register, (value,), struct=struct)
-
   def _flag(self, register=0x00, bit=0, value=None):
     data = self._register(register)
     mask = 1 << bit
@@ -441,17 +437,13 @@ class VL53L0X:
     else:
       data &= ~mask
     self._register(register, data)
-
   def _config(self, *config):
-
     for register, value in config:
       self._register(register, value)
-  
   def init(self, power2v8=True):
     self._flag(self._EXTSUP_HV, 0, power2v8)
     # I2C standard mode
     self._config((0x88, 0x00),(0x80, 0x01),(0xff, 0x01),(0x00, 0x00),)
-
     self._stop_variable = self._register(0x91)
     self._config((0x00, 0x01),(0xff, 0x00),(0x80, 0x00),)
     # disable signal_rate_msrc and signal_rate_pre_range limit checks
@@ -494,7 +486,6 @@ class VL53L0X:
       (0x76, 0x00),(0x77, 0x00),(0xFF, 0x01),(0x0D, 0x01),
       (0xFF, 0x00),(0x80, 0x01),(0x01, 0xF8),(0xFF, 0x01),
       (0x8E, 0x01),(0x00, 0x01),(0xFF, 0x00),(0x80, 0x00),)
-
     self._register(self._INTERRUPT_GPIO, 0x04)
     self._flag(self._GPIO_MUX_ACTIVE_HIGH, 4, False)
     self._register(self._INTERRUPT_CLEAR, 0x01)
@@ -507,7 +498,6 @@ class VL53L0X:
     self._register(self._SYSTEM_SEQUENCE, 0x02)
     self._calibrate(0x00)
     self._register(self._SYSTEM_SEQUENCE, 0xe8)
-
   def _spad_info(self):
     self._config(
       (0x80, 0x01),(0xff, 0x01),(0x00, 0x00),(0xff, 0x06),)
@@ -527,7 +517,6 @@ class VL53L0X:
     count = value & 0x7f
     is_aperture = bool(value & 0b10000000)
     return count, is_aperture
-
   def _calibrate(self, vhv_init_byte):
     self._register(self._SYSRANGE_START, 0x01 | vhv_init_byte)
     for timeout in range(self._IO_TIMEOUT):
@@ -538,11 +527,9 @@ class VL53L0X:
       raise TimeoutError()
     self._register(self._INTERRUPT_CLEAR, 0x01)
     self._register(self._SYSRANGE_START, 0x00)
-
   def start(self, period=0):
     self._config(
       (0x80, 0x01),(0xFF, 0x01),(0x00, 0x00),(0x91, self._stop_variable),
-
       (0x00, 0x01),(0xFF, 0x00),(0x80, 0x00),)
     if period:
       oscilator = self._register(self._OSC_CALIBRATE, struct='>H')
@@ -553,15 +540,12 @@ class VL53L0X:
     else:
       self._register(self._SYSRANGE_START, 0x02)
     self._started = True
-
-
   def stop(self):
     self._register(self._SYSRANGE_START, 0x01)
     self._config(
       (0xFF, 0x01),(0x00, 0x00),(0x91, self._stop_variable),
       (0x00, 0x01),(0xFF, 0x00),)
     self._started = False
-
   def read(self):
     if not self._started:
       self._config(
@@ -584,20 +568,8 @@ class VL53L0X:
     return value
 #End class VL53L0X
 
-class Sensor_VL53L0X(VL53L0X):
-  def __init__(self,  *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    self.value = None
-  def read(self):
-    self.value = super().read()
-    return self.value
-  @property
-  def values(self):
-    return [self.value]
-  @property
-  def values_dict(self):
-    return {'d': self.value}
-#End class Sensor_VL53L0X
+class TimeoutError(RuntimeError):
+  pass
 
 if __name__ == '__main__':
   print('Sensor manager')
