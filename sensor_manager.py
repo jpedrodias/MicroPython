@@ -1,28 +1,6 @@
-# filename: sensor_manager.py
-import micropython, machine, ustruct, time
 
-#import machine, time
-class Sensor_DHT22():
-  def __init__(self, pin):
-    if not isinstance(pin, int):
-      raise TypeError('pin must be integer')
-    from dht import DHT22
-    self.sensor = DHT22(machine.Pin(pin))
-    time.sleep( 1 ) # some delay to stabilize sensor
-    self.t = None
-    self.h = None
-  def read(self):
-    self.sensor.measure()
-    self.t, self.h = self.sensor.temperature(), self.sensor.humidity()
-    self.t, self.h = round(self.t,1), round(self.h,1)
-    return [self.t, self.h]
-  @property
-  def values(self):
-    return [self.t, self.h]
-  @property
-  def values_dict(self):
-    return {'t': self.t, 'h': self.h}
-#End of Sensor_DHT22
+# filename: sensor_manager.py
+import micropython, machine, ustruct, time, math
 
 #import machine, time
 class Sensor_DHT11():
@@ -48,6 +26,159 @@ class Sensor_DHT11():
 #End of Sensor_DHT11
 
 #import machine, time
+class Sensor_DHT22():
+  def __init__(self, pin):
+    if not isinstance(pin, int):
+      raise TypeError('pin must be integer')
+    from dht import DHT22
+    self.sensor = DHT22(machine.Pin(pin))
+    time.sleep( 1 ) # some delay to stabilize sensor
+    self.t = None
+    self.h = None
+  def read(self):
+    self.sensor.measure()
+    self.t, self.h = self.sensor.temperature(), self.sensor.humidity()
+    self.t, self.h = round(self.t,1), round(self.h,1)
+    return [self.t, self.h]
+  @property
+  def values(self):
+    return [self.t, self.h]
+  @property
+  def values_dict(self):
+    return {'t': self.t, 'h': self.h}
+#End of Sensor_DHT22
+
+# from https://github.com/robert-hh/BMP085_BMP180
+class Sensor_BMP085():
+    def __init__(self, i2c=None, address=0x77):
+        if i2c is None:
+            raise ValueError("The I2C bus must be specified")
+        else:
+            self._bmp_i2c = i2c
+        self.t = None
+        self.p = None
+        self._bmp_addr = address 
+        self.chip_id = self._bmp_i2c.readfrom_mem(self._bmp_addr, 0xD0, 2)
+        self._delays = (7, 8, 14, 28)
+        self._diff_sign = time.ticks_diff(1, 0)
+        (self._AC1, self._AC2, self._AC3, self._AC4, self._AC5, self._AC6,
+         self._B1, self._B2, self._MB, self._MC, self._MD) = \
+            ustruct.unpack('>hhhHHHhhhhh',
+                self._bmp_i2c.readfrom_mem(self._bmp_addr, 0xAA, 22))
+        self._oversample = 3
+        self._baseline = 1013.25
+        self._UT_raw = bytearray(2)
+        self._B5 = 0
+        self._MLX = bytearray(3)
+        self._COMMAND = bytearray(1)
+        self.gauge = self.makegauge() 
+        for _ in range(128):
+            next(self.gauge)
+            time.sleep_ms(1)
+
+    def compvaldump(self):
+        return [self._AC1, self._AC2, self._AC3, self._AC4, self._AC5,
+                self._AC6, self._B1, self._B2, self._MB, self._MC, self._MD,
+                self._oversample]
+    
+    def makegauge(self):
+        while True:
+            self._COMMAND[0] = 0x2e
+            self._bmp_i2c.writeto_mem(self._bmp_addr, 0xF4, self._COMMAND)
+            t_start = time.ticks_ms()
+            while (time.ticks_diff(time.ticks_ms(), t_start) *
+                   self._diff_sign) <= 5: 
+                yield None
+            try:
+                self._bmp_i2c.readfrom_mem_into(self._bmp_addr, 0xf6,
+                                                self._UT_raw)
+            except:
+                yield None
+
+            self._COMMAND[0] = 0x34 | (self._oversample << 6)
+            self._bmp_i2c.writeto_mem(self._bmp_addr, 0xF4, self._COMMAND)
+            t_pressure_ready = self._delays[self._oversample]
+            t_start = time.ticks_ms()
+            while (time.ticks_diff(time.ticks_ms(), t_start) *
+                   self._diff_sign) <= t_pressure_ready:
+                yield None
+            try:
+                self._bmp_i2c.readfrom_mem_into(self._bmp_addr, 0xf6,
+                                                self._MLX)
+            except:
+                yield None
+            yield True
+
+    def blocking_read(self):
+        if next(self.gauge) is not None:
+            pass
+        while next(self.gauge) is None:
+            pass
+
+    @property
+    def sealevel(self):
+        return self._baseline
+
+    @sealevel.setter
+    def sealevel(self, value):
+        if 300 < value < 1200:  # just ensure some reasonable value
+            self._baseline = value
+
+    @property
+    def oversample(self):
+        return self._oversample
+
+    @oversample.setter
+    def oversample(self, value):
+        if value in range(4):
+            self._oversample = value
+        else:
+            print('oversample can only be 0, 1, 2 or 3, using 3 instead')
+            self._oversample = 3
+
+    @property
+    def temperature(self):
+        next(self.gauge)
+        X1 = ((ustruct.unpack(">H", self._UT_raw)[0] - self._AC6) * self._AC5) >> 15
+        X2 = (self._MC << 11) // (X1 + self._MD)
+        self._B5 = X1 + X2
+        return ((self._B5 + 8) >> 4) / 10.0
+
+    @property
+    def pressure(self):
+        self.temperature  # Get values for temperature AND pressure
+        UP = (((self._MLX[0] << 16) + (self._MLX[1] << 8) + self._MLX[2]) >>
+              (8 - self._oversample))
+        B6 = self._B5 - 4000
+        X1 = (self._B2 * ((B6 * B6) >> 12)) >> 11
+        X2 = (self._AC2 * B6) >> 11
+        B3 = (((self._AC1 * 4 + X1 + X2) << self._oversample) + 2) >> 2
+        X1 = (self._AC3 * B6) >> 13
+        X2 = (self._B1 * ((B6 * B6) >> 12)) >> 16
+        X3 = ((X1 + X2) + 2) >> 2
+        B4 = (self._AC4 * (X3 + 32768)) >> 15
+        B7 = (UP - B3) * (50000 >> self._oversample)
+        p = (B7 * 2) // B4
+        X1 = (((p >> 8) * (p >> 8)) * 3038) >> 16
+        X2 = (-7357 * p) // 65536
+        return (p + (X1 + X2 + 3791) // 16) / 100
+    def read(self):
+      self.t = self.temperature
+      self.p = self.pressure
+      return [self.t, self.p]
+    @property
+    def values(self):
+      return [self.t, self.p]
+    @property
+    def values_dict(self):
+      return {'t': self.t, 'p': self.p}
+#End of Sensor_BMP085
+
+class Sensor_BMP180(Sensor_BMP085):
+    def __init__(self, i2c=None, address=0x77):
+        super().__init__(i2c, address)
+#End of Sensor_BMP180
+
 class Sensor_BME280():
   def __init__(self, i2c, address=0x76):
     if not isinstance(i2c, machine.I2C):
@@ -71,7 +202,6 @@ class Sensor_BME280():
     return {'t': self.t, 'h': self.h, 'p': self.p}
 #End of Sensor_BME280
 
-#import machine, time
 class Sensor_BH1750FVI():
   #adaptation from https://github.com/catdog2/mpy_bh1750fvi_esp8266
   def __init__(self, i2c, address=0x23):
@@ -128,7 +258,6 @@ class Sensor_DS18B20():
     return temps_dict
 #End of Sensor_DS18B20
 
-#import machine, time
 class Sensor_BUTTONS():
   def __init__(self, pins):
     if not isinstance(pins, list):
@@ -160,10 +289,10 @@ class Sensor_BUTTONS():
     return buttons_dict
 #End Sensor_BUTTONS
 
-#import machine, time
 class Sensor_HCSR04():
   def __init__(self, trigger, echo, echo_timeout_us=500000):
     if isinstance(trigger, int) and isinstance(echo, int):
+
       self.trigger = machine.Pin(trigger, mode=machine.Pin.OUT, pull=None)    
       self.echo = machine.Pin(echo, mode=machine.Pin.IN, pull=None)
     else:
@@ -207,7 +336,6 @@ class Sensor_HCSR04():
     return {'d': self.distance_cm}
 #End of HCSR04
 
-#import machine, time
 class PhotoGate():  
   def __init__(self, pin, mode=True):
     if not isinstance(pin, int):
@@ -255,7 +383,6 @@ class PhotoGateData(PhotoGate):
     return list(self.data[(i + self.cl) % self.BSIZE] for i in range(self.BSIZE))
 #End class PhotoGateData
 
-#import micropython, machine, ustruct, time
 class TimeoutError(RuntimeError):
   pass
 class VL53L0X:
@@ -278,11 +405,11 @@ class VL53L0X:
   _MEASURE_PERIOD = micropython.const(0x04)
 
   def __init__(self, i2c, address=0x29):
-    if isinstance(i2c, str):           # Non-pyb targets may use other than X or Y
+    if isinstance(i2c, str):
       self.i2c = I2C(i2c)
-    elif isinstance(i2c, int):         # WiPY targets
+    elif isinstance(i2c, int):
       self.i2c = I2C(i2c)
-    elif hasattr(i2c, 'readfrom'):     # Soft or hard I2C instance. See issue #3097
+    elif hasattr(i2c, 'readfrom'):
       self.i2c = i2c
     else:
       raise ValueError("Invalid I2C instance")
@@ -317,6 +444,7 @@ class VL53L0X:
     self._register(register, data)
 
   def _config(self, *config):
+
     for register, value in config:
       self._register(register, value)
   
@@ -324,6 +452,7 @@ class VL53L0X:
     self._flag(self._EXTSUP_HV, 0, power2v8)
     # I2C standard mode
     self._config((0x88, 0x00),(0x80, 0x01),(0xff, 0x01),(0x00, 0x00),)
+
     self._stop_variable = self._register(0x91)
     self._config((0x00, 0x01),(0xff, 0x00),(0x80, 0x00),)
     # disable signal_rate_msrc and signal_rate_pre_range limit checks
@@ -414,6 +543,7 @@ class VL53L0X:
   def start(self, period=0):
     self._config(
       (0x80, 0x01),(0xFF, 0x01),(0x00, 0x00),(0x91, self._stop_variable),
+
       (0x00, 0x01),(0xFF, 0x00),(0x80, 0x00),)
     if period:
       oscilator = self._register(self._OSC_CALIBRATE, struct='>H')
@@ -424,6 +554,7 @@ class VL53L0X:
     else:
       self._register(self._SYSRANGE_START, 0x02)
     self._started = True
+
 
   def stop(self):
     self._register(self._SYSRANGE_START, 0x01)
