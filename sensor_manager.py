@@ -174,10 +174,10 @@ class Sensor_BMP085():
     return [self.t, self.p, self.a]
   @property
   def values(self):
-    return [self.t, self.p, self.h]
+    return [self.t, self.p, self.a]
   @property
   def values_dict(self):
-    return {"t": self.t, "h": self.h, "p": self.p}
+    return {"t": self.t, "p": self.p, "a": self.a}
 #End of Sensor_BMP085
 
 class Sensor_BMP180(Sensor_BMP085):
