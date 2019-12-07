@@ -489,10 +489,6 @@ class VL53L0X:
     self._register(self._INTERRUPT_GPIO, 0x04)
     self._flag(self._GPIO_MUX_ACTIVE_HIGH, 4, False)
     self._register(self._INTERRUPT_CLEAR, 0x01)
-    # XXX Need to implement this.
-    #budget = self._timing_budget()
-    #self._register(_SYSTEM_SEQUENCE, 0xe8)
-    #self._timing_budget(budget)
     self._register(self._SYSTEM_SEQUENCE, 0x01)
     self._calibrate(0x40)
     self._register(self._SYSTEM_SEQUENCE, 0x02)
