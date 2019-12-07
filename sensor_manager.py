@@ -1,6 +1,8 @@
 # filename: sensor_manager.py
 import micropython, machine, ustruct, time
 
+VERSION = 2
+
 class Sensor_DHT11():
   def __init__(self, pin):
     if not isinstance(pin, int):
