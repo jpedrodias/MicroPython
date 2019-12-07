@@ -1,5 +1,5 @@
 # filename: sensor_manager.py
-import micropython, machine, ustruct, time, math
+import micropython, machine, ustruct, time
 
 class Sensor_DHT11():
   def __init__(self, pin):
