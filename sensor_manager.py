@@ -163,8 +163,8 @@ class Sensor_BMP085():
     self.t = None
     self.p = None
     self.a = None
+    self.bmp.sealevel = 101325
   def read(self):
-    self.bmp.gause()
     self.t = self.bmp.temperature 
     self.p = self.bmp.pressure
     self.a = self.bmp.altitude
@@ -217,13 +217,12 @@ class Sensor_BH1750FVI():
     self.address = address
     self.lux = None
   def read(self):
-    self.i2c.writeto(self.address, b"\x00") # make sure device is in a clean state
-    self.i2c.writeto(self.address, b"\x01") # power up
-    self.i2c.writeto(self.address, bytes([0x23])) # set measurement mode
+    self.i2c.writeto(self.address, b"\x00")
+    self.i2c.writeto(self.address, b"\x01")
+    self.i2c.writeto(self.address, bytes([0x23]))
     time.sleep_ms(180)
     raw = self.i2c.readfrom(self.address, 2)
-    self.i2c.writeto(self.address, b"\x00") # power down again
-    # we must divide the end result by 1.2 to get the lux
+    self.i2c.writeto(self.address, b"\x00") 
     self.lux = ((raw[0] << 24) | (raw[1] << 16)) // 78642
     return self.lux
   @property
@@ -285,7 +284,7 @@ class Sensor_VL53L0X():
   def __init__(self, i2c, address=0x76):
     if not isinstance(i2c, machine.I2C):
       raise TypeError("I2C object required.")
-    from vl53l0x import *
+    from vl53l0x import VL53L0X
     self.sensor = VL53L0X(i2c=i2c,address=address)
     self.d = None
   def read(self):
