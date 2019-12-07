@@ -233,10 +233,14 @@ class Sensor_BH1750FVI():
     return {"lux": self.lux}
 #End of Sensor_BH1750FVI
 
+class Sensor_BH1750(Sensor_BH1750FVI):
+    def __init__(self, i2c=None, address=0x77):
+        super().__init__(i2c, address)
+#End of Sensor_BH1750
+
 class Sensor_HCSR04():
   def __init__(self, trigger, echo, echo_timeout_us=500000):
     if isinstance(trigger, int) and isinstance(echo, int):
-
       self.trigger = machine.Pin(trigger, mode=machine.Pin.OUT, pull=None)    
       self.echo = machine.Pin(echo, mode=machine.Pin.IN, pull=None)
     else:
