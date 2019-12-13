@@ -11,10 +11,12 @@ class MQTT_Manager(MQTTClient):
     
     chip_name = uname().sysname
     chip_uid  = hexlify( unique_id() ).decode('utf-8')
-        
+    
+    if  "mqtt_manager.json" not in os.listdir():
+      self.setup()
+      
     with open('mqtt_manager.json', 'r') as f:
       self.CONFIG = loads(f.read())
-    del(f)
     
     self.CONFIG['client_id'] = '{}_{}'.format( chip_name, chip_uid )
     username = self.CONFIG['client_id']
