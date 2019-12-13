@@ -7,12 +7,12 @@ class MQTT_Manager(MQTTClient):
     from ubinascii import hexlify
     from machine import unique_id
     from ujson import loads
-    from os import uname
+    from os import uname, listdir
     
     chip_name = uname().sysname
     chip_uid  = hexlify( unique_id() ).decode('utf-8')
     
-    if  "mqtt_manager.json" not in os.listdir():
+    if  "mqtt_manager.json" not in listdir():
       self.setup()
       
     with open('mqtt_manager.json', 'r') as f:
@@ -31,7 +31,7 @@ class MQTT_Manager(MQTTClient):
   
   def setup(self):
     with open("mqtt_manager.json", "w") as f:
-      f.write("""\
+      f.write("""
 {
   "broker": "broker.hivemq.com",
   "port": 1883,
