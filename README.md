@@ -131,11 +131,11 @@ while True:
 ```
 
 
-# Sensor Manager :: Using BME280 (pressure, temperature and humidity sensor)
+# Sensor Manager :: Using BMP085, BMP180 or BME280 (pressure, temperature and humidity sensor)
 ```
 import machine, time
 from board_manager import * # D1, ... , D8
-from sensor_manager import Sensor_BME280
+from sensor_manager import Sensor_BME280 # Sensor_BME280 or Sensor_BMP180
 
 i2c = machine.I2C(scl=machine.Pin(D1), sda=machine.Pin(D2))
 sensor = Sensor_BME280(i2c=i2c, address=0x76) # to find address use i2c.scan()
