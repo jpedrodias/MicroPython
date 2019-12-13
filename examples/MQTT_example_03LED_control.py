@@ -9,7 +9,7 @@ wlan_client = WLAN_Manager()
 mqtt_client = MQTT_Manager()
 
 def reconnect():
-  print("Coneccao WiFi")
+  print("WiFi Connection")
   wlan_client.start()
   for i in range(30):
     if wlan_client.check(): break
