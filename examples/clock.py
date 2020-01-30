@@ -6,7 +6,7 @@ from board_manager import D1, D2
 from ssd1306 import SSD1306_I2C
 
 wlan_client = WLAN_Manager()
-#wlan_client.setup('ATLANTICO', 'oceano12')
+#wlan_client.setup('SSID', 'password')
 #wlan_client.start()
 #import upip
 #upip.install("urequests")
