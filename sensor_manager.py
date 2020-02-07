@@ -159,7 +159,7 @@ class Sensor_BMP085():
     if not isinstance(i2c, machine.I2C):
       raise TypeError("I2C object required.")
     from bmp085 import BMP085
-    self.bmp = BMP085(i2c=i2c)
+    self.bmp = BMP085(i2c=i2c, address=address)
     self.t = None
     self.p = None
     self.a = None
@@ -182,7 +182,7 @@ class Sensor_BMP085():
 
 class Sensor_BMP180(Sensor_BMP085):
     def __init__(self, i2c=None, address=0x77):
-        super().__init__(i2c, address)
+        super().__init__(i2c=i2c, address=address)
 #End of Sensor_BMP180
 
 class Sensor_BME280():
@@ -190,7 +190,7 @@ class Sensor_BME280():
     if not isinstance(i2c, machine.I2C):
       raise TypeError("I2C object required.")
     from bme280 import BME280
-    self.bme = BME280(i2c=i2c,address=address)
+    self.bme = BME280(i2c=i2c, address=address)
     self.t = None
     self.h = None
     self.p = None
@@ -289,7 +289,7 @@ class Sensor_VL53L0X():
     if not isinstance(i2c, machine.I2C):
       raise TypeError("I2C object required.")
     from vl53l0x import VL53L0X
-    self.sensor = VL53L0X(i2c=i2c,address=address)
+    self.sensor = VL53L0X(i2c=i2c, address=address)
     self.d = None
   def read(self):
     self.d = self.sensor.read()
