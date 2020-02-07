@@ -71,7 +71,7 @@ class WLAN_Manager():
         if self.wlan.isconnected():
           break
     print('\nnetwork config:', self.wlan.ifconfig())
-    return self.wlan.active()
+    return self.wlan.active( self.wlan.isconnected() )
   #End start
   
   def mode(self, mode=network.AP_IF):
