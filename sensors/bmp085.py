@@ -46,23 +46,23 @@ class BMP085():
     Module for the BMP085 pressure sensor.
     '''
     # init
-    def __init__(self, i2c=None):
+    def __init__(self, i2c=None, address=119):
         # internal module defines
         if i2c is None:
             raise ValueError("The I2C bus must be specified")
         else:
             self._bmp_i2c = i2c
-        self._bmp_addr = 119  # fix
+        self._bmp_addr = address  # fix
         self.chip_id = self._bmp_i2c.readfrom_mem(self._bmp_addr, 0xD0, 2)
         self._delays = (7, 8, 14, 28)
         self._diff_sign = time.ticks_diff(1, 0)
-
+        
         # read calibration data from EEPROM
         (self._AC1, self._AC2, self._AC3, self._AC4, self._AC5, self._AC6,
          self._B1, self._B2, self._MB, self._MC, self._MD) = \
             unp('>hhhHHHhhhhh',
                 self._bmp_i2c.readfrom_mem(self._bmp_addr, 0xAA, 22))
-
+        
         # settings to be adjusted by user
         self._oversample = 3
         self._baseline = 1013.25
@@ -76,7 +76,7 @@ class BMP085():
         for _ in range(128):
             next(self.gauge)
             time.sleep_ms(1)
-
+    
     def compvaldump(self):
         '''
         Returns a list of all compensation values
@@ -183,13 +183,12 @@ class BMP085():
         Altitude in m.
         '''
         try:
-            p = 44330 * (1.0 - math.pow(self.pressure /
-                                        self._baseline, 0.1903))
+            p = 44330 * (1.0 - math.pow(self.pressure / self._baseline, 0.1903))
         except:
             p = 0.0
         return p
 
 
 class BMP180(BMP085):
-    def __init__(self, i2c=None):
+    def __init__(self, i2c=None, address=119):
         super().__init__(i2c)
