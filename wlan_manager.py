@@ -38,7 +38,7 @@ class WLAN_Manager():
     return True
   #End stop
   
-  def start(self, ssid=None, password=None):
+  def start(self, ssid=None, password=None, attempts=20):
     # if not ssid or passowrd - get settings from file
     if not ssid and not password:
       try:
@@ -47,7 +47,7 @@ class WLAN_Manager():
         f = None
         
       if not f:
-        raise FileNotFoundError('{} file not found! Run .setup()'.format(self.file))
+        raise ValueError('{} file not found! Run .setup()'.format(self.file))
         
       data = json.loads(f.read())
       f.close()
@@ -62,8 +62,12 @@ class WLAN_Manager():
         print('\nconnecting to:', cfg['SSID'], end=' ')
         if self.wlan.isconnected():
           break
+        if cfg['SSID'] in self.wlan.scan():
+          print(cfg['SSID'], 'not found.')
+          continue
+          
         self.wlan.connect(cfg['SSID'], cfg['PASSWORD'])
-        for i in range(20):
+        for i in range( attempts + 5 ):
           if self.wlan.isconnected():
             break
           time.sleep(1)
