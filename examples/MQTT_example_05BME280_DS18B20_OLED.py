@@ -1,6 +1,7 @@
 from machine import Pin, I2C
 from utime import sleep_ms, ticks_ms, ticks_diff
 from ujson import dumps
+
 from ucollections import OrderedDict
 
 from wlan_manager import WLAN_Manager
@@ -40,16 +41,7 @@ chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
 mqtt_client.broker.set_callback(mqtt_callback)
 print( "client_id:", mqtt_client.CONFIG["client_id"] )
 
-
-pub_str = [
-  "ColegioAtlantico", 
-  "*Clube Robotica*",
-  " Laboratorio FQ "]
-pub_idx = 0
-pub_counts = 5
-pub_i = 0
-
-DELAY = mqtt_client.CONFIG["delay"] * 1000 
+DELAY = mqtt_client.CONFIG["delay"] * 1000
 while True:
   t_start = ticks_ms()
   
@@ -75,12 +67,6 @@ while True:
   oled.text("T0: {} C".format( t0 ) , 20, 20)
   oled.text("T1: {} C".format( t1 ) , 20, 30)
   oled.text("T2: {} C".format( t2 ) , 20, 40)
-  
-  if pub_i == 0:
-    pub_idx = (pub_idx + 1 ) % len(pub_str)
-  pub_i = (pub_i + 1 ) % pub_counts
-  
-  oled.text( pub_str[pub_idx] , 0, 56)
   oled.show()
   
   if gc.mem_free() < 10000:
