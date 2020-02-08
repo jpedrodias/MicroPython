@@ -45,8 +45,10 @@ while True:
   
   sensor.read()
   t = sensor.values_dict['t']
+  h = sensor.values_dict['h']
+  p = sensor.values_dict['p']
   
-  data = OrderedDict( [ ('t0', t0) ] )
+  data = OrderedDict( [ ('t', t), ('h', h), ('p', p) ] )
   print( dumps(data) )
   
   is_online = mqtt_client.check()
