@@ -44,8 +44,8 @@ while True:
   t_start = ticks_ms()
   
   sensor.read()
-  t0 = sensor1.values_dict['t0']
-  t1 = sensor1.values_dict['t1']
+  t0 = sensor.values_dict['t0']
+  t1 = sensor.values_dict['t1']
   
   data = OrderedDict( [ ('t0', t0), ('t1', t1) ] )
   print( dumps(data) )
@@ -60,9 +60,8 @@ while True:
   oled.fill(0)
   oled.text("*Clube Robotica*" , 1, 4)
   oled.rect(0,14,128,38,1)
-  oled.text("T0: {} C".format( t0 ) , 20, 20)
-  oled.text("T1: {} C".format( t1 ) , 20, 30)
-  oled.text("T2: {} C".format( t2 ) , 20, 40)
+  oled.text("T0: {} C".format( t0 ) , 20, 22)
+  oled.text("T1: {} C".format( t1 ) , 20, 36)
   oled.show()
   
   if gc.mem_free() < 10000:
