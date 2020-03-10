@@ -129,7 +129,7 @@ sensor = Sensor_DS18B20(D1)
 while True:
   sensor.read()
   print(sensor.values, sensor.values_dict)
-  time.sleep(1)
+  sleep(1)
 ```
 
 
