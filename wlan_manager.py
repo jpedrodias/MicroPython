@@ -76,7 +76,11 @@ class WLAN_Manager():
           print('.', end='')
         if self.wlan.isconnected():
           break
-    print('\nnetwork config:', self.wlan.ifconfig())
+    if self.wlan.isconnected():
+      print('\nnetwork config:', self.wlan.ifconfig())
+    else:
+      print('\nnetwork connection failed')
+      self.stop()
     return self.wlan.active( self.wlan.isconnected() )
   #End start
   
