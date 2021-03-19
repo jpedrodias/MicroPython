@@ -33,7 +33,7 @@ class WLAN_Manager():
   
   def __repr__(self):
     if self.wlan.active() and self.wlan.isconnected(): 
-      return 'ip: %s, mask: %s, gateway: %s, dns: %s' % wlan_client.wlan.ifconfig()
+      return 'ip:%s,mask:%s,gw:%s,dns:%s' % wlan_client.wlan.ifconfig()
     else:
       return 'not connected'
   
