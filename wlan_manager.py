@@ -105,7 +105,7 @@ class WLAN_Manager():
 if __name__ == '__main__':
   wlan_client = WLAN_Manager()
   wlan_client.stop()
-  time.sleep(2)
+  time.sleep(1)
   #First time, use :
   #  wlan_client.setup()
   #  wlan_client.setup('HOME', 'password', append=False)
@@ -122,5 +122,3 @@ if __name__ == '__main__':
   
   print('Starting wlan in STA mode:', wlan_client.start() )
   print('Checking wlan:', wlan_client.check())
-  
-  print(wlan_client)
