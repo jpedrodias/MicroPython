@@ -52,11 +52,13 @@ class WLAN_Manager():
       data = json.loads(f.read())
       f.close()
       del(f)
+    else:
+      data = {"wifi": [{"SSID": ssid, "PASSWORD": password}]}
     # End if no json file is found       
     
     self.mode(network.STA_IF)
     if not self.wlan.active() or not self.wlan.isconnected():
-      self.wlan.active( True )
+      self.wlan.active(True)
       
       for cfg in data['wifi']:
         print('\nconnecting to:', cfg['SSID'], end=' ')
@@ -91,14 +93,14 @@ class WLAN_Manager():
 #End class 
 
 if __name__ == '__main__':
-  from time import sleep
   wlan_client = WLAN_Manager()
-  
+  wlan_client.stop()
+  time.sleep(2)
   #First time, use :
   #  wlan_client.setup()
   #  wlan_client.setup('HOME', 'password', append=False)
   #  wlan_client.setup('WORK', 'password', append=True)
-  
+
   print('Setting wireless connecting')
   print('Changing mode wlan AP_IF:', wlan_client.mode(network.AP_IF))
   print('Stoping wlan AP mode:',  wlan_client.stop())
