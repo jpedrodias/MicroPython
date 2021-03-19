@@ -31,6 +31,12 @@ class WLAN_Manager():
       del(f)
   #End setup
   
+  def __repr__(self):
+    if self.wlan.active() and self.wlan.isconnected(): 
+      return 'ip: %s, mask: %s, gateway: %s, dns: %s' % wlan_client.wlan.ifconfig()
+    else:
+      return 'not connected'
+  
   def stop(self):
     if self.wlan:
       self.wlan.active(False)
@@ -67,7 +73,7 @@ class WLAN_Manager():
         if cfg['SSID'] in self.wlan.scan():
           print(cfg['SSID'], 'not found.')
           continue
-          
+        
         self.wlan.connect(cfg['SSID'], cfg['PASSWORD'])
         for i in range( attempts + 5 ):
           if self.wlan.isconnected():
@@ -104,15 +110,17 @@ if __name__ == '__main__':
   #  wlan_client.setup()
   #  wlan_client.setup('HOME', 'password', append=False)
   #  wlan_client.setup('WORK', 'password', append=True)
-
+  
   print('Setting wireless connecting')
   print('Changing mode wlan AP_IF:', wlan_client.mode(network.AP_IF))
   print('Stoping wlan AP mode:',  wlan_client.stop())
-  sleep(1)
+  time.sleep(1)
   
   print('Changing mode wlan STA_IF:', wlan_client.mode( network.STA_IF ))
   print('Stoping wlan STA mode:', wlan_client.stop() )
-  sleep(1)
+  time.sleep(1)
   
   print('Starting wlan in STA mode:', wlan_client.start() )
   print('Checking wlan:', wlan_client.check())
+  
+  print(wlan_client)
