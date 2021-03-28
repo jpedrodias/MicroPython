@@ -33,9 +33,10 @@ class WLAN_Manager():
   
   def __repr__(self):
     if self.wlan.active() and self.wlan.isconnected(): 
-      return 'ip:%s,mask:%s,gw:%s,dns:%s' % wlan_client.wlan.ifconfig()
+      return ', '.join(self.wlan.ifconfig())
     else:
       return 'not connected'
+  #End print
   
   def stop(self):
     if self.wlan:
@@ -70,6 +71,7 @@ class WLAN_Manager():
         print('\nconnecting to:', cfg['SSID'], end=' ')
         if self.wlan.isconnected():
           break
+        
         if cfg['SSID'] in self.wlan.scan():
           print(cfg['SSID'], 'not found.')
           continue
@@ -80,10 +82,11 @@ class WLAN_Manager():
             break
           time.sleep(1)
           print('.', end='')
-        if self.wlan.isconnected():
-          break
+      #end cfg in data['wifi']
+    #end if
+    
     if self.wlan.isconnected():
-      print('\nnetwork config:', self.wlan.ifconfig())
+      print('\nnetwork config:', self)
     else:
       print('\nnetwork connection failed')
       self.stop()
@@ -94,6 +97,7 @@ class WLAN_Manager():
     self.wlan = network.WLAN(mode)
     return True
   #End mode
+
   def check(self):
     if self.wlan:
       return self.wlan.active() and self.wlan.isconnected()
