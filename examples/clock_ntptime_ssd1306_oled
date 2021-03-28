@@ -32,13 +32,6 @@ ssd.text('wireless...', 0, 32)
 ssd.show()
 wlan_client.start()
 time.sleep(1)
-"""
-for i in range(30):
-  if wlan_client.check(): break
-  ssd.text('.', i * 8, 32+(8*i)//64)
-  ssd.show()
-  time.sleep(1)
-"""
 
 # set timer
 update_time = time.ticks_ms() - web_query_delay
