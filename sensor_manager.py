@@ -1,4 +1,4 @@
-# filename: sensor_manager.py
+# filename: sensor_manager.py -- version 2021/10/24
 import micropython, machine, ustruct, time
 
 class Sensor_BUTTONS():
