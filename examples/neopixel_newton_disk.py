@@ -27,3 +27,4 @@ for i in range(int(DURATION / PAUSE)):
 
 neo.fill(Colors.BLACK)
 neo.write()
+
