@@ -1,0 +1,24 @@
+from neopixel import NeoPixel
+from machine import Pin
+from time import sleep
+from board_manager import D3
+
+class Color:
+    # RGB - Red, Green, Blue
+    RED = (50, 0, 0)
+    GREEN = (0, 50, 0)
+    BLUE = (0, 0, 50)
+    BLACK = (0,0,0)
+
+neo = NeoPixel(Pin(D3), 1)
+neo.fill(Color.BLACK)
+neo.write()
+
+PAUSE = 1 # CHANGE THIS VALUE
+colors = [Color.RED, Color.BLUE]
+ncolors = len(colors)
+
+for i in range(int(5 / PAUSE)):
+  neo.fill(colors[i%ncolors])
+  neo.write()
+  sleep(PAUSE)
