@@ -15,11 +15,12 @@ neo = NeoPixel(Pin(D3), 1)
 neo.fill(Colors.BLACK)
 neo.write()
 
-PAUSE = 1 # CHANGE THIS VALUE
-colors = [Colors.RED, Colors.BLUE]
+PAUSE = 0.5 # CHANGE THIS VALUE
+DURATION = 10 # seconds
+colors = [Colors.RED, Colors.GREEN, Colors.BLUE]
 ncolors = len(colors)
 
-for i in range(ncolors * int(1 / PAUSE)):
+for i in range(int(DURATION / PAUSE)):
   neo.fill(colors[i%ncolors])
   neo.write()
   sleep(PAUSE)
