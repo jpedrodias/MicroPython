@@ -19,3 +19,16 @@ class rgb_colors():
     BLUE = (0, 0, 255*brightness)
     BLACK = (0,0,0)
 #End RGB_Colors
+
+class Clock():
+  @property
+  def timestamp(self):
+    t = time.localtime()
+    return '{:04d}-{:02d}-{:02d} {:02d}:{:02d}:{:02d}'.format(*t[:6])
+  @staticmethod
+  def update():
+    try:
+      ntptime.settime()
+    except:
+      return False
+    return True
