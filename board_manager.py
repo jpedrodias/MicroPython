@@ -32,3 +32,15 @@ class Clock():
     except:
       return False
     return True
+
+class StatusLED():
+  def __init__(self, pin):
+    self.led = machine.Pin(pin, machine.Pin.OUT)
+  def value(self, value):
+    self.led.value(value)
+  def on(self):
+    self.value(1)
+  def off(self):
+    self.value(0)
+  def toggle(self):
+    self.led.value(not self.led.value())
