@@ -1,7 +1,6 @@
 # https://github.com/schinckel/micropython-sht30/blob/master/sht30/sht30.py
 class SHT30:
     POLYNOMIAL = 0x131  # P(x) = x^8 + x^5 + x^4 + 1 = 100110001
-
     ALERT_PENDING_MASK = 0x8000     # 15
     HEATER_MASK = 0x2000            # 13
     RH_ALERT_MASK = 0x0800          # 11
@@ -9,7 +8,6 @@ class SHT30:
     RESET_MASK = 0x0010             # 4
     CMD_STATUS_MASK = 0x0002        # 1
     WRITE_STATUS_MASK = 0x0001      # 0
-
     # MSB = 0x2C LSB = 0x06 Repeatability = High, Clock stretching = enabled
     MEASURE_CMD = b'\x2C\x10'
     STATUS_CMD = b'\xF3\x2D'
@@ -17,37 +15,20 @@ class SHT30:
     CLEAR_STATUS_CMD = b'\x30\x41'
     ENABLE_HEATER_CMD = b'\x30\x6D'
     DISABLE_HEATER_CMD = b'\x30\x66'
-
-    def __init__(self, scl_pin=5, sda_pin=4, delta_temp=0, delta_hum=0, i2c_address=DEFAULT_I2C_ADDRESS):
-        self.i2c = I2C(scl=Pin(scl_pin), sda=Pin(sda_pin))
+    def __init__(self, i2c=i2c, delta_temp=0, delta_hum=0, i2c_address=DEFAULT_I2C_ADDRESS):
+        self.i2c = i2c
         self.i2c_addr = i2c_address
         self.set_delta(delta_temp, delta_hum)
         time.sleep_ms(50)
-
-    def init(self, scl_pin=5, sda_pin=4):
-        """
-        Init the I2C bus using the new pin values
-        """
-        self.i2c.init(scl=Pin(scl_pin), sda=Pin(sda_pin))
-
+    def init(self):
+        self.i2c.init()
     def is_present(self):
-        """
-        Return true if the sensor is correctly conneced, False otherwise
-        """
         return self.i2c_addr in self.i2c.scan()
-
     def set_delta(self, delta_temp=0, delta_hum=0):
-        """
-        Apply a delta value on the future measurements of temperature and/or humidity
-        The units are Celsius for temperature and percent for humidity (can be negative values)
-        """
         self.delta_temp = delta_temp
         self.delta_hum = delta_hum
-
     def _check_crc(self, data):
-        # calculates 8-Bit checksum with given polynomial
         crc = 0xFF
-
         for b in data[:-1]:
             crc ^= b
             for _ in range(8, 0, -1):
@@ -57,7 +38,6 @@ class SHT30:
                     crc <<= 1
         crc_to_check = data[-1]
         return crc_to_check == crc
-
     def send_cmd(self, cmd_request, response_size=6, read_delay_ms=100):
         try:
             self.i2c.start()
@@ -78,7 +58,6 @@ class SHT30:
             if 'I2C' in ex.args[0]:
                 raise SHT30Error(SHT30Error.BUS_ERROR)
             raise ex
-
     def clear_status(self):
         return self.send_cmd(SHT30.CLEAR_STATUS_CMD, None)
     def reset(self):
