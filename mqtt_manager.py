@@ -28,7 +28,7 @@ class MQTT_Manager(MQTTClient):
       user = self.CONFIG.get('username', None),
       password = self.CONFIG.get('password', None),
     )
-    self.broker.keepalive = 1000 # required for mosquitto v2
+    self.broker.keepalive = 3600 # required for mosquitto v2 
   
   def setup(self):
     with open("mqtt_manager.json", "w") as f:
