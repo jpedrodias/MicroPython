@@ -38,7 +38,7 @@ ampy -p /dev/ttyUSB0 put wlan_manager.py
 ```
 
 The first time you need to run the `setup()` function. This function will creat the file wlan_manager.json to store SSID and password
-```
+```python
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 
