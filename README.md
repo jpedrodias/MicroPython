@@ -58,7 +58,7 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 
-```
+```python
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 mqtt_client.setup() # creates mqtt_manager.json file to store your broker settings
@@ -66,7 +66,7 @@ print( "client_id:", mqtt_client.CONFIG["client_id"] )
 ````
 
 # WLAN and MQTT Manager :: main loop example
-```
+```python
 def reconnect():
   wlan_client.start()
   success = wlan_client.check() and mqtt_client.check()
@@ -105,7 +105,7 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 
 
 # Sensors Manager :: Using DHT22 (or DHT11) (temperature and humidity sensor)
-```
+```python
 from machine import Pin
 from time import sleep
 from board_manager import * # D1, ... , D8
@@ -121,7 +121,7 @@ while True:
 
 
 # Sensor Manager :: Using DS18B20 (temperature sensor)
-```
+```python
 from machine import Pin
 from time import sleep
 from board_manager import * # D1, ... , D8
@@ -137,7 +137,7 @@ while True:
 
 
 # Sensor Manager :: Using BMP085, BMP180 or BME280 (pressure, temperature and humidity sensor)
-```
+```python
 from machine import Pin, I2C
 from time import sleep
 from board_manager import * # D1, ... , D8
@@ -158,7 +158,7 @@ ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 
 
 # Sensor Manager :: Using HC-SR04 (UltraSonic distance sensor) 
-```
+```python
 from machine import Pin
 from time import sleep
 from board_manager import * # D1, ... , D8
@@ -174,7 +174,7 @@ while True:
 
 
 # Sensor Manager :: Using VL53L0X (Light distance sensor) 
-```
+```python
 from machine import Pin, I2C
 from time import sleep
 from board_manager import * # D1, ... , D8
@@ -191,7 +191,7 @@ while True:
 
 
 # Sensor Manager :: Using BH1750FVI (Lux sensor) 
-```
+```python
 from machine import Pin, I2C
 from time import sleep
 from sensor_manager import Sensor_BH1750FVI
