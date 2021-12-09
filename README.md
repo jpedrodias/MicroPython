@@ -1,4 +1,4 @@
-![MicroPython](micropythonpowered-art.png)
+![MicroPython](software/micropythonpowered-art.png)
 # MicroPython
 I build this tools to help me when using MicroPython (tested on Wemos D1 Mini - esp8266)
 
