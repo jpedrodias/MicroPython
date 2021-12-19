@@ -94,7 +94,6 @@ connected = reconnect()
 if connected:
   mqtt_client.send("debug", TOPIC_SUB)
   mqtt_client.send("debug", TOPIC_PUB)
-  mqtt_client.send("debug", app_name)
 ```
 
 
