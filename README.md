@@ -108,7 +108,7 @@ ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```python
 from machine import Pin
 from time import sleep
-from board_manager import * # D1, ... , D8
+from board_manager import D1 # D1, ... , D8
 from sensor_manager import Sensor_DHT22 # or DHT11
 
 sensor = Sensor_DHT22(D1)
@@ -124,7 +124,7 @@ while True:
 ```python
 from machine import Pin
 from time import sleep
-from board_manager import * # D1, ... , D8
+from board_manager import D1 # D1, ... , D8
 from sensor_manager import Sensor_DS18B20
 
 sensor = Sensor_DS18B20(D1)
@@ -140,7 +140,7 @@ while True:
 ```python
 from machine import Pin, I2C
 from time import sleep
-from board_manager import * # D1, ... , D8
+from board_manager import D1, D2 # D1, ... , D8
 from sensor_manager import Sensor_BME280 # Sensor_BME280 or Sensor_BMP180
 
 i2c = I2C(scl=Pin(D1), sda=Pin(D2))
@@ -161,7 +161,7 @@ ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 ```python
 from machine import Pin
 from time import sleep
-from board_manager import * # D1, ... , D8
+from board_manager import D1, D2 # D1, ... , D8
 from sensor_manager import Sensor_HCSR04
 
 sensor = Sensor_HCSR04(trigger=D1, echo=D2) # or sensor = Sensor_HCSR04(D1, D2)
@@ -177,7 +177,7 @@ while True:
 ```python
 from machine import Pin, I2C
 from time import sleep
-from board_manager import * # D1, ... , D8
+from board_manager import D1, D2 # D1, ... , D8
 from sensor_manager import Sensor_VL53L0X
 
 i2c = I2C(scl=Pin(D1), sda=Pin(D2))
@@ -194,6 +194,7 @@ while True:
 ```python
 from machine import Pin, I2C
 from time import sleep
+from board_manager import D1, D2 # D1, ... , D8
 from sensor_manager import Sensor_BH1750FVI
 
 i2c = I2C(scl=Pin(D1), sda=Pin(D2))
