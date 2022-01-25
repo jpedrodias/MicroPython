@@ -210,11 +210,12 @@ while True:
 # Sensor Manager :: Using PhotoGate
 ```python
 from micropython import const
+from sensor_manager import PhotoGate
 from board_manager import D7 as GATE_PIN
+
 GATE_MODE = const(0) # 0 for always on | 1 for always off
 DELAY_TIME = const(1)
 
-from sensor_manager import PhotoGate
 gate1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0
 while True:
   gate1.read()
