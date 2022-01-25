@@ -228,6 +228,7 @@ while True:
   time.sleep_us(DELAY_TIME)
 #End while loop
 ```
+[show example](examples/06 PhotoGate MicroPython.pdf)
 
 
 # License
