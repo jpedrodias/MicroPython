@@ -228,7 +228,7 @@ while True:
   time.sleep_us(DELAY_TIME)
 #End while loop
 ```
-[show example](./examples/06 PhotoGate MicroPython.pdf)
+<a href="./examples/06 PhotoGate MicroPython.pdf">show example</a>
 
 
 # License
