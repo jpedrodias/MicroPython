@@ -206,6 +206,29 @@ while True:
   sleep(1)
 ```
 
+
+# Sensor Manager :: Using PhotoGate
+```python
+from micropython import const
+from board_manager import D7 as GATE_PIN
+GATE_MODE = const(0) # 0 for always on | 1 for always off
+DELAY_TIME = const(1)
+
+from sensor_manager import PhotoGate
+gate1 = PhotoGate(GATE_PIN, mode=GATE_MODE) # mode = 1 | 0
+while True:
+  gate1.read()
+  if gate1.event_change_to(1):
+    gate1.start_time()
+  if gate1.event_change_to(0):
+    gate1.stop_time()
+    print(gate1.millis)
+  gate1.store()
+  time.sleep_us(DELAY_TIME)
+#End while loop
+```
+
+
 # License
 
 Any code placed here is released under the MIT License (MIT).  
