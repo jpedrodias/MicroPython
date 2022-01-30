@@ -1,4 +1,5 @@
-#changed from https://github.com/vjsyong/AHT10/blob/master/aht10.py
+# changed from https://github.com/vjsyong/AHT10/blob/master/aht10.py
+# https://github.com/targetblank/micropython_ahtx0/blob/master/ahtx0.py
 
 import time
 from math import log
