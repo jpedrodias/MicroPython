@@ -30,8 +30,7 @@ class MQTT_Manager(MQTTClient):
       'keepalive': self.CONFIG['keepalive']
     }
     if self.CONFIG.get('ssl', False):
-      args['ssl_params'] = {
-    }
+      args['ssl_params'] = {}
 
     self.broker = MQTTClient(self.CONFIG['client_id'], **args)
   
