@@ -19,21 +19,25 @@ class MQTT_Manager(MQTTClient):
       self.CONFIG = loads(f.read())
     
     self.CONFIG['client_id'] = '{}_{}'.format( chip_name, chip_uid )
-    username = self.CONFIG['client_id']
-    self.broker = MQTTClient(
-      client_id = self.CONFIG['client_id'],
-      server = self.CONFIG['broker'],
-      port = self.CONFIG['port'],
-      ssl = self.CONFIG['ssl'],
-      user = self.CONFIG.get('username', None),
-      password = self.CONFIG.get('password', None),
-    )
-    self.broker.keepalive = 3600 # required for mosquitto v2 
+    self.CONFIG['keepalive'] = 3600 # required for mosquitto v2
+    
+    args = {
+      'server': self.CONFIG['broker'],
+      'port': self.CONFIG['port'],
+      'ssl': self.CONFIG['ssl'],
+      'user': self.CONFIG.get('username', 'iot'),
+      'password': self.CONFIG.get('password', 'iot'),
+      'keepalive': self.CONFIG['keepalive']
+    }
+    if self.CONFIG.get('ssl', False):
+      args['ssl_params'] = {
+    }
+
+    self.broker = MQTTClient(self.CONFIG['client_id'], **args)
   
   def setup(self):
     with open("mqtt_manager.json", "w") as f:
-      f.write("""
-{
+      f.write("""{
   "broker": "broker.hivemq.com",
   "port": 1883,
   "ssl": false,
@@ -95,16 +99,20 @@ if __name__ == "__main__":
   print("MQTT config:")
   for i in mqtt_client.CONFIG:
     print("\t", i, ":", mqtt_client.CONFIG[i])
+
   TOPIC_SUB = mqtt_client.get_topic('control')
   TOPIC_PUB = mqtt_client.get_topic('status')
 
   mqtt_client.check()
-  msg = 'Connected to {} from {}'.format( mqtt_client.CONFIG['broker'] , mqtt_client.CONFIG['client_id'] ) 
-  print('Sending:', msg)
-
-  mqtt_client.send('debug' , msg)
-  msg = 'PUB {} SUB {}'.format( TOPIC_PUB , TOPIC_SUB ) 
-  mqtt_client.send('debug' , msg)
-  print(msg)
+  msgs = (
+    'Connected to {} from {}'.format( mqtt_client.CONFIG['broker'] , mqtt_client.CONFIG['client_id'] ),
+    'PUB {}'.format( TOPIC_PUB ),
+    'SUB {}'.format ( TOPIC_SUB )
+  )
+  for msg in msgs:
+    print(msg)
+    mqtt_client.send('debug' , msg)
+  del msgs
+  
   #mqtt_client.close()
 #end if main
