@@ -39,11 +39,12 @@ I built these tools to help me use MicroPython in my classroom
 
 # WLAN Manager :: Setup
 Send wlan_manager.py to board using:
-```
+```bash
 ampy -p /dev/ttyUSB0 put wlan_manager.py
 ```
 
 The first time you need to run the `setup()` function. This function will creat the file wlan_manager.json to store SSID and password
+Sample code:
 ```python
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
@@ -59,12 +60,12 @@ wlan_client.start('HOME', 'password') # Start using this ssid and password
 
 # MQTT Manager :: Setup
 Send mqtt_manager.py and <b>mqtt_manager.json</b> (change here your mqtt setting before send) to board using:
-```
+```bash
 ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 
-Install dependencies:
+Install dependencies on mcu:
 ```python
 import mip
 mip.install('umqtt.robust')
@@ -72,6 +73,7 @@ mip.install('umqtt.simple')
 mip.install('ssd1306')
 ```
 
+Sample code:
 ```python
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
@@ -83,6 +85,7 @@ print( "client_id:", mqtt_client.CONFIG["client_id"] )
 ````
 
 # WLAN and MQTT Manager :: main loop example
+Sample code:
 ```python
 def reconnect():
   wlan_client.start()
@@ -115,12 +118,13 @@ if connected:
 
 # Sensor Manager :: Setup
 Send sensor_manager.py to board using:
-```
+```bash
 ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```
 
 
 # Sensors Manager :: Using DHT22 (or DHT11) (temperature and humidity sensor)
+Sample code:
 ```python
 from machine import Pin
 from time import sleep
@@ -137,6 +141,7 @@ while True:
 
 
 # Sensor Manager :: Using DS18B20 (temperature sensor)
+Sample code:
 ```python
 from machine import Pin
 from time import sleep
@@ -153,6 +158,7 @@ while True:
 
 
 # Sensor Manager :: Using BMP085, BMP180 or BME280 (pressure, temperature and humidity sensor)
+Sample code:
 ```python
 from machine import Pin, I2C
 from time import sleep
@@ -168,12 +174,13 @@ while True:
   sleep(1)
 ```
 Note: also need to put the file `bme280.py` (or `bme280.mpy`) in the root folder using: 
-```
+```bash
 ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 ```
 
 
 # Sensor Manager :: Using HC-SR04 (UltraSonic distance sensor) 
+Sample code:
 ```python
 from machine import Pin
 from time import sleep
@@ -190,6 +197,7 @@ while True:
 
 
 # Sensor Manager :: Using VL53L0X (Light distance sensor) 
+Sample code:
 ```python
 from machine import Pin, I2C
 from time import sleep
@@ -207,6 +215,7 @@ while True:
 
 
 # Sensor Manager :: Using BH1750FVI (Lux sensor) 
+Sample code:
 ```python
 from machine import Pin, I2C
 from time import sleep
@@ -224,6 +233,7 @@ while True:
 
 
 # Sensor Manager :: Using PhotoGate
+Sample code:
 ```python
 from micropython import const
 from sensor_manager import PhotoGate
