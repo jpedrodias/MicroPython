@@ -64,6 +64,14 @@ ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 
+Install dependencies:
+```python
+import mip
+mip.install('umqtt.robust')
+mip.install('umqtt.simple')
+mip.install('ssd1306')
+```
+
 ```python
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
