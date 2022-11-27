@@ -57,7 +57,7 @@ for i in range(10):
     sleep(0.5)
 ```
 
-Sample code to use StatusLD:
+Sample code to use StatusLED:
 ```python 
 from time import sleep
 from board_manager import D6, StatusLED
