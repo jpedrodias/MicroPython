@@ -45,22 +45,22 @@ def mqtt_callback(topic, msg):
   status[ object ] = value
   return True
   
-PREFIX = "Presonal"
-TOPIC_SUB = "/".join( [PREFIX, mqtt_client.get_topic("control"), "#"] ) #Canal onde recebe e interpreta as mensagens
-TOPIC_PUB = "/".join( [PREFIX, mqtt_client.get_topic("status") ] ) #Canal onde manda as mensagens
+TOPIC_SUB = mqtt_client.get_topic("control") + '/#' #Canal onde recebe e interpreta as mensagens
+TOPIC_PUB = mqtt_client.get_topic("status")  #Canal onde manda as mensagens
 chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
+delay = mqtt_client.CONFIG.get("delay", 60)
+
 mqtt_client.broker.set_callback(mqtt_callback)
 
 print( "client_id:", mqtt_client.CONFIG["client_id"] ) #Para saber o client_id
 
 connected = reconnect()
 if connected:
-  mqtt_client.send("debug message", TOPIC_SUB)
-  mqtt_client.send("debug message", TOPIC_PUB)
-
+  mqtt_client.send('debug', TOPIC_PUB)
+  mqtt_client.send(TOPIC_PUB, TOPIC_PUB)
 
 # Ligação aos LEDs
-G = Pin(D7, Pin.OUT, value=0)
+G = Pin(D4, Pin.OUT, value=0)
 Y = Pin(D6, Pin.OUT, value=0)
 R = Pin(D5, Pin.OUT, value=0)
 
@@ -68,19 +68,26 @@ objects = [G, Y, R]
 status = [object.value() for object in objects]
 last_status = [0 for i in range(len(objects))]
 
+t1, t2, talk = 0, 0, False
 while True:
+  t1 = time.ticks_ms()
   sucess = mqtt_client.check_msg()
   if not sucess:
     sucess = mqtt_client.check()
     if not sucess: 
-      sucess = reconnect()  
+      sucess = reconnect()
   
+  if chatty_client and (t2-t1) > delay * 1000:
+      talk = True
   for i in range(len(objects)):
-    if status[i] != last_status[i]:
+    if  status[i] != last_status[i] or talk:
       print("Data Changed")
       objects[i].value( status[i] )
       topic = "{}/{}".format( TOPIC_PUB, i )
       data = dumps( status[i] )
       mqtt_client.send( topic, data ) # reports back status
       last_status[i] = status[i]
-  sleep(1)
+      talk = False
+  sleep(0.2)
+  t2 = time.ticks_ms()
+
