@@ -47,22 +47,27 @@ ampy -p /dev/ttyUSB0 put board_manager.py
 Sample code to get GPIO:
 ```python
 from machine import Pin
-from board_manager import D4 # D0 to D8
+from time import sleep
+from board_manager import D6
+
+led = Pin(D6, Pin.OUT)
     
-led = Pin(D4, Pin.OUT)
 for i in range(10):
     led.value(i % 2)
-
+    sleep(0.5)
 ```
 
 Sample code to use StatusLD:
 ```python 
-from board_manager import D4, StatusLED
-led = StatusLED(D4)
+from time import sleep
+from board_manager import D6, StatusLED
+
+led = StatusLED(D6)
 led.on()
     
 for i in range(10):
     led.toggle()
+    sleep(0.5)
 ```
 
 Sample code to use NTP:
