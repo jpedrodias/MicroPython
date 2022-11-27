@@ -47,9 +47,9 @@ Sample code to get GPIO:
 ```python
 from machine import Pin
 from time import sleep
-from board_manager import D6
+from board_manager import D4
 
-led = Pin(D6, Pin.OUT)
+led = Pin(D4, Pin.OUT)
     
 for i in range(10):
     led.value(i % 2)
@@ -59,9 +59,9 @@ for i in range(10):
 Sample code to use StatusLED:
 ```python 
 from time import sleep
-from board_manager import D6, StatusLED
+from board_manager import D4, StatusLED
 
-led = StatusLED(D6)
+led = StatusLED(D4)
 led.on()
     
 for i in range(10):
