@@ -37,6 +37,45 @@ I built these tools to help me use MicroPython in my classroom
 </table>
 
 
+# Board Manager
+The board_manager has some useful tools and the GPIO map.
+
+Send board_manager.py to board using:
+```bash
+ampy -p /dev/ttyUSB0 put board_manager.py
+```  
+Sample code to get GPIO:
+```python
+from machine import Pin
+from board_manager import D4 # D0 to D8
+    
+led = Pin(D4, Pin.OUT)
+for i in range(10):
+    led.value(i % 2)
+
+```
+
+Sample code to use StatusLD:
+```python 
+from board_manager import D4, StatusLED
+led = StatusLED(D4)
+led.on()
+    
+for i in range(10):
+    led.toggle()
+```
+
+Sample code to use NTP:
+```python 
+import ntptime # ntptime.settime()
+ntptime.host = 'ntp02.oal.ul.pt'
+    
+from board_manager import NTPClock as Clock
+clock = Clock()
+print(clock)
+```
+
+    
 # WLAN Manager :: Setup
 Send wlan_manager.py to board using:
 ```bash
