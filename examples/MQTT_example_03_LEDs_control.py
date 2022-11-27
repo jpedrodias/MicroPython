@@ -1,12 +1,24 @@
 from time import sleep, sleep_ms
 from machine import Pin
-from board_manager import *
-from wlan_manager import WLAN_Manager
-from mqtt_manager import MQTT_Manager
 from json import dumps, loads
 
+import ntptime
+ntptime.host = 'ntp02.oal.ul.pt'
+
+from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
+
+from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
+
+from board_manager import D4, D3, D2, NTPClock as Clock
+clock = Clock()
+
+# Ligação aos LEDs
+G = Pin(D4, Pin.OUT, value=0)
+Y = Pin(D3, Pin.OUT, value=0)
+R = Pin(D2, Pin.OUT, value=0)
+objects = [G, Y, R]
 
 def reconnect():
   print("WiFi Connection")
@@ -44,7 +56,7 @@ def mqtt_callback(topic, msg):
   
   status[ object ] = value
   return True
-  
+
 TOPIC_SUB = mqtt_client.get_topic("control") + '/#' #Canal onde recebe e interpreta as mensagens
 TOPIC_PUB = mqtt_client.get_topic("status")  #Canal onde manda as mensagens
 chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
@@ -59,28 +71,19 @@ if connected:
   mqtt_client.send('debug', TOPIC_PUB)
   mqtt_client.send(TOPIC_PUB, TOPIC_PUB)
 
-# Ligação aos LEDs
-G = Pin(D4, Pin.OUT, value=0)
-Y = Pin(D6, Pin.OUT, value=0)
-R = Pin(D5, Pin.OUT, value=0)
 
-objects = [G, Y, R]
 status = [object.value() for object in objects]
 last_status = [0 for i in range(len(objects))]
 
-t1, t2, talk = 0, 0, False
 while True:
-  t1 = time.ticks_ms()
   sucess = mqtt_client.check_msg()
   if not sucess:
     sucess = mqtt_client.check()
     if not sucess: 
       sucess = reconnect()
-  
-  if chatty_client and (t2-t1) > delay * 1000:
-      talk = True
+      
   for i in range(len(objects)):
-    if  status[i] != last_status[i] or talk:
+    if  status[i] != last_status[i]:
       print("Data Changed")
       objects[i].value( status[i] )
       topic = "{}/{}".format( TOPIC_PUB, i )
@@ -88,6 +91,6 @@ while True:
       mqtt_client.send( topic, data ) # reports back status
       last_status[i] = status[i]
       talk = False
-  sleep(0.2)
-  t2 = time.ticks_ms()
+  sleep(1)
+  print(status, clock)
 
