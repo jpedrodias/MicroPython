@@ -92,5 +92,3 @@ while True:
       last_status[i] = status[i]
       talk = False
   sleep(1)
-  print(status, clock)
-
