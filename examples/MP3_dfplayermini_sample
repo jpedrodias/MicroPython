@@ -1,0 +1,40 @@
+from dfplayermini import Player
+from machine import Pin
+
+from time import sleep
+
+print("The MicroPython MP3 Player!!!")
+
+player = Player(0, pin_TX=16, pin_RX=17)
+player.volume(10)
+
+player_status = 0
+player_song = 1
+def manage_player(song):
+    global player_status
+    if player_status == 1:
+        player_status = 0
+        player.pause()
+    else:
+        player_status = 1
+        player.play(song)   
+
+def btn1_pressed(change):
+    global player_song
+    player_song = 1
+    manage_player(player_song)
+    
+def btn2_pressed(change):
+    global player_song
+    player_song += 1
+    manage_player(player_song)  
+    
+btn1 = Pin(19, Pin.IN)
+btn1.irq(handler=btn1_pressed, trigger=Pin.IRQ_FALLING)
+
+btn2 = Pin(18, Pin.IN)
+btn2.irq(handler=btn2_pressed, trigger=Pin.IRQ_FALLING)
+
+
+while True:
+    sleep(0.1)
