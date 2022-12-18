@@ -1,3 +1,4 @@
+# filename: main.py
 from dfplayermini import Player
 from machine import Pin
 
