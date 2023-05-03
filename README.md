@@ -273,6 +273,7 @@ while True:
   print(sensor.values, sensor.values_dict)
   sleep(1)
 ```
+Address is `0x23` (Low) or `0x5c` (High)   
 
 
 # Sensor Manager :: Using PhotoGate
