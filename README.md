@@ -266,7 +266,7 @@ from board_manager import D1, D2 # D1, ... , D8
 from sensor_manager import Sensor_BH1750FVI
 
 i2c = I2C(scl=Pin(D1), sda=Pin(D2))
-sensor = Sensor_BH1750FVI(i2c=i2c, address=0x23) # to find address use i2c.scan()
+sensor = Sensor_BH1750FVI(i2c=i2c, address=0x23) # or 0x5c # to find address use i2c.scan()
 
 while True:
   sensor.read()
