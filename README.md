@@ -17,7 +17,7 @@ I built these tools to help me use MicroPython in my classroom
 
 
 *NOTE*: I created a custom version of MicroPython already with this files built in (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager). 
-(You will find that custom version in the folder "<a href="conpiled">compiled</a>" )
+(You will find that custom version in the folder "<a href="compiled">compiled</a>" )
 
 # Wemos D1 mini :: GPIO MAP
 <table>
