@@ -1,23 +1,26 @@
 from neopixel import NeoPixel
 from machine import Pin
 from time import sleep
-from board_manager import D3
+from board_manager import D7
 
-class Colors:
+class Color:
     # RGB - Red, Green, Blue
-    brightness = 50
-    RED = (255*brightness, 0, 0)
-    GREEN = (0, 255*brightness, 0)
-    BLUE = (0, 0, 255*brightness)
-    BLACK = (0,0,0)
+    brightness = 50 # 0 - 255
+    R = (brightness, 0, 0)
+    G = (0, brightness, 0)
+    B = (0, 0, brightness)
+    BK = (0,0,0)
     
-neo = NeoPixel(Pin(D3), 1)
-neo.fill(Colors.BLACK)
+neo = NeoPixel(Pin(D7), 1)
+neo.fill(Color.BK)
 neo.write()
 
 PAUSE = 0.5 # CHANGE THIS VALUE
 DURATION = 10 # seconds
-colors = [Colors.RED, Colors.GREEN, Colors.BLUE]
+colors = [Color.R, Color.G, Color.B]
+#colors = [Color.R, Color.G]
+#colors = [Color.G, Color.B]
+#colors = [Color.R, Color.G]
 ncolors = len(colors)
 
 for i in range(int(DURATION / PAUSE)):
@@ -25,6 +28,5 @@ for i in range(int(DURATION / PAUSE)):
   neo.write()
   sleep(PAUSE)
 
-neo.fill(Colors.BLACK)
+neo.fill(Color.BK)
 neo.write()
-

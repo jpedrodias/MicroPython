@@ -6,6 +6,8 @@
 I built these tools to help me use MicroPython in my classroom 
 (This was tested on Wemos D1 Mini - ESP8266)
 
+*NOTE*: You will find a custom version of MicroPython already with this files built in (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager) in the folder "<a href="conpiled">compiled</a>" 
+
 # Contents
 <ul>
   <li>how to use WLAN Manager</li>
@@ -18,6 +20,7 @@ I built these tools to help me use MicroPython in my classroom
 
 *NOTE*: I created a custom version of MicroPython already with this files built in (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager). 
 (You will find that custom version in the folder "<a href="compiled">compiled</a>" )
+
 
 # Wemos D1 mini :: GPIO MAP
 <table>
@@ -37,13 +40,58 @@ I built these tools to help me use MicroPython in my classroom
 </table>
 
 
+# Board Manager
+The board_manager has some useful tools and the GPIO map.
+
+Send board_manager.py to board using:
+```bash
+ampy -p /dev/ttyUSB0 put board_manager.py
+```  
+Sample code to get GPIO:
+```python
+from machine import Pin
+from time import sleep
+from board_manager import D4
+
+led = Pin(D4, Pin.OUT)
+    
+for i in range(10):
+    led.value(i % 2)
+    sleep(0.5)
+```
+
+Sample code to use StatusLED:
+```python 
+from time import sleep
+from board_manager import D4, StatusLED
+
+led = StatusLED(D4)
+led.on()
+    
+for i in range(10):
+    led.toggle()
+    sleep(0.5)
+```
+
+Sample code to use NTP:
+```python 
+import ntptime # ntptime.settime()
+ntptime.host = 'ntp02.oal.ul.pt'
+    
+from board_manager import NTPClock as Clock
+clock = Clock()
+print(clock)
+```
+
+    
 # WLAN Manager :: Setup
 Send wlan_manager.py to board using:
-```
+```bash
 ampy -p /dev/ttyUSB0 put wlan_manager.py
 ```
 
 The first time you need to run the `setup()` function. This function will creat the file wlan_manager.json to store SSID and password
+Sample code:
 ```python
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
@@ -59,19 +107,32 @@ wlan_client.start('HOME', 'password') # Start using this ssid and password
 
 # MQTT Manager :: Setup
 Send mqtt_manager.py and <b>mqtt_manager.json</b> (change here your mqtt setting before send) to board using:
-```
+```bash
 ampy -p /dev/ttyUSB0 put mqtt_manager.py
 ampy -p /dev/ttyUSB0 put mqtt_manager.json
 ```
 
+Install dependencies on mcu:
+```python
+import mip
+mip.install('umqtt.robust')
+mip.install('umqtt.simple')
+mip.install('ssd1306')
+```
+
+Sample code:
 ```python
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 mqtt_client.setup() # creates mqtt_manager.json file to store your broker settings
+
+mqtt_client.check()
+mqtt_client.send("debug", "Hello World")
 print( "client_id:", mqtt_client.CONFIG["client_id"] )
 ````
 
 # WLAN and MQTT Manager :: main loop example
+Sample code:
 ```python
 def reconnect():
   wlan_client.start()
@@ -104,12 +165,13 @@ if connected:
 
 # Sensor Manager :: Setup
 Send sensor_manager.py to board using:
-```
+```bash
 ampy -p /dev/ttyUSB0 put sensors_manager.py
 ```
 
 
 # Sensors Manager :: Using DHT22 (or DHT11) (temperature and humidity sensor)
+Sample code:
 ```python
 from machine import Pin
 from time import sleep
@@ -126,6 +188,7 @@ while True:
 
 
 # Sensor Manager :: Using DS18B20 (temperature sensor)
+Sample code:
 ```python
 from machine import Pin
 from time import sleep
@@ -142,6 +205,7 @@ while True:
 
 
 # Sensor Manager :: Using BMP085, BMP180 or BME280 (pressure, temperature and humidity sensor)
+Sample code:
 ```python
 from machine import Pin, I2C
 from time import sleep
@@ -157,12 +221,13 @@ while True:
   sleep(1)
 ```
 Note: also need to put the file `bme280.py` (or `bme280.mpy`) in the root folder using: 
-```
+```bash
 ampy -p /dev/ttyUSB0 put bme280.py bme280.py
 ```
 
 
 # Sensor Manager :: Using HC-SR04 (UltraSonic distance sensor) 
+Sample code:
 ```python
 from machine import Pin
 from time import sleep
@@ -179,6 +244,7 @@ while True:
 
 
 # Sensor Manager :: Using VL53L0X (Light distance sensor) 
+Sample code:
 ```python
 from machine import Pin, I2C
 from time import sleep
@@ -196,6 +262,7 @@ while True:
 
 
 # Sensor Manager :: Using BH1750FVI (Lux sensor) 
+Sample code:
 ```python
 from machine import Pin, I2C
 from time import sleep
@@ -203,16 +270,18 @@ from board_manager import D1, D2 # D1, ... , D8
 from sensor_manager import Sensor_BH1750FVI
 
 i2c = I2C(scl=Pin(D1), sda=Pin(D2))
-sensor = Sensor_BH1750FVI(i2c=i2c, address=0x23) # to find address use i2c.scan()
+sensor = Sensor_BH1750FVI(i2c=i2c, address=0x23) # or 0x5c # to find address use i2c.scan()
 
 while True:
   sensor.read()
   print(sensor.values, sensor.values_dict)
   sleep(1)
 ```
+Address is `0x23` (Low) or `0x5c` (High)   
 
 
 # Sensor Manager :: Using PhotoGate
+Sample code:
 ```python
 from micropython import const
 from sensor_manager import PhotoGate
