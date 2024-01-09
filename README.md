@@ -2,11 +2,10 @@
 # MicroPython
 > MicroPython is a full Python compiler and runtime that runs on the bare-metal. You get an interactive prompt (the REPL) to execute commands immediately, along with the ability to run and import scripts from the built-in filesystem. The REPL has history, tab completion, auto-indent and paste mode for a great user experience.
 
-
 I built these tools to help me use MicroPython in my classroom 
 (This was tested on Wemos D1 Mini - ESP8266)
 
-*NOTE*: You will find a custom version of MicroPython already with this files built in (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager) in the folder "<a href="conpiled">compiled</a>" 
+*NOTE*: You will find a custom version of MicroPython already with this files built in (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager) in the folder <a href=compiled>compiled</a> with instructions.
 
 # Contents
 <ul>
@@ -19,7 +18,7 @@ I built these tools to help me use MicroPython in my classroom
 
 
 *NOTE*: I created a custom version of MicroPython already with this files built in (wlan_manager, mqtt_manager, sensor_manager, board_manager and robot_manager). 
-(You will find that custom version in the folder "<a href="compiled">compiled</a>" )
+(You will find that custom version in the folder "<a href="compiled">compiled</a>" with instructions explaining how to install it)
 
 
 # Wemos D1 mini :: GPIO MAP
@@ -302,8 +301,7 @@ while True:
   time.sleep_us(DELAY_TIME)
 #End while loop
 ```
-<a href="./examples/06 PhotoGate MicroPython.pdf">show example</a>
-
+<a href="./examples/06 PhotoGate MicroPython.pdf">see an example</a>
 
 # License
 
