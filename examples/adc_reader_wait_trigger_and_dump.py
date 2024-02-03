@@ -3,6 +3,7 @@ from time import ticks_ms, ticks_us, ticks_cpu, sleep, sleep_us
 from gc import mem_free, collect
 collect()
 
+
 def change_trigger(pin):
     global TRIGGER
     TRIGGER = True
@@ -13,6 +14,7 @@ BUFFER_SIZE = 10000  # Limited by amount of RAM
 TRIGGER = False      # Not a constante but a GLOBAL
 buffer_data = [0 for _ in range(BUFFER_SIZE)]
 buffer_time = [0 for _ in range(BUFFER_SIZE)]
+
 
 # STEP 0: Hardware configurations
 adc = ADC(0)
@@ -45,15 +47,16 @@ for i in range(BUFFER_SIZE):
     sleep_us(1)
 #BACKGROUND_NOISE = 0
 
+
 # STEP 2: Wait for trigger - IRQ on signal (voltage from sensor) FALLING
 print("Waiting for release")
-#while TRIGGER==False:
-#    pass
+while TRIGGER==False:
+    pass
 
 
 # STEP 3: Second waiting while below noise levels
-#while adc.read_u16() < BACKGROUND_NOISE:
-#    pass
+while adc.read_u16() < BACKGROUND_NOISE:
+    pass
 
 
 # STEP 4: Active recording
@@ -71,7 +74,7 @@ print('Valor lido:', max_read)
 # STEP 5: Dump data to Serial Port
 from json import dumps
 for i in range(BUFFER_SIZE):
-    break
+    #break
     data = {
         'i': i,
         'time': buffer_time[i],
@@ -80,6 +83,7 @@ for i in range(BUFFER_SIZE):
     payload = dumps(data)
     print(payload)
 
+# Check total duration
 data = {
     'time_i': buffer_time[0],
     'data_i': buffer_data[0],
@@ -89,6 +93,10 @@ data = {
 payload = dumps(data)
 print(payload)
 
+
 total_time = buffer_time[-1] - buffer_time[0]
 print("Reading time:", total_time, total_time // 1000 )
 
+del payload, data, max_read
+del buffer_time, buffer_data
+collect()
