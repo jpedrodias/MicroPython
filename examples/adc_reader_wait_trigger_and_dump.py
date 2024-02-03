@@ -18,7 +18,7 @@ buffer_time = [0 for _ in range(BUFFER_SIZE)]
 
 # STEP 0: Hardware configurations
 adc = ADC(0)
-adc.atten(ADC.ATTN_11DB) # 
+adc.atten(ADC.ATTN_11DB) # Change this carefully
 # ADC.ATTN_0DB    : No attenuation (100mV - 950mV)
 # ADC.ATTN_2_5DB  : 2.5dB attenuation (100mV - 1250mV)
 # ADC.ATTN_6DB    : 6dB attenuation (150mV - 1750mV)
