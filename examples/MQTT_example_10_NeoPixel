@@ -7,9 +7,10 @@ gc.enable()
 # Connection to NeoPixel
 from machine import Pin
 from neopixel import NeoPixel
+from board_manager import D2
 np_size = 7
-np_pin = Pin( 16, Pin.OUT)
-np = NeoPixel( np_pin, np_size )
+np_pin = Pin(D2, Pin.OUT)
+np = NeoPixel(np_pin, np_size)
 
 # Connection to Internet
 from wlan_manager import WLAN_Manager
