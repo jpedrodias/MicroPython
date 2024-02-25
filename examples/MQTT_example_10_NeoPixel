@@ -9,12 +9,13 @@ from machine import Pin
 from neopixel import NeoPixel
 from board_manager import D2
 np_size = 7
-np_pin = Pin(D2, Pin.OUT)
-np = NeoPixel(np_pin, np_size)
+np_pin = Pin( D2, Pin.OUT)
+np = NeoPixel( np_pin, np_size )
 
 # Connection to Internet
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
+#wlan_client.setup("ATLANTICO", "oceano12")
 wlan_client.start()
 
 # Helper to reconnect 
@@ -46,8 +47,8 @@ def mqtt_callback(topic, msg):
   
   color = False  
   if 'RGB' in data:
-    color = get_rgb_colors(data)  
-  else:
+    color = get_rgb_colors(data)
+  elif 'R' in data:
     color = get_colors(data)
 
   if color:
@@ -80,6 +81,9 @@ def get_colors(rgb):
   return (r, g, b)
 
 def int_mod(value, base=10, mod=256):
+  if isinstance(value, int):
+    return value % mod
+  
   new_value = 0
   try:
     new_value = int(value, base) % mod
