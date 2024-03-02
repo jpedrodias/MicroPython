@@ -16,7 +16,7 @@ mqtt_client = MQTT_Manager()
 
 # NTP - Network Time Protocol
 ntptime.host = 'pool.ntp.org'
-ntptime_query_delay = 3600000 # 1h
+ntptime_query_delay = 3600000 * 24 # 1h
 ntptime_last_update = time.ticks_ms() - ntptime_query_delay
 
 # I2C - Inter-Integrated Circuit Protocol
@@ -73,6 +73,14 @@ print( 'MQTT PUB:', TOPIC_PUB)
 # Main Loop
 gc.collect()
 print('Setup Done')
+
+sensors_data = {
+  'localtime': "",
+  'bme280': {},
+  'soil_moisture': {},
+  'ds18b20': {}
+}
+    
 while True:
     ti = time.ticks_ms()
     connected = mqtt_client.check_msg()
@@ -80,13 +88,7 @@ while True:
         connected = reconnect()
         sleep(1)
         continue
-    
-    sensors_data = {
-      'localtime': "",
-      'bme280': {},
-      'soil_moisture': {},
-      'ds18b20': {}
-    }
+
     sensor_bme280.read()
     t, h, p = sensor_bme280.values
     sensors_data['bme280'] = {'t': t, 'h': h, 'p': p}
@@ -100,7 +102,8 @@ while True:
     
     # Publish to MQTT Broker
     status = mqtt_client.send(TOPIC_PUB, json.dumps(sensors_data))
-    print(status, sensors_data)
+    print(sensors_data)
+    if not status: print('Warning: data not send!')
 
     # Update Internal clock
     status = ntptime_update()
