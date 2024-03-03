@@ -66,7 +66,37 @@ def reconnect():
   return success
 
 def mqtt_callback(topic, msg):
-    print('MSG! Topic: {}; Data {}'.format(topic, msg))
+ print('MSG! Topic: {}; Data {}'.format(topic, msg))
+   
+def sensores_publish():
+  global gc, time
+  global USE_SENSOR_BME280, USE_SENSOR_SOIL_M, USE_SENSOR_DS18B20
+  global mqtt_client, sensor_bme280, sensor_soil_h, sensor_ds18b20
+  global localtime, sensors_data
+  
+  if USE_SENSOR_BME280:
+    sensor_bme280.read()
+    sensors_data['bme280'] = sensor_bme280.values_dict
+    
+  if USE_SENSOR_SOIL_M:
+    sensor_soil_h.read()
+    sensors_data['soil_moisture'] = sensor_soil_h.values_dict
+    
+  if USE_SENSOR_DS18B20:
+    sensor_ds18b20.read()
+    sensors_data['ds18b20'] = sensor_ds18b20.values_dict
+      
+  localtime = time.localtime()
+  sensors_data['localtime'] = "{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}".format(*localtime)
+  sensors_data['mem_free'] = gc.mem_free()
+    
+  # Publish to MQTT Broker
+  status = mqtt_client.send(TOPIC_PUB, json.dumps(sensors_data))
+  print(sensors_data)
+  if not status:
+    print('Warning: data not send!')
+  
+  return status
 
 
 # MQTT Global Variables
@@ -86,50 +116,36 @@ print( 'MQTT PUB:', TOPIC_PUB)
 gc.collect()
 print('Setup Done')
 
-sensors_data = {'localtime': "", 'mem_free': 0}
-if USE_SENSOR_BME280: sensors_data['bme280'] = {}
-if USE_SENSOR_SOIL_M: sensors_data['soil_moisture'] = {}
+sensors_data = {'localtime': "", 'mem_free': gc.mem_free()}
+if USE_SENSOR_BME280:  sensors_data['bme280'] = {}
+if USE_SENSOR_SOIL_M:  sensors_data['soil_moisture'] = {}
 if USE_SENSOR_DS18B20: sensors_data['ds18b20'] = {}
-    
+localtime = time.localtime()
+
 while True:
-    ti = time.ticks_ms()
+  t_start = time.ticks_ms()
+  connected = mqtt_client.check_msg()
+  if not connected:
+    connected = reconnect()
+    sleep(1)
+    continue
+  
+  status = sensores_publish() # Main Job
+  status = ntptime_update()   # Optional
+  
+  # Fancy Waiting Loop
+  t_end = time.ticks_ms()
+  # Drift to 00 seconds
+  drift = 1000 + t_end % 1000 if localtime[5] % mqtt_chat_delay != 0 else 0
+  #delta_t = time.ticks_diff(t_end, t_start)
+  while time.ticks_diff(time.ticks_ms(), t_start) <= mqtt_chat_delay * 1000 - drift:
+    #time.sleep_ms(mqtt_chat_delay * 1000 - delta_t - drift)
     connected = mqtt_client.check_msg()
     if not connected:
       connected = reconnect()
       sleep(1)
       continue
-    
-    if USE_SENSOR_BME280:
-      sensor_bme280.read()
-      sensors_data['bme280'] = sensor_bme280.values_dict
-    
-    if USE_SENSOR_SOIL_M:
-      sensor_soil_h.read()
-      sensors_data['soil_moisture'] = sensor_soil_h.values_dict
-    
-    if USE_SENSOR_DS18B20:
-      sensor_ds18b20.read()
-      sensors_data['ds18b20'] = sensor_ds18b20.values_dict
-      
-    localtime = time.localtime()
-    sensors_data['localtime'] = "{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}".format(*localtime)
-    sensors_data['mem_free'] = gc.mem_free()
-    
-    # Publish to MQTT Broker
-    status = mqtt_client.send(TOPIC_PUB, json.dumps(sensors_data))
-    print(sensors_data)
-    if not status: print('Warning: data not send!')
-
-    # Update Internal clock
-    status = ntptime_update()
-    
-    # Drift to 00 seconds
-    drift = 1000 if localtime[5] % mqtt_chat_delay != 0 else 0
-    if drift:
-      print("Drifting", drift)
-      #print(round(time.ticks_ms() / 1000), localtime[5], localtime[5] % mqtt_chat_delay)
-    
-    tf = time.ticks_ms()
-    delta_t = time.ticks_diff(tf, ti)
-    time.sleep_ms(mqtt_chat_delay * 1000 - delta_t - drift)
+    time.sleep_ms(10)
+  #print(time.ticks_ms())
+#end main loop
 
