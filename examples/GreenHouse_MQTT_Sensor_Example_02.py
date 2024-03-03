@@ -101,7 +101,7 @@ while True:
     
     if USE_SENSOR_BME280:
       sensor_bme280.read()
-      sensors_data['bme280'] = sensor_bme280.values
+      sensors_data['bme280'] = sensor_bme280.values_dict
     
     if USE_SENSOR_SOIL_M:
       sensor_soil_h.read()
