@@ -143,7 +143,7 @@ while True:
     connected = mqtt_client.check_msg()
     if not connected:
       connected = reconnect()
-      sleep(1)
+      time.sleep(1)
       continue
     time.sleep_ms(10)
   #print(time.ticks_ms())
