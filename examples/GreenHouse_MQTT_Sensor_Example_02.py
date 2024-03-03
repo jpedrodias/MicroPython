@@ -4,6 +4,9 @@ import time    # sleep, sleep_me, ticks_ms, ticks_diff
 import ntptime # host
 import json    # loads, dumps
 
+USE_SENSOR_BME280 = True
+USE_SENSOR_SOIL_M = True
+USE_SENSOR_DS18B20= False
 
 # WLAN - Wireless Local Area Network
 from wlan_manager import WLAN_Manager
@@ -20,14 +23,23 @@ ntptime_query_delay = 3600000 * 24 # 1h
 ntptime_last_update = time.ticks_ms() - ntptime_query_delay
 
 # I2C - Inter-Integrated Circuit Protocol
-PIN_SCL, PIN_SDA = 9, 8
-i2c = machine.I2C(id=0, scl=machine.Pin(PIN_SCL), sda=machine.Pin(PIN_SDA))
-from sensor_manager import Sensor_BME280
-sensor_bme280 = Sensor_BME280(i2c=i2c, address=0x76)
+if USE_SENSOR_BME280:
+    PIN_I2C_SCL, PIN_I2C_SDA = 9, 8
+    i2c = machine.I2C(id=0, scl=machine.Pin(PIN_I2C_SCL), sda=machine.Pin(PIN_I2C_SDA))
+    from sensor_manager import Sensor_BME280
+    sensor_bme280 = Sensor_BME280(i2c=i2c, address=0x76)
 
 # ADC - Analogue Digital Converter
-from sensor_manager import Sensor_ADC
-sensor_soil_h = Sensor_ADC(0)
+if USE_SENSOR_SOIL_M:
+    from sensor_manager import Sensor_ADC
+    sensor_soil_h = Sensor_ADC(0)
+
+# DS18B20 - One Wire Protocol
+if USE_SENSOR_DS18B20:
+    from sensor_manager import Sensor_DS18B20
+    PIN_OneWire = 17
+    sensor_ds18b20 = Sensor_DS18B20(PIN_OneWire)
+
 
 # GC - Garbage Collector attempts to reclaim memory
 gc.enable()
@@ -74,29 +86,31 @@ print( 'MQTT PUB:', TOPIC_PUB)
 gc.collect()
 print('Setup Done')
 
-sensors_data = {
-  'localtime': "",
-  'bme280': {},
-  'soil_moisture': {},
-  'ds18b20': {}
-}
+sensors_data = {'localtime': ""}
+if USE_SENSOR_BME280: sensors_data['bme280'] = {}
+if USE_SENSOR_SOIL_M: sensors_data['soil_moisture'] = {}
+if USE_SENSOR_DS18B20: sensors_data['ds18b20'] = {}
     
 while True:
     ti = time.ticks_ms()
     connected = mqtt_client.check_msg()
     if not connected:
-        connected = reconnect()
-        sleep(1)
-        continue
-
-    sensor_bme280.read()
-    t, h, p = sensor_bme280.values
-    sensors_data['bme280'] = {'t': t, 'h': h, 'p': p}
+      connected = reconnect()
+      sleep(1)
+      continue
     
-    sensor_soil_h.read()
-    h, = sensor_soil_h.values
-    sensors_data['soil_moisture'] = {'h': h}
+    if USE_SENSOR_BME280:
+      sensor_bme280.read()
+      sensors_data['bme280'] = sensor_bme280.values
     
+    if USE_SENSOR_SOIL_M:
+      sensor_soil_h.read()
+      sensors_data['soil_moisture'] = sensor_soil_h.values_dict
+    
+    if USE_SENSOR_DS18B20:
+      sensor_ds18b20.read()
+      sensors_data['ds18b20'] = sensor_ds18b20.values_dict
+      
     localtime = time.localtime()
     sensors_data['localtime'] = "{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}".format(*localtime)
     
