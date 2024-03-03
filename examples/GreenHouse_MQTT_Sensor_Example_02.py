@@ -86,7 +86,7 @@ print( 'MQTT PUB:', TOPIC_PUB)
 gc.collect()
 print('Setup Done')
 
-sensors_data = {'localtime': ""}
+sensors_data = {'localtime': "", 'mem_free': 0}
 if USE_SENSOR_BME280: sensors_data['bme280'] = {}
 if USE_SENSOR_SOIL_M: sensors_data['soil_moisture'] = {}
 if USE_SENSOR_DS18B20: sensors_data['ds18b20'] = {}
@@ -113,6 +113,7 @@ while True:
       
     localtime = time.localtime()
     sensors_data['localtime'] = "{:0>4d}-{:0>2d}-{:0>2d} {:0>2d}:{:0>2d}:{:0>2d}".format(*localtime)
+    sensors_data['mem_free'] = gc.mem_free()
     
     # Publish to MQTT Broker
     status = mqtt_client.send(TOPIC_PUB, json.dumps(sensors_data))
