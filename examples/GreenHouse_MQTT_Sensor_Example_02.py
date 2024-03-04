@@ -6,7 +6,8 @@ import json    # loads, dumps
 
 USE_SENSOR_BME280 = True
 USE_SENSOR_SOIL_M = True
-USE_SENSOR_DS18B20= False
+USE_SENSOR_DS18B20= True
+USE_SENSOR_STATUS_LED = True
 
 # WLAN - Wireless Local Area Network
 from wlan_manager import WLAN_Manager
@@ -40,6 +41,9 @@ if USE_SENSOR_DS18B20:
     PIN_OneWire = 17
     sensor_ds18b20 = Sensor_DS18B20(PIN_OneWire)
 
+if USE_SENSOR_STATUS_LED:
+  from sensor_manager import StatusLED
+  status_led = StatusLED(16)
 
 # GC - Garbage Collector attempts to reclaim memory
 gc.enable()
@@ -70,9 +74,9 @@ def mqtt_callback(topic, msg):
    
 def sensores_publish():
   global gc, time
-  global USE_SENSOR_BME280, USE_SENSOR_SOIL_M, USE_SENSOR_DS18B20
+  global USE_SENSOR_BME280, USE_SENSOR_SOIL_M, USE_SENSOR_DS18B20, USE_SENSOR_STATUS_LED
   global mqtt_client, sensor_bme280, sensor_soil_h, sensor_ds18b20
-  global localtime, sensors_data
+  global localtime, sensors_data, status_led
   
   if USE_SENSOR_BME280:
     sensor_bme280.read()
@@ -124,6 +128,7 @@ localtime = time.localtime()
 
 while True:
   t_start = time.ticks_ms()
+  status_led.on()
   connected = mqtt_client.check_msg()
   if not connected:
     connected = reconnect()
@@ -138,14 +143,17 @@ while True:
   # Drift to 00 seconds
   drift = 1000 + t_end % 1000 if localtime[5] % mqtt_chat_delay != 0 else 0
   #delta_t = time.ticks_diff(t_end, t_start)
+  status_led.off()
   while time.ticks_diff(time.ticks_ms(), t_start) <= mqtt_chat_delay * 1000 - drift:
     #time.sleep_ms(mqtt_chat_delay * 1000 - delta_t - drift)
     connected = mqtt_client.check_msg()
     if not connected:
       connected = reconnect()
-      time.sleep(1)
+      time.sleep(0.5)
+      status_led.toggle()
       continue
-    time.sleep_ms(10)
+    time.sleep_ms(1)
+    if (time.ticks_ms() // 100) % 10 == 0: status_led.toggle()
   #print(time.ticks_ms())
+  status_led.off()
 #end main loop
-
