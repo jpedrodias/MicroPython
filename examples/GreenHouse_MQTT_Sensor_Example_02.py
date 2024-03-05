@@ -44,6 +44,7 @@ if USE_SENSOR_DS18B20:
 if USE_SENSOR_STATUS_LED:
   from sensor_manager import StatusLED
   status_led = StatusLED(16)
+  status_led.on()
 
 # GC - Garbage Collector attempts to reclaim memory
 gc.enable()
@@ -128,32 +129,37 @@ localtime = time.localtime()
 
 while True:
   t_start = time.ticks_ms()
-  status_led.on()
+  if USE_SENSOR_STATUS_LED: status_led.on()
   connected = mqtt_client.check_msg()
   if not connected:
+    time.sleep(1)
+    if USE_SENSOR_STATUS_LED: status_led.toggle()
     connected = reconnect()
-    sleep(1)
     continue
   
   status = sensores_publish() # Main Job
   status = ntptime_update()   # Optional
+  gc.collect()
+  if USE_SENSOR_STATUS_LED: status_led.off()
   
-  # Fancy Waiting Loop
+  
   t_end = time.ticks_ms()
-  # Drift to 00 seconds
-  drift = 1000 + t_end % 1000 if localtime[5] % mqtt_chat_delay != 0 else 0
-  #delta_t = time.ticks_diff(t_end, t_start)
-  status_led.off()
-  while time.ticks_diff(time.ticks_ms(), t_start) <= mqtt_chat_delay * 1000 - drift:
+  drift = 1000 + t_end % 1000 if localtime[5] % mqtt_chat_delay != 0 else 0 # Drift to 00 seconds
+  t_wait_start = time.ticks_ms()
+  while time.ticks_diff(time.ticks_ms(), t_start) <= mqtt_chat_delay * 1000 - drift: # Fancy Waiting Loop
     #time.sleep_ms(mqtt_chat_delay * 1000 - delta_t - drift)
     connected = mqtt_client.check_msg()
     if not connected:
+      if USE_SENSOR_STATUS_LED: status_led.toggle()
+      time.sleep(1)
       connected = reconnect()
-      time.sleep(0.5)
-      status_led.toggle()
       continue
     time.sleep_ms(1)
-    if (time.ticks_ms() // 100) % 10 == 0: status_led.toggle()
-  #print(time.ticks_ms())
-  status_led.off()
+
+    delta_t = time.ticks_diff(time.ticks_ms(), t_wait_start)
+    if delta_t > 500:
+      t_wait_start = time.ticks_ms()
+      if USE_SENSOR_STATUS_LED: status_led.toggle()
+  if USE_SENSOR_STATUS_LED: status_led.off()
 #end main loop
+
