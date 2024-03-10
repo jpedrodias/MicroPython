@@ -60,6 +60,7 @@ def status_publish(forced=False):
     payload = {
       'delay': mqtt_chat_delay,
       'RGB': '#{:02x}{:02x}{:02x}'.format(*global_color),
+      'chatty': mqtt_chatty_client,
       'mem_free': gc.mem_free()
     }
     updated = mqtt_client.send(TOPIC_PUB, json.dumps(payload))
@@ -83,7 +84,7 @@ def mqtt_callback(topic, msg):
     except:
       print('Faild to load msg!')
       return False
-
+  
   #print("DATA:", data)
   color = False
   if 'S' in data or 'status' in data:
@@ -97,11 +98,14 @@ def mqtt_callback(topic, msg):
     print('Delay:', mqtt_chat_delay)
   if 'RGB' in data:
     color = get_rgb_colors(data)
-  elif 'R' in data:
+    print('RGB:', color)
+  elif 'R' in data and 'G' in data and 'B' in data:
     color = get_colors(data)
+    print('R+G+B:', color)
   
   #print(color)
   if color:
+    print('New color:', color)
     gradient(global_color, color, 1000)
     #fill_neopixel(color)
     global_color = color
