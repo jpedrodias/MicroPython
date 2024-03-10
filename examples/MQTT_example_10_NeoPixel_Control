@@ -86,8 +86,8 @@ def mqtt_callback(topic, msg):
 
   #print("DATA:", data)
   color = False
-  if 'S' in data:
-    pass
+  if 'S' in data or 'status' in data:
+    status = status_publish(True)
   if 'chatty' in data:
     mqtt_chatty_client = try_convert(data.get('chatty'), mqtt_chatty_client, bool, 'Wrong Chatty Vakue')
     print('Chatty:', mqtt_chatty_client)
