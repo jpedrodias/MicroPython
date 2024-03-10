@@ -1,0 +1,202 @@
+import time
+import json
+import ntptime # ntptime.settime()
+
+import gc
+gc.enable()
+
+# Connection to NeoPixel
+from machine import Pin
+from neopixel import NeoPixel
+
+np_size = 1
+np_pin = Pin( 28, Pin.OUT)
+np = NeoPixel( np_pin, np_size )
+global_color = (0, 0, 0)
+
+# Connection to Internet
+from wlan_manager import WLAN_Manager
+wlan_client = WLAN_Manager()
+#wlan_client.setup("ATLANTICO", "oceano12")
+wlan_client.start()
+
+
+# Connection to MQTT Broker
+from mqtt_manager import MQTT_Manager
+mqtt_client = MQTT_Manager()
+
+# NTP - Network Time Protocol
+ntptime.host = 'pool.ntp.org'
+ntptime_query_delay = 3600000 * 24 # 1h
+ntptime_last_update = time.ticks_ms() - ntptime_query_delay
+
+
+# Helper to reconnect 
+def reconnect():
+  global wlan_client, mqtt_client, TOPIC_SUB
+  wlan_client.start()
+  success = wlan_client.check() and mqtt_client.check()
+  if success:
+    mqtt_client.broker.subscribe(TOPIC_SUB)
+  return success
+
+def ntptime_update():
+  global time, ntptime, ntptime_query_delay, ntptime_last_update
+  need_update = False
+  if time.ticks_ms() - ntptime_last_update >= ntptime_query_delay:
+    need_update = True
+    error = False
+    try:
+      ntptime.settime()
+    except:
+      error = True
+  return need_update, not error
+
+def status_publish(forced=False):
+  global time, mqtt_chatty_client, mqtt_chat_delay, mqtt_chat_delay_last, global_color
+  now = time.ticks_ms()
+  updated = False
+  if forced or mqtt_chatty_client and time.ticks_ms() > mqtt_chat_delay_last + mqtt_chat_delay * 1000:
+    payload = {
+      'delay': mqtt_chat_delay,
+      'RGB': '#{:02x}{:02x}{:02x}'.format(*global_color),
+      'mem_free': gc.mem_free()
+    }
+    updated = mqtt_client.send(TOPIC_PUB, json.dumps(payload))
+    if updated:
+      mqtt_chat_delay_last = now
+      print('Updated', TOPIC_PUB, payload)
+  #print('status', now, updated)
+  return updated
+    
+# MQTT Control
+# devices/rp2_e6626005a7936e28/control   
+def mqtt_callback(topic, msg):
+  global global_color, mqtt_chatty_client, mqtt_chat_delay
+  print('MSG! Topic: {}; Data {}'.format(topic, msg))
+  data = {}
+  if isinstance(msg, type(b'')):
+    msg = msg.decode('utf-8')
+    #print("MSG:", msg)
+    try:
+      data = json.loads(msg)
+    except:
+      print('Faild to load msg!')
+      return False
+
+  #print("DATA:", data)
+  color = False
+  if 'S' in data:
+    pass
+  if 'chatty' in data:
+    mqtt_chatty_client = try_convert(data.get('chatty'), mqtt_chatty_client, bool, 'Wrong Chatty Vakue')
+    print('Chatty:', mqtt_chatty_client)
+  if 'delay' in data:
+    mqtt_chat_delay = try_convert(data.get('delay'), mqtt_chat_delay, int, 'Wrong delay')
+    if mqtt_chat_delay < 1: mqtt_chat_delay = 60
+    print('Delay:', mqtt_chat_delay)
+  if 'RGB' in data:
+    color = get_rgb_colors(data)
+  elif 'R' in data:
+    color = get_colors(data)
+  
+  #print(color)
+  if color:
+    gradient(global_color, color, 1000)
+    #fill_neopixel(color)
+    global_color = color
+  return True
+
+def fill_neopixel(color, neo_pixel=np):
+  neo_pixel.fill(color)
+  neo_pixel.write()
+  return True
+
+def gradient(orig, final, fadetime=1000):
+    r1, g1, b1 = orig
+    r2, g2, b2 = final
+    fadetime = int(fadetime/50)
+    for i in range(fadetime):
+        r = int(r1+(r2-r1)/fadetime*(i+1))
+        g = int(g1+(g2-g1)/fadetime*(i+1))
+        b = int(b1+(b2-b1)/fadetime*(i+1))
+        fill_neopixel((r, g, b))
+        time.sleep(0.05)
+
+def get_rgb_colors(data):
+  #print(data)
+  #{"RGB": '#FF0000'}
+  if 'RGB' not in data:
+    return False
+  code = data.get('RGB')
+  r = int_mod(code[1:3], base=16)
+  g = int_mod(code[3:5], base=16)
+  b = int_mod(code[5:7], base=16)
+  return (r, g, b)
+  
+def get_colors(rgb):
+  #{"R": 10, "G": 0, "B": 0}
+  if 'R' not in rgb and 'G' not in rgb and 'B' not in rgb:
+      return False
+  
+  r = int_mod(rgb.get('R'))
+  g = int_mod(rgb.get('G'))
+  b = int_mod(rgb.get('B'))
+  return (r, g, b)
+
+def try_convert(value, default_value, form=int, error_msg=""):
+  try:
+    new_value = form(value)
+  except:
+    print(error_msg)
+    new_value = default_value
+  return new_value
+
+def int_mod(value, base=10, mod=256):
+  if isinstance(value, int):
+    return value % mod
+  
+  new_value = 0
+  try:
+    new_value = int(value, base) % mod
+  except:
+    pass
+  return new_value
+
+# Global variables
+TOPIC_SUB = mqtt_client.get_topic("control") # You talking to the sensor
+TOPIC_PUB = mqtt_client.get_topic("status")  # The sensor talking to you
+TOPIC_SUB = 'devices/moon/control'
+TOPIC_PUB = 'devices/moon/status'
+
+mqtt_chatty_client = bool(mqtt_client.CONFIG.get('chatty', True))
+mqtt_chat_delay = mqtt_client.CONFIG.get('delay', 60)
+mqtt_chat_delay_last = 0
+mqtt_client.broker.set_callback(mqtt_callback)
+mqtt_client.check()
+
+print( "client_id:", mqtt_client.CONFIG["client_id"] )
+print( "MQTT SUB:", TOPIC_SUB)
+print( "MQTT PUB:", TOPIC_PUB)
+
+connected = reconnect()
+if connected:
+  mqtt_client.send("debug", TOPIC_SUB)
+  mqtt_client.send("debug", TOPIC_PUB)
+
+# Main Loop
+gc.collect()
+while True:
+  t_start = time.ticks_ms()
+  connected = mqtt_client.check_msg()
+  if not connected:
+    print("Reconnecting.")
+    connected = reconnect()
+    time.sleep(1)
+    continue
+  
+  status = ntptime_update() # Optional
+  status = status_publish() # Main Job
+  
+  #gc.collect()
+  time.sleep(1)
