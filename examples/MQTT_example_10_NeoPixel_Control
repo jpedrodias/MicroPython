@@ -9,8 +9,9 @@ gc.enable()
 from machine import Pin
 from neopixel import NeoPixel
 
-np_size = 1
-np_pin = Pin( 28, Pin.OUT)
+from board_manager import D2
+np_size = 7
+np_pin = Pin( D2, Pin.OUT)
 np = NeoPixel( np_pin, np_size )
 global_color = (0, 0, 0)
 
@@ -18,7 +19,7 @@ global_color = (0, 0, 0)
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager()
 #wlan_client.setup("ATLANTICO", "oceano12")
-wlan_client.start()
+#wlan_client.start()
 
 
 # Connection to MQTT Broker
@@ -34,10 +35,11 @@ ntptime_last_update = time.ticks_ms() - ntptime_query_delay
 # Helper to reconnect 
 def reconnect():
   global wlan_client, mqtt_client, TOPIC_SUB
-  wlan_client.start()
   success = wlan_client.check() and mqtt_client.check()
   if success:
     mqtt_client.broker.subscribe(TOPIC_SUB)
+  else:
+    wlan_client.start()
   return success
 
 def ntptime_update():
@@ -116,7 +118,7 @@ def fill_neopixel(color, neo_pixel=np):
   neo_pixel.write()
   return True
 
-def gradient(orig, final, fadetime=1000):
+def gradient(orig, final, fadetime=500):
     r1, g1, b1 = orig
     r2, g2, b2 = final
     fadetime = int(fadetime/50)
@@ -183,24 +185,33 @@ print( "client_id:", mqtt_client.CONFIG["client_id"] )
 print( "MQTT SUB:", TOPIC_SUB)
 print( "MQTT PUB:", TOPIC_PUB)
 
-connected = reconnect()
-if connected:
-  mqtt_client.send("debug", TOPIC_SUB)
-  mqtt_client.send("debug", TOPIC_PUB)
+connected = False
+while not connected:
+  fill_neopixel((10,10,0))
+  connected = reconnect()
+  if connected:
+    fill_neopixel((0,10,0))
+    mqtt_client.send("debug", TOPIC_SUB)
+    mqtt_client.send("debug", TOPIC_PUB)
+  else:
+    fill_neopixel((10,0,0))
+  time.sleep(1)
+fill_neopixel((0,0,0))
+  
 
 # Main Loop
 gc.collect()
 while True:
   t_start = time.ticks_ms()
-  connected = mqtt_client.check_msg()
+  connected = wlan_client.check() and mqtt_client.check_msg()
   if not connected:
     print("Reconnecting.")
     connected = reconnect()
-    time.sleep(1)
-    continue
   
-  status = ntptime_update() # Optional
-  status = status_publish() # Main Job
-  
-  #gc.collect()
+  if connected:
+    status = ntptime_update() # Optional
+    status = status_publish() # Main Job
+      
+      #gc.collect()
   time.sleep(1)
+
