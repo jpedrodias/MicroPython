@@ -1,18 +1,24 @@
 # FILENAME: mqtt_manager.py
-from umqtt.simple import MQTTClient
+#from umqtt.simple import MQTTClient
 #from mqtt.robust import MQTTClient
 
-class MQTT_Manager(MQTTClient):
-  def __init__(self):
+#class MQTT_Manager(MQTTClient):
+class MQTT_Manager():
+  def __init__(self, robust=False):
     from ubinascii import hexlify
     from machine import unique_id
     from ujson import loads
     from os import uname, listdir
     
+    if robust:
+        from umqtt.robust import MQTTClient
+    else:
+        from umqtt.simple import MQTTClient
+    
     chip_name = uname().sysname
     chip_uid  = hexlify( unique_id() ).decode('utf-8')
     
-    if  "mqtt_manager.json" not in listdir():
+    if "mqtt_manager.json" not in listdir():
       self.setup()
       
     with open('mqtt_manager.json', 'r') as f:
@@ -94,7 +100,7 @@ class MQTT_Manager(MQTTClient):
     return True  
 
 if __name__ == "__main__":
-  mqtt_client = MQTT_Manager()
+  mqtt_client = MQTT_Manager(robust=True)
   print("MQTT config:")
   for i in mqtt_client.CONFIG:
     print("\t", i, ":", mqtt_client.CONFIG[i])
