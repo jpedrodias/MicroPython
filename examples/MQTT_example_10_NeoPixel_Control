@@ -14,6 +14,7 @@ np_size = 7
 np_pin = Pin( D2, Pin.OUT)
 np = NeoPixel( np_pin, np_size )
 global_color = (0, 0, 0)
+global_color_recebed = False
 
 # Connection to Internet
 from wlan_manager import WLAN_Manager
@@ -24,7 +25,7 @@ wlan_client = WLAN_Manager()
 
 # Connection to MQTT Broker
 from mqtt_manager import MQTT_Manager
-mqtt_client = MQTT_Manager()
+mqtt_client = MQTT_Manager(robust=True)
 
 # NTP - Network Time Protocol
 ntptime.host = 'pool.ntp.org'
@@ -55,16 +56,17 @@ def ntptime_update():
   return need_update, not error
 
 def status_publish(forced=False):
-  global time, mqtt_chatty_client, mqtt_chat_delay, mqtt_chat_delay_last, global_color
+  global time, mqtt_chatty_client, mqtt_chat_delay, mqtt_chat_delay_last, global_color, global_color_recebed
   now = time.ticks_ms()
   updated = False
   if forced or mqtt_chatty_client and time.ticks_ms() > mqtt_chat_delay_last + mqtt_chat_delay * 1000:
     payload = {
       'delay': mqtt_chat_delay,
-      'RGB': '#{:02x}{:02x}{:02x}'.format(*global_color),
       'chatty': mqtt_chatty_client,
       'mem_free': gc.mem_free()
     }
+    if global_color_recebed:
+      payload['RGB'] = '#{:02x}{:02x}{:02x}'.format(*global_color)
     updated = mqtt_client.send(TOPIC_PUB, json.dumps(payload))
     if updated:
       mqtt_chat_delay_last = now
@@ -75,7 +77,7 @@ def status_publish(forced=False):
 # MQTT Control
 # devices/rp2_e6626005a7936e28/control   
 def mqtt_callback(topic, msg):
-  global global_color, mqtt_chatty_client, mqtt_chat_delay
+  global global_color, global_color_recebed, mqtt_chatty_client, mqtt_chat_delay
   print('MSG! Topic: {}; Data {}'.format(topic, msg))
   data = {}
   if isinstance(msg, type(b'')):
@@ -107,9 +109,10 @@ def mqtt_callback(topic, msg):
   
   #print(color)
   if color:
+    global_color_recebed = True
     print('New color:', color)
-    gradient(global_color, color, 1000)
-    #fill_neopixel(color)
+    #gradient(global_color, color, 1000)
+    fill_neopixel(color)
     global_color = color
   return True
 
@@ -212,6 +215,6 @@ while True:
     status = ntptime_update() # Optional
     status = status_publish() # Main Job
       
-      #gc.collect()
+  #gc.collect()
   time.sleep(1)
 
