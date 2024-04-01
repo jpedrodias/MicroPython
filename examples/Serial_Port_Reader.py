@@ -61,29 +61,40 @@ while not done:
 
 serial_connection = Serial( serial_device.device, baudrate, timeout=1)
 
-
-output_data_file = input('Input filename: ')
-if not output_data_file:
-    output_data_file = DEFAULT_OUTPUT_FILENAME
-
-
-print( "Python Serial Port Reader" )
-print()
-print("Recording data in file:", output_data_file)
-print("To Exit Press: Ctrl+C")
-
-
-file = open(output_data_file, "w")
-
 global_done = False
 while not global_done:
-    valor_lido = serial_connection.readline()
-    valor_lido = valor_lido.strip()
-    valor_lido = str( valor_lido,'utf-8' )
-    
-    if valor_lido:
-        print( "%s; %s" % (datetime.now(), valor_lido) )    
-        file.write( "%s; %s\n" % (datetime.now(), valor_lido) )
+    output_data_file = input('Input filename: ')
+    if not output_data_file:
+        output_data_file = DEFAULT_OUTPUT_FILENAME
 
-file.close()
-print("Data saved to", output_data_file)
+
+    print( "Python Serial Port Reader" )
+    print()
+    print("Recording data in file:", output_data_file)
+    print("To Exit Press: Ctrl+C")
+
+
+    file = open(output_data_file, "w")
+
+    done = False
+    data = False
+    data_last = False
+    while not done:
+        valor_lido = serial_connection.readline()
+        valor_lido = valor_lido.strip()
+        valor_lido = str( valor_lido,'utf-8' )
+        
+        if valor_lido:
+            print( "%s; %s" % (datetime.now(), valor_lido) )
+            if valor_lido.startswith('data:'):
+                file.write( "%s\n" % (valor_lido[6:]) )
+                data = True
+            else:
+                data = False
+        
+        if data == False and data_last == True:
+            done = True
+        data_last = data
+    file.close()
+    print("Data saved to", output_data_file)
+
