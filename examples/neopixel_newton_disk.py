@@ -4,19 +4,19 @@ from time import sleep
 from board_manager import D2
 
 class Color:
-    # RGB - Red, Green, Blue
-    X= 50 # 0 - 255 # brightness
-    R = (X, 0, 0)
-    G = (0, X, 0)
-    B = (0, 0, X)
-    BK = (0,0,0)
+  # RGB - Red, Green, Blue
+  X = 50 # CHANGE THIS VALUE between 0 and 255 # brightness
+  R = (X, 0, 0)  # RED
+  G = (0, X, 0)  # GREEN
+  B = (0, 0, X)  # BLUE
+  BK = (0, 0, 0)  # BLACK
 
-num_pixeis = 1
+num_pixeis = 7
 neo = NeoPixel(Pin(D2), num_pixeis)
 neo.fill(Color.BK)
 neo.write()
 
-PAUSE = 1 # CHANGE THIS VALUE
+PAUSE = 1 # CHANGE THIS VALUE between 5 and 0.001 
 DURATION = 10 # seconds
 colors = [Color.R, Color.G, Color.B]
 #colors = [Color.R, Color.G]
