@@ -17,7 +17,7 @@ neo.fill(Color.BK)
 neo.write()
 
 PAUSE = 1 # CHANGE THIS VALUE between 5 and 0.001 
-DURATION = 10 # seconds
+DURATION = 10 # total time animation in seconds
 colors = [Color.R, Color.G, Color.B]
 #colors = [Color.R, Color.G]
 #colors = [Color.G, Color.B]
