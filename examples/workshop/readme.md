@@ -2,7 +2,8 @@
 
 
 ## Demo 1a - Digital output - Blink
-![Demo 1a](https://github.com/user-attachments/assets/af4d2c6e-24a3-4919-a20c-a1978e68c92e=){: style="height:83px"}
+![Demo 1a](img/Semaforo%20-%20Pi%20Pico_bb.png)
+![Demo 1a]{: style="height:83px"}
 ```Python
 # filename: demo1a_blink.py
 from machine import Pin
