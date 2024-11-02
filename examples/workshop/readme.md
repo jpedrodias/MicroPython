@@ -76,6 +76,8 @@ while loops > 0:
 ---
 
 ## Demo 1c - Digital output - Blink
+Nesta demonstração, aprimoramos o controlo de múltiplos LEDs introduzindo o uso de funções para modularizar o código. Isso facilita a reutilização e manutenção, especialmente quando se lida com vários componentes.
+
 <img src="./img/demo1c_blink.png" alt="demo1c" width="250" align="left"/>
 
 ```Python
