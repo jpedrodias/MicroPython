@@ -395,45 +395,41 @@ led = Pin(PIN_LED, Pin.OUT)
 
 
 def reconnect():
-  wlan_client.start()
-  success = wlan_client.check() and mqtt_client.check()
-  if success:
-    mqtt_client.broker.subscribe(TOPIC_SUB)
-  return success
+    wlan_client.start()
+    success = wlan_client.check() and mqtt_client.check()
+    if success:
+        mqtt_client.broker.subscribe(TOPIC_SUB)
+    return success
 
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager() # Connection to Internet
-#wlan_client.setup("SSID", "password")
+#wlan_client.setup("Your SSID", "password")
 wlan_client.start()
 
 
 def mqtt_callback(topic, msg):
-  print('MSG! Topic: {}; Data {}'.format(topic, msg))
-  data = {}
-  if isinstance(msg, type(b'')):
-    msg = msg.decode('utf-8')
-    try:
-      data = str(msg)
-    except:
-      print('Faild to load msg!')
-      return False
-  
-  if 'LED ON' == data:
-    led.value(1)
-  elif 'LED OFF' == data:
-    led.value(0)
+    print('MSG! Topic: {}; Data {}'.format(topic, msg))  
+    if msg == b'LED ON':
+        led.value(1)
+    elif msg == b'LED OFF':
+        led.value(0)
+    elif msg == b'STATUS':
+        status = {0: 'LED is OFF', 1: 'LED is OFF'}.get(led.value(), 0)
+        try:
+            mqtt_client.send(TOPIC_PUB, status)
+        except:
+            print('MQTT send failed!')
 
-  return True
+    return True
 
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 #mqtt_client.setup()
 # MQTT Control / Status
 # https://www.hivemq.com/demos/websocket-client/
-# devices/<your device id>/control
-# devices/<your device id>/status
+# ips/devices/rp2_e6626005a7936e28/control
+# ips/devices/rp2_e6626005a7936e28/status
 # Global variables
-
 
 TOPIC_SUB = mqtt_client.get_topic("control") # You talking to the sensor
 TOPIC_PUB = mqtt_client.get_topic("status")  # The sensor talking to you
@@ -446,8 +442,8 @@ print( "MQTT PUB:", TOPIC_PUB)
 
 connected = reconnect()
 if connected:
-  mqtt_client.send("debug", TOPIC_SUB)
-  mqtt_client.send("debug", TOPIC_PUB)
+    mqtt_client.send("debug", TOPIC_SUB)
+    mqtt_client.send("debug", TOPIC_PUB)
 
 # Main Loop
 gc.collect()
