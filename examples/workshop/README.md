@@ -16,6 +16,12 @@ or `pip3`
 <a target="hardware_board" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" width="240" /></a>
 
 
+<div style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
+  <h3>Raspberry Pi Pico</h3>
+ <a target="hardware_board" href="../../pinout/ESP32-PICO-KIT.jpg"><img src="../../pinout/ESP32-PICO-KIT.jpg" alt="ESP32 PICO" style="width:100%; border-radius:8px;"/></a>
+  <p style="font-size:14px; color:#555;">Esta é uma legenda descritiva.</p>
+</div>
+
 ---
 
 ## Demo 1a - Digital output - Blink
