@@ -104,6 +104,8 @@ while loops > 0:
 ---
 
 ## Demo 2a - Digital input - Button
+Na Demonstração 2A: Entrada Digital - Botão, exploramos como ler o estado de um botão utilizando MicroPython. Este exercício é fundamental para compreender a interação entre entradas digitais e o microcontrolador.
+
 <img src="./img/demo2a_button.png" alt="demo2a" width="250" align="left"/>
 
 ```Python
@@ -134,6 +136,8 @@ while True:
 ---
 
 ## Demo 2b - Avoidance Sensor
+Na Demonstração 2B: Entrada Digital - Sensor de Evitação de Obstáculos, substituímos o botão utilizado na demonstração anterior por um sensor de obstáculos. Este sensor detecta a presença de objetos próximos e envia um sinal digital ao microcontrolador, permitindo acionar um LED quando um obstáculo é detectado.
+
 <img src="./img/demo2b_avoindance.png" alt="demo2b" width="250" align="left"/>
 
 ```Python
@@ -163,6 +167,8 @@ while True:
 
 
 ## Demo 2c - PhotoGate
+Na Demonstração 2C: Photogate, utilizamos o mesmo senosr para medir o tempo que um objeto leva para atravessar um feixe de luz, funcionando como um cronómetro de passagem. Este sistema é frequentemente empregado em laboratório de física para determinar velocidades e tempos de reação.
+
 <img src="./img/demo2c_photogate.png" alt="demo2c" width="250" align="left"/>
 
 ```Python
@@ -198,6 +204,9 @@ while True:
 
 
 ## Demo 3a - Ultrasonic Sensor
+Na Demonstração 3A: Sensor Ultrassónico, exploramos a utilização do sensor HC-SR04 para medir distâncias sem contacto físico, integrando-o com um microcontrolador compatível com MicroPython.
+O sensor HC-SR04 emite um pulso ultrassónico e o microcontrolador mede o tempo que este leva a ser refletido de volta por um objeto, calculando assim a distância com base no tempo decorrido.
+
 <img src="./img/demo3a_ultrasonic.png" alt="demo3a" width="250" align="left"/>
 
 ```Python
@@ -233,6 +242,8 @@ while True:
 
 
 ## Demo 4a - i2c scan
+Na Demonstração 4A: Varredura I2C, exploramos como identificar dispositivos conectados ao barramento I2C utilizando MicroPython. O protocolo I2C (Inter-Integrated Circuit) é amplamente utilizado para comunicação entre microcontroladores e periféricos, como sensores e displays.
+
 <img src="./img/demo4a_i2c.png" alt="demo4a" width="250" align="left"/>
 
 ```Python
@@ -263,6 +274,8 @@ else:
 
 
 ## Demo 4b - import drivers
+Na Demonstração 4B: Varredura I2C, exploramos como importar modulos (drivers) para comunicação com os dispositivos i2c. Neste caso, para integrar o sensor BME280 e o display OLED SSD1306 utilizando MicroPython, é necessário importar os módulos correspondentes que facilitam a comunicação com esses dispositivos. 
+
 <img src="./img/demo4a_i2c.png" alt="demo4b" width="250" align="left"/>
 
 ```Python
@@ -309,6 +322,8 @@ Extra tools:
 
 
 ## Demo 5a - internet
+Na Demonstração 5A: Conexão à Internet, exploramos como conectar um microcontrolador compatível com MicroPython, como o ESP8266 ou ESP32, a uma rede Wi-Fi, permitindo a comunicação com a internet. Neste exemplo, ligamos e desligamos um led baseado no url acedido.
+
 <img src="./img/demo1a_blink.png" alt="demo5a" width="250" align="left"/>
 
 ```Python
@@ -388,6 +403,8 @@ finally:
 
 
 ## Demo 5b - MQTT
+Na Demonstração 5B: Controle de LED via MQTT, exploramos como utilizar o protocolo MQTT para controlar remotamente um LED conectado a ao microcontrolador.
+
 <img src="./img/demo1a_blink.png" alt="demo5a" width="250" align="left"/>
 
 ```Python
