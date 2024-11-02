@@ -425,12 +425,8 @@ def mqtt_callback(topic, msg):
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 #mqtt_client.setup()
-# MQTT Control / Status
-# https://www.hivemq.com/demos/websocket-client/
-# ips/devices/rp2_e6626005a7936e28/control
-# ips/devices/rp2_e6626005a7936e28/status
-# Global variables
 
+# Global variables
 TOPIC_SUB = mqtt_client.get_topic("control") # You talking to the sensor
 TOPIC_PUB = mqtt_client.get_topic("status")  # The sensor talking to you
 chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
