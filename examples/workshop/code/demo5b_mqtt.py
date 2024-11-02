@@ -16,8 +16,7 @@ def reconnect():
 
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager() # Connection to Internet
-#wlan_client.setup("ATLANTICO", "oceano12")
-#wlan_client.setup("COSMOS2", "naosediz")
+#wlan_client.setup("<Your SSID>", "<password>")
 wlan_client.start()
 
 
@@ -28,7 +27,7 @@ def mqtt_callback(topic, msg):
     elif msg == b'LED OFF':
         led.value(0)
     elif msg == b'STATUS':
-        status = {0: 'LED is OFF', 1: 'LED is OFF'}.get(led.value(), 0)
+        status = {0: 'LED is OFF', 1: 'LED is ON'}.get(led.value(), 0)
         try:
             mqtt_client.send(TOPIC_PUB, status)
         except:
