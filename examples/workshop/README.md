@@ -461,9 +461,6 @@ print( "MQTT SUB:", TOPIC_SUB)
 print( "MQTT PUB:", TOPIC_PUB)
 
 connected = reconnect()
-if connected:
-    mqtt_client.send("debug", TOPIC_SUB)
-    mqtt_client.send("debug", TOPIC_PUB)
 
 # Main Loop
 gc.collect()
@@ -471,11 +468,7 @@ while True:
     connected = mqtt_client.check_msg()
     if not connected:
         connected = reconnect()
-        sleep(1)
-        continue
-    
     sleep(1)
-
 ```
 
 > [!NOTE]
