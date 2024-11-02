@@ -2,8 +2,7 @@
 
 
 ## Demo 1a - Digital output - Blink
-<img align="left" with="100" src="https://github.com/user-attachments/assets/af4d2c6e-24a3-4919-a20c-a1978e68c92e">
-
+![Demo 1a](https://github.com/user-attachments/assets/af4d2c6e-24a3-4919-a20c-a1978e68c92e=){: style="height:83px"}
 ```Python
 # filename: demo1a_blink.py
 from machine import Pin
