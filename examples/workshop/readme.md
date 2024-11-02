@@ -1,4 +1,4 @@
-# MicroPython Workshop @ ISP 2024-11-06
+# MicroPython Workshop @ IPS 2024-11-06
 
 
 ---
@@ -456,6 +456,8 @@ while True:
 
 (1) Open MQTT web client 
 https://www.hivemq.com/demos/websocket-client/
+
+[go]([http://stackoverflow.com](https://www.hivemq.com/demos/websocket-client/)){:target="_blank" rel="noopener"} 
 
 (2) Add control and status topics 
 * to control commands: ips/devices/rp2_e6626005a7936e28/control
