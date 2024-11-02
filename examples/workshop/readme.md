@@ -3,7 +3,7 @@
 
 ## Demo 1a - Digital output - Blink
 
-<img src="img/Semaforo%20-%20Pi%20Pico_bb.png" with="100" height="100>
+![image](img/Semaforo%20-%20Pi%20Pico_bb.png "Title" {width=40px height=400px})
 
 
 ```Python
