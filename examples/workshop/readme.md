@@ -5,6 +5,7 @@
 
 ![image](./img/Semaforo%20-%20Pi%20Pico_bb.png)
 
+<img src="./img/Semaforo%20-%20Pi%20Pico_bb.png" alt="demo1a" width="250"/>
 
 ```Python
 # filename: demo1a_blink.py
