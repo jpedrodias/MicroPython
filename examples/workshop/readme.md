@@ -455,12 +455,11 @@ while True:
 ```
 
 (1) Open MQTT web client 
-https://www.hivemq.com/demos/websocket-client/
+<a href="https://www.hivemq.com/demos/websocket-client/" target="_blank">Hive MQTT Client</a>
 
-[go]([http://stackoverflow.com](https://www.hivemq.com/demos/websocket-client/)){:target="_blank" rel="noopener"} 
-
-(2) Add control and status topics 
-* to control commands: ips/devices/rp2_e6626005a7936e28/control
+(2) choose "Connect" and then "Add New Topic Subscription":
+* to control: ips/devices/rp2_e6626005a7936e28/control
 * to check status: ips/devices/rp2_e6626005a7936e28/status
 
-(3) Valid commands: `LED ON`, `LED OFF` or `STATUS`
+(3) To send a command, choose "Publish" to the control topic
+* Valid commands: `LED ON`, `LED OFF` or `STATUS`
