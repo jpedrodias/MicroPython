@@ -378,3 +378,93 @@ finally:
 ```
 
 ---
+
+
+## Demo 5b - MQTT
+<img src="./img/demo1a_blink.png" alt="demo5a" width="250" align="left"/>
+
+```Python
+# filename: demo5b_mqtt.py
+from time import sleep
+import gc
+gc.enable()
+
+from machine import Pin
+PIN_LED = 10
+led = Pin(PIN_LED, Pin.OUT)
+
+
+def reconnect():
+  wlan_client.start()
+  success = wlan_client.check() and mqtt_client.check()
+  if success:
+    mqtt_client.broker.subscribe(TOPIC_SUB)
+  return success
+
+from wlan_manager import WLAN_Manager
+wlan_client = WLAN_Manager() # Connection to Internet
+#wlan_client.setup("SSID", "password")
+wlan_client.start()
+
+
+def mqtt_callback(topic, msg):
+  print('MSG! Topic: {}; Data {}'.format(topic, msg))
+  data = {}
+  if isinstance(msg, type(b'')):
+    msg = msg.decode('utf-8')
+    try:
+      data = str(msg)
+    except:
+      print('Faild to load msg!')
+      return False
+  
+  if 'LED ON' == data:
+    led.value(1)
+  elif 'LED OFF' == data:
+    led.value(0)
+
+  return True
+
+from mqtt_manager import MQTT_Manager
+mqtt_client = MQTT_Manager()
+#mqtt_client.setup()
+# MQTT Control / Status
+# https://www.hivemq.com/demos/websocket-client/
+# ips/devices/rp2_e6626005a7936e28/control
+# ips/devices/rp2_e6626005a7936e28/status
+# Global variables
+
+
+TOPIC_SUB = mqtt_client.get_topic("control") # You talking to the sensor
+TOPIC_PUB = mqtt_client.get_topic("status")  # The sensor talking to you
+chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
+mqtt_client.broker.set_callback(mqtt_callback)
+
+print( "client_id:", mqtt_client.CONFIG["client_id"] )
+print( "MQTT SUB:", TOPIC_SUB)
+print( "MQTT PUB:", TOPIC_PUB)
+
+connected = reconnect()
+if connected:
+  mqtt_client.send("debug", TOPIC_SUB)
+  mqtt_client.send("debug", TOPIC_PUB)
+
+# Main Loop
+gc.collect()
+while True:
+    connected = mqtt_client.check_msg()
+    if not connected:
+        connected = reconnect()
+        sleep(1)
+        continue
+    
+    sleep(1)
+
+```
+
+(1) Open MQTT web client 
+https://www.hivemq.com/demos/websocket-client/
+
+(2) Add control and status topics 
+
+(3) Send msg with string `LED ON` or `LED OFF`
