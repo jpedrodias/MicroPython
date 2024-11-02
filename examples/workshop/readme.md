@@ -7,7 +7,7 @@
 
 
 ## filename: demo1a_blink.py
-```python:code/demo1a_blink.py [1-25]
+```python:examples/workshop/code/demo1a_blink.py
 ```
 
 [embedmd]:# (code/demo1a_blink.py python)
