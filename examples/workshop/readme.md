@@ -7,5 +7,5 @@
 
 
 ## filename: demo1a_blink.py
-```python:./code/demo1a_blink.py [1-25]
+```python:code/demo1a_blink.py [1-25]
 ```
