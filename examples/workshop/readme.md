@@ -430,8 +430,8 @@ mqtt_client = MQTT_Manager()
 #mqtt_client.setup()
 # MQTT Control / Status
 # https://www.hivemq.com/demos/websocket-client/
-# ips/devices/rp2_e6626005a7936e28/control
-# ips/devices/rp2_e6626005a7936e28/status
+# devices/<your device id>/control
+# devices/<your device id>/status
 # Global variables
 
 
@@ -466,5 +466,7 @@ while True:
 https://www.hivemq.com/demos/websocket-client/
 
 (2) Add control and status topics 
+* control ips/devices/rp2_e6626005a7936e28/control
+* status ips/devices/rp2_e6626005a7936e28/status
 
 (3) Send msg with string `LED ON` or `LED OFF`
