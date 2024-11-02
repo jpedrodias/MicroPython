@@ -1,4 +1,4 @@
-# MicroPython Workshop - 2024-11-06 @ ISP
+# MicroPython Workshop @ ISP 2024-11-06
 
 
 ## Demo 1a - Digital output - Blink
