@@ -7,6 +7,21 @@
 
 
 ## filename: demo1a_blink.py
-```Python:[examples/workshop/code/demo1a_blink.py](https://github.com/jpedrodias/MicroPython/blob/546a2b296f55871f8fd717ba7d9b398c94663813/examples/workshop/code/demo1a_blink.py)
+```Python:
+from machine import Pin
+from time import sleep
+ 
+PIN_G = 10 # Green pin
+
+pause = 1
+
+led_g = Pin( PIN_G, Pin.OUT ) 
+
+loops = 3
+while loops > 0:
+    led_g.on()
+    sleep(pause)
+    led_g.off()
+    sleep(pause)
+    loops = loops - 1 # comment this line to run forever
 ```
-https://github.com/jpedrodias/MicroPython/blob/546a2b296f55871f8fd717ba7d9b398c94663813/examples/workshop/code/demo1a_blink.py
