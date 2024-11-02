@@ -285,7 +285,7 @@ Drivers catalog:
 
 Extra tools:
 * https://github.com/jpedrodias/MicroPython
-* * sensor_manager
+  * sensor_manager
   * wlan_manager
   * mqtt_manager
 
