@@ -464,5 +464,8 @@ https://www.hivemq.com/demos/websocket-client/
 (2) Add control and status topics 
 * control ips/devices/rp2_e6626005a7936e28/control
 * status ips/devices/rp2_e6626005a7936e28/status
+* [Hash Sign(#)][Space]Any Header/subtitle or any text you want starting with hash
+[Tab][Tab]Your text
 
-(3) Send msg with string `LED ON` or `LED OFF`
+
+(3) Send msg with string `LED ON`, `LED OFF` or `STATUS`
