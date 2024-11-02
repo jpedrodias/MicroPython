@@ -40,6 +40,8 @@ while loops > 0:
 
 
 ## Demo 1b - Digital output - Blink
+Nesta demonstração, vamos expandir o conceito anterior de controle de saídas digitais, fazendo com que três LEDs (verde, amarelo e vermelho) pisquem em sequência. Este exercício é fundamental para compreender o controle de múltiplas saídas digitais em microcontroladores utilizando MicroPython.
+
 <img src="./img/demo1b_blink.png" alt="demo1b" width="250" align="left"/>
 
 ```Python
