@@ -7,5 +7,5 @@
 
 
 # filename: demo1a_blink.py
-[code/](https://github.com/jpedrodias/MicroPython/blob/master/examples/workshop/code/demo1a_blink.py)
+https://github.com/jpedrodias/MicroPython/blob/master/examples/workshop/code/demo1a_blink.py
 
