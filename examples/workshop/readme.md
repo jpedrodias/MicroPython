@@ -302,7 +302,7 @@ Extra tools:
 
 
 ## Demo 5a - internet
-<img src="./img/demo5a_internetc.png" alt="demo4b" width="250" align="left"/>
+<img src="./img/demo1a_blink.png" alt="demo5a" width="250" align="left"/>
 
 ```Python
 # filename: demo5a_internet.py
