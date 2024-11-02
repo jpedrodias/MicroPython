@@ -4,7 +4,7 @@
 ## Demo 1a - Digital output - Blink
 <img src="./img/demo1a_blink.png" alt="demo1a" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo1a_blink.py
 from machine import Pin
 from time import sleep
@@ -30,7 +30,7 @@ while loops > 0:
 ## Demo 1b - Digital output - Blink
 <img src="./img/demo1b_blink.png" alt="demo1b" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo1b_blink.py
 from machine import Pin
 from time import sleep
@@ -64,7 +64,7 @@ while loops > 0:
 ## Demo 1c - Digital output - Blink
 <img src="./img/demo1c_blink.png" alt="demo1c" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo1c_blink.py
 from machine import Pin
 from time import sleep
@@ -90,7 +90,7 @@ while loops > 0:
 ## Demo 2a - Digital input - Button
 <img src="./img/demo2a_button.png" alt="demo2a" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo2a_button.py
 from machine import Pin
 from time import sleep
@@ -120,7 +120,7 @@ while True:
 ## Demo 2b - Avoidance Sensor
 <img src="./img/demo2b_avoindance.png" alt="demo2b" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo2b_avoindance.py
 from machine import Pin
 from time import sleep_ms
@@ -149,7 +149,7 @@ while True:
 ## Demo 2c - PhotoGate
 <img src="./img/demo2c_photogate.png" alt="demo2c" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo2c_photogate.py
 from machine import Pin
 from time import sleep_ms
@@ -184,7 +184,7 @@ while True:
 ## Demo 3a - Ultrasonic Sensor
 <img src="./img/demo3a_ultrasonic.png" alt="demo3a" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo3a_ultrasonic.py
 from machine import Pin
 from time import sleep_ms
@@ -219,7 +219,7 @@ while True:
 ## Demo 4a - i2c scan
 <img src="./img/demo4a_i2c.png" alt="demo4a" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo4a_i2c_scan.py
 from machine import Pin, I2C
 
@@ -249,16 +249,13 @@ else:
 ## Demo 4b - import drivers
 <img src="./img/demo4a_i2c.png" alt="demo4b" width="250" align="left"/>
 
-```Python:
+```Python
 # filename: demo4b_i2c_drivers.py
 from machine import Pin, I2C
 from time import sleep
 import gc
 
-# https://github.com/micropython/micropython-lib/blob/master/micropython/drivers/display/ssd1306/ssd1306.py
 from ssd1306 import SSD1306_I2C
-
-# https://github.com/kevbu/micropython-bme280/blob/master/bme280.py
 from bme280 import BME280
 
 gc.enable()
