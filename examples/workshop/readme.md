@@ -6,10 +6,7 @@
 ```bash
 pip install thonny esptool --upgrade
 ```
-or
-```bash
-pip3 install thonny esptool --upgrade
-```
+or `pip3`
 
 ---
 
