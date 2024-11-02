@@ -478,8 +478,8 @@ while True:
 
 ```
 
-[!NOTE]
-(0) First time using this code, `wlan_client.setup()` and `mqtt_client.setup()` must be used.
+> [!NOTE]
+> (0) First time using this code, `wlan_client.setup()` and `mqtt_client.setup()` must be used.
 
 (1) Open MQTT web client 
 <a href="https://www.hivemq.com/demos/websocket-client/" target="_blank">Hive MQTT Client</a>
