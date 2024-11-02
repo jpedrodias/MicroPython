@@ -10,7 +10,10 @@ or `pip3`
 
 ---
 # Hardware
-<img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="demo1a" width="250" align="left"/>
+
+* <a target="hardware_board" href="../../pinout/raspberry-pi-pico-pinout-adafruit.png"><img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="Raspberry Pi Pico" width="120" /></a>
+* <a target="hardware_board" href="../../pinout/raspberry-pi-pico-pinout-adafruit.png"><img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="Raspberry Pi Pico" width="120" /></a>
+
 
 ---
 
