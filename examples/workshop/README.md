@@ -9,6 +9,10 @@ pip install thonny esptool --upgrade
 or `pip3`
 
 ---
+# Hardware
+<img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="demo1a" width="250" align="left"/>
+
+---
 
 ## Demo 1a - Digital output - Blink
 Nesta demonstração, aprendemos a controlar um LED utilizando o MicroPython, fazendo-o piscar em intervalos regulares. Este é um exercício fundamental para compreender o funcionamento das saídas digitais em microcontroladores.
