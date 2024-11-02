@@ -460,9 +460,9 @@ print( "client_id:", mqtt_client.CONFIG["client_id"] )
 print( "MQTT SUB:", TOPIC_SUB)
 print( "MQTT PUB:", TOPIC_PUB)
 
-connected = reconnect()
 
 # Main Loop
+connected = reconnect()
 gc.collect()
 while True:
     connected = mqtt_client.check_msg()
