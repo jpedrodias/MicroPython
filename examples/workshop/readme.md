@@ -11,7 +11,7 @@ or `pip3`
 ---
 
 ## Demo 1a - Digital output - Blink
-Nesta demonstração, vamos aprender a controlar um LED utilizando o MicroPython, fazendo-o piscar em intervalos regulares. Este é um exercício fundamental para compreender o funcionamento das saídas digitais em microcontroladores.
+Nesta demonstração, aprendemos a controlar um LED utilizando o MicroPython, fazendo-o piscar em intervalos regulares. Este é um exercício fundamental para compreender o funcionamento das saídas digitais em microcontroladores.
 
 <img src="./img/demo1a_blink.png" alt="demo1a" width="250" align="left"/>
 
@@ -76,7 +76,7 @@ while loops > 0:
 ---
 
 ## Demo 1c - Digital output - Blink
-Nesta demonstração, aprimoramos o controlo de múltiplos LEDs introduzindo o uso de funções para modularizar o código. Isso facilita a reutilização e manutenção, especialmente quando se lida com vários componentes.
+Nesta demonstração, aprimoramos o código anterior para controlo de múltiplos LEDs. Isso poderá facilitar a reutilização e manutenção, especialmente quando se lida com vários componentes.
 
 <img src="./img/demo1c_blink.png" alt="demo1c" width="250" align="left"/>
 
@@ -136,7 +136,7 @@ while True:
 ---
 
 ## Demo 2b - Avoidance Sensor
-Na Demonstração 2B: Entrada Digital - Sensor de Evitação de Obstáculos, substituímos o botão utilizado na demonstração anterior por um sensor de obstáculos. Este sensor detecta a presença de objetos próximos e envia um sinal digital ao microcontrolador, permitindo acionar um LED quando um obstáculo é detectado.
+Na Demonstração 2B: Entrada Digital - Sensor de Deteção de Obstáculos, substituímos o botão utilizado na demonstração anterior por um sensor de deteção de obstáculos. Este sensor detecta a presença de objetos próximos e envia um sinal digital ao microcontrolador, permitindo acionar um LED quando um obstáculo é detectado. 
 
 <img src="./img/demo2b_avoindance.png" alt="demo2b" width="250" align="left"/>
 
