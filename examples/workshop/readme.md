@@ -280,5 +280,14 @@ while True:
     sleep(1)
 ```
 
+Drivers catalog:
+* https://awesome-micropython.com/
+
+Extra tools:
+* https://github.com/jpedrodias/MicroPython
+* * sensor_manager
+  * wlan_manager
+  * mqtt_manager
+
 ---
 
