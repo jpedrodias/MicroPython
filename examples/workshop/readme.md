@@ -1,6 +1,18 @@
 # MicroPython Workshop @ ISP 2024-11-06
 
 
+---
+# Sustem prep:
+```bash
+pip install thonny esptool --upgrade
+```
+or
+```bash
+pip3 install thonny esptool --upgrade
+```
+
+---
+
 ## Demo 1a - Digital output - Blink
 <img src="./img/demo1a_blink.png" alt="demo1a" width="250" align="left"/>
 
