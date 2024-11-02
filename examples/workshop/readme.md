@@ -3,7 +3,7 @@
 
 ## Demo 1a - Digital output - Blink
 
-![image](https://.img/Semaforo%20-%20Pi%20Pico_bb.png)
+![image](./img/Semaforo%20-%20Pi%20Pico_bb.png)
 
 
 ```Python
