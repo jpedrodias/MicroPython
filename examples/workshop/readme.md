@@ -2,7 +2,7 @@
 
 
 ## Demo 1a - Digital output - Blink
-![Demo 1a](img/Semaforo%20-%20Pi%20Pico_bb.png){: style="height:83px"}
+![Demo 1a](img/Semaforo%20-%20Pi%20Pico_bb.png){ width=70 }
 
 ```Python
 # filename: demo1a_blink.py
