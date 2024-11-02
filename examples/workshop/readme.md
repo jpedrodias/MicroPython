@@ -7,5 +7,6 @@
 
 
 # filename: demo1a_blink.py
-https://github.com/jpedrodias/MicroPython/blob/master/examples/workshop/code/demo1a_blink.py
+<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=./code/demo1a_blink.py) -->
+<!-- MARKDOWN-AUTO-DOCS:END -->
 
