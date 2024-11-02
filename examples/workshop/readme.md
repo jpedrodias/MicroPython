@@ -4,8 +4,8 @@
 ## Demo 1a - Digital output - Blink
 <img src="./img/demo1a_blink.png" alt="demo1a" width="250" align="left"/>
 
-## filename: demo1a_blink.py
 ```Python:
+# filename: demo1a_blink.py
 from machine import Pin
 from time import sleep
  
@@ -30,8 +30,8 @@ while loops > 0:
 ## Demo 1b - Digital output - Blink
 <img src="./img/demo1b_blink.png" alt="demo1a" width="250" align="left"/>
 
-## filename: demo1b_blink.py
 ```Python:
+# filename: demo1b_blink.py
 from machine import Pin
 from time import sleep
  
