@@ -462,10 +462,7 @@ while True:
 https://www.hivemq.com/demos/websocket-client/
 
 (2) Add control and status topics 
-* control ips/devices/rp2_e6626005a7936e28/control
-* status ips/devices/rp2_e6626005a7936e28/status
-* 
-<tab><tab>code/text here
+* to control commands: ips/devices/rp2_e6626005a7936e28/control
+* to check status: ips/devices/rp2_e6626005a7936e28/status
 
-
-(3) Send msg with string `LED ON`, `LED OFF` or `STATUS`
+(3) Valid commands: `LED ON`, `LED OFF` or `STATUS`
