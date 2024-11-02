@@ -7,5 +7,6 @@
 
 
 ## filename: demo1a_blink.py
-```Python:examples/workshop/code/demo1a_blink.py
+```Python:[examples/workshop/code/demo1a_blink.py](https://github.com/jpedrodias/MicroPython/blob/546a2b296f55871f8fd717ba7d9b398c94663813/examples/workshop/code/demo1a_blink.py)
 ```
+https://github.com/jpedrodias/MicroPython/blob/546a2b296f55871f8fd717ba7d9b398c94663813/examples/workshop/code/demo1a_blink.py
