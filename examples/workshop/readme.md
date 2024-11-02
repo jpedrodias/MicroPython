@@ -5,7 +5,7 @@
 
 <img src="./img/demo1a_blink.png" alt="demo1a" width="250" align="left"/>
 
-```Python
+
 # filename: demo1a_blink.py
 [code/](https://github.com/jpedrodias/MicroPython/blob/master/examples/workshop/code/demo1a_blink.py)
-```
+
