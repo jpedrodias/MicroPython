@@ -11,7 +11,10 @@ or `pip3`
 ---
 
 ## Demo 1a - Digital output - Blink
+Nesta demonstração, vamos aprender a controlar um LED utilizando o MicroPython, fazendo-o piscar em intervalos regulares. Este é um exercício fundamental para compreender o funcionamento das saídas digitais em microcontroladores.
+
 <img src="./img/demo1a_blink.png" alt="demo1a" width="250" align="left"/>
+
 
 ```Python
 # filename: demo1a_blink.py
