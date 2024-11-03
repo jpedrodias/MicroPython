@@ -27,7 +27,7 @@ or `pip3`
 
 <td><div align="left" style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
   <h3>Wemos D1 mini</h3>
-  <a target="hardware_board" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" tyle="width:240px; border-radius:8px;" /></a>
+  <a target="hardware_board" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" style="width:240px; border-radius:8px;" /></a>
   <p style="font-size:14px; color:#555;">ESP8266: 64kb de RAM; 4md de flash</p>
 </div>
 </table>
