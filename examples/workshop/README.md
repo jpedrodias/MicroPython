@@ -16,19 +16,20 @@ or `pip3`
 <a target="hardware_board" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" width="240" /></a>
 
 
-<div style="display:flex; gap:10px; flex-wrap:wrap;">
-<div style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
+<table>
+  <tr>
+<td><div style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
   <h3>Raspberry Pi Pico</h3>
   <a target="hardware_board" href="../../pinout/raspberry-pi-pico-pinout-adafruit.png"><img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="Raspberry Pi Pico" style="width:240px; border-radius:8px;" /></a>
   <p style="font-size:14px; color:#555;">Esta é uma legenda descritiva.</p>
 </div>
 
-<div align="left" style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
+<td><div align="left" style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
   <h3>ESP32 PICO</h3>
  <a target="hardware_board" href="../../pinout/ESP32-PICO-KIT.jpg"><img src="../../pinout/ESP32-PICO-KIT.jpg" alt="ESP32 PICO" style="width:240px; border-radius:8px;" /></a>
   <p style="font-size:14px; color:#555;">Esta é uma legenda descritiva.</p>
 </div>
-</div>
+</table>
 
 ---
 
