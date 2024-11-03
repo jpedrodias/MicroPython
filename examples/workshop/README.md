@@ -11,23 +11,24 @@ or `pip3`
 ---
 # Hardware
 
-<a target="hardware_board" href="../../pinout/raspberry-pi-pico-pinout-adafruit.png"><img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="Raspberry Pi Pico" width="240" /></a>
-<a target="hardware_board" href="../../pinout/ESP32-PICO-KIT.jpg"><img src="../../pinout/ESP32-PICO-KIT.jpg" alt="ESP32 PICO" width="240" /></a>
-<a target="hardware_board" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" width="240" /></a>
-
-
 <table>
   <tr>
 <td><div style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
   <h3>Raspberry Pi Pico</h3>
   <a target="hardware_board" href="../../pinout/raspberry-pi-pico-pinout-adafruit.png"><img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="Raspberry Pi Pico" style="width:240px; border-radius:8px;" /></a>
-  <p style="font-size:14px; color:#555;">Esta é uma legenda descritiva.</p>
+  <p style="font-size:14px; color:#555;">RP2040: 264Kb de SRAM; 2mb de flash</p>
 </div>
 
 <td><div align="left" style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
   <h3>ESP32 PICO</h3>
  <a target="hardware_board" href="../../pinout/ESP32-PICO-KIT.jpg"><img src="../../pinout/ESP32-PICO-KIT.jpg" alt="ESP32 PICO" style="width:240px; border-radius:8px;" /></a>
-  <p style="font-size:14px; color:#555;">Esta é uma legenda descritiva.</p>
+  <p style="font-size:14px; color:#555;">ESP32: 520kb SRAM; 4mg de flask</p>
+</div>
+
+<td><div align="left" style="width:240px; border:1px solid #ccc; padding:10px; border-radius:8px; text-align:center;">
+  <h3>Wemos D1 mini</h3>
+  <a target="hardware_board" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" tyle="width:240px; border-radius:8px;" /></a>
+  <p style="font-size:14px; color:#555;">ESP8266: 64kb de RAM; 4md de flash</p>
 </div>
 </table>
 
