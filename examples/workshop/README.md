@@ -359,7 +359,7 @@ led = Pin(10, Pin.OUT)
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect('COSMOS2', 'naosediz')
+wlan.connect('<Your SSID>', 'password')
 
 print('Connecting', end='')
 while not wlan.isconnected():
