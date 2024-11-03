@@ -333,12 +333,9 @@ while True:
 
 Drivers catalog:
 * https://awesome-micropython.com/
+* https://github.com/micropython/micropython-lib/tree/master/micropython/drivers/display/ssd1306
+* https://github.com/kevbu/micropython-bme280/blob/master/bme280.py
 
-Extra tools:
-* https://github.com/jpedrodias/MicroPython
-  * sensor_manager
-  * wlan_manager
-  * mqtt_manager
 
 ---
 
@@ -505,3 +502,11 @@ while True:
 
 (3) To send a command, choose "Publish" to the control topic
 * Valid commands: `LED ON`, `LED OFF` or `STATUS`
+
+---
+Extra tools:
+* https://github.com/jpedrodias/MicroPython
+  * sensor_manager
+  * wlan_manager
+  * mqtt_manager
+---
