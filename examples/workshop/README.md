@@ -2,7 +2,7 @@
 
 
 ---
-# Sustem prep:
+# System setup:
 ```bash
 pip install thonny esptool --upgrade
 ```
