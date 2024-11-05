@@ -445,11 +445,18 @@ Na Demonstração 5B: Controle de LED via MQTT, exploramos como utilizar o proto
 <img src="./img/demo1a_blink.png" alt="demo5a" width="250" align="left"/>
 
 ```Python
-# filename: demo5b_mqtt.py
-from time import sleep
-import gc
-gc.enable()
+# filename: demo5b_mqtt_setup.py
+
+from wlan_manager import WLAN_Manager
+wlan_client = WLAN_Manager() # Connection to Internet
+wlan_client.setup("Your SSID", "password")
+wlan_client.start()
+
+from mqtt_manager import MQTT_Manager
+mqtt_client = MQTT_Manager()
+mqtt_client.setup()
 ```
+
 
 ```Python
 # filename: demo5b_mqtt.py
