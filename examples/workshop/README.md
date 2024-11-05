@@ -3,12 +3,25 @@
 
 ---
 # System setup:
+(1) Instalar IDE )Thonny) usando o python
 ```bash
 pip install thonny esptool --upgrade
 ```
 or `pip3`
 
+
+
+(2) Instalar `ampy` - utilitário de linha de comandos para upload/download de ficheiros para o microcontrolador
+```bash
+pip install adafruit-ampy --upgrade
 ---
+
+Sintaxe:
+```bash
+ampy -p COM? **pu**t filename
+```
+
+
 # Hardware
 
 <table>
