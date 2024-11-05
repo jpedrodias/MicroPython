@@ -446,7 +446,6 @@ Na Demonstração 5B: Controle de LED via MQTT, exploramos como utilizar o proto
 
 ```Python
 # filename: demo5b_mqtt_setup.py
-
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager() # Connection to Internet
 wlan_client.setup("Your SSID", "password")
@@ -456,6 +455,7 @@ from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 mqtt_client.setup()
 ```
+Open and edit files `wlan_manager.json` and `mqtt_manager.json`
 
 
 ```Python
