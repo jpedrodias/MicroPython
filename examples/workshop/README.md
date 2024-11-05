@@ -515,8 +515,8 @@ while True:
 <a href="https://www.hivemq.com/demos/websocket-client/" target="_blank">Hive MQTT Client</a>
 
 (2) choose "Connect" and then "Add New Topic Subscription":
-* to control: ips/devices/rp2_e6626005a7936e28/control
-* to check status: ips/devices/rp2_e6626005a7936e28/status
+* to control: devices/you_mc_uuid/control
+* to check status: devices/you_mc_uuid/status
 
 (3) To send a command, choose "Publish" to the control topic
 * Valid commands: `LED ON`, `LED OFF` or `STATUS`
