@@ -449,7 +449,7 @@ Na Demonstração 5B: Controle de LED via MQTT, exploramos como utilizar o proto
 from time import sleep
 import gc
 gc.enable()
-```P
+```
 
 ```Python
 # filename: demo5b_mqtt.py
