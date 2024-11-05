@@ -522,9 +522,7 @@ while True:
     sleep(1)
 ```
 
-
-> [!INFO]
-> (0) Download and copy `wlan_manager.mpy` and `mqtt_manager.mpy` using ampy
+> Download and copy `wlan_manager.mpy` and `mqtt_manager.mpy` using ampy
 > ```bash
 > ampy -p COM? put sensor_manager.mpy
 > ampy -p COM? put wlan_manager.mpy
@@ -532,7 +530,7 @@ while True:
 
 
 > [!NOTE]
-> (0) First time using this code, `wlan_client.setup()` and `mqtt_client.setup()` must be used.
+> First time using this code, `wlan_client.setup()` and `mqtt_client.setup()` must be used.
 
 (1) Open MQTT web client 
 <a href="https://www.hivemq.com/demos/websocket-client/" target="_blank">Hive MQTT Client</a>
