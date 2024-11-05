@@ -14,12 +14,17 @@ or `pip3`
 (2) Instalar `ampy` - utilitário de linha de comandos para upload/download de ficheiros para o microcontrolador
 ```bash
 pip install adafruit-ampy --upgrade
----
-
-Sintaxe:
-```bash
-ampy -p COM? **pu**t filename
 ```
+
+Como usar AMPY:
+```bash
+ampy -ls
+ampy -p COM1 put filename
+```
+
+
+Exemplo: `ampy -p COM3 put sensor_manager.mpy`
+
 
 
 # Hardware
