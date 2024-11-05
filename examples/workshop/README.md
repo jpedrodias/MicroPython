@@ -455,7 +455,18 @@ from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
 mqtt_client.setup()
 ```
-Open and edit files `wlan_manager.json` and `mqtt_manager.json`
+
+A instrução `wlan_client.setup()` pode ser chamada mesmo sem argumentos e irá criar um ficheiro (`wlan_manager.json`) com uma lista de senhas de redes conhecidas. Por exemplo:
+```python
+wlan_client.setup("Your SSID", "password")
+```
+
+A instrução `mqtt_client.setup()` tem de ser chamada mesmo sem argumentos e irá criar um ficheiro (`mqtt_manager.json`) com uma lista de senhas de redes conhecidas. Por exemplo:
+```python
+mqtt_client.setup()
+```
+
+Os ficheiros criados (`wlan_manager.json` and `mqtt_manager.json`) podem ser abertos com o IDE Thonny.
 
 
 ```Python
