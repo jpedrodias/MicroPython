@@ -445,15 +445,33 @@ Na Demonstração 5B: Controle de LED via MQTT, exploramos como utilizar o proto
 <img src="./img/demo1a_blink.png" alt="demo5a" width="250" align="left"/>
 
 ```Python
-# filename: demo5b_mqtt_setup.py
-from wlan_manager import WLAN_Manager
-wlan_client = WLAN_Manager() # Connection to Internet
-wlan_client.setup("Your SSID", "password")
-wlan_client.start()
+# filename: demo5b_init_setup.py
+SSID = 'Your SSID'
+PASS = 'you password'
+
+import network
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(SSID, PASS)
+print('Connecting', end='')
+while not wlan.isconnected():
+    print('.', end='')
+print()	
 
 import mip
+# My tools
+mip.install('https://github.com/jpedrodias/MicroPython/raw/refs/heads/master/compiled/sensor_manager.mpy')
+mip.install('https://github.com/jpedrodias/MicroPython/raw/refs/heads/master/compiled/wlan_manager.mpy')
+mip.install('https://github.com/jpedrodias/MicroPython/raw/refs/heads/master/compiled/mqtt_manager.mpy')
+
 mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.robust/umqtt/robust.py', target='umqtt')
 mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.simple/umqtt/simple.py', target='umqtt')
+
+
+from wlan_manager import WLAN_Manager
+wlan_client = WLAN_Manager() # Connection to Internet
+wlan_client.setup(SSID, PASS)
+wlan_client.start()
 
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
