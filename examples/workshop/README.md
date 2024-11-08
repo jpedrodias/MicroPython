@@ -452,8 +452,8 @@ wlan_client.setup("Your SSID", "password")
 wlan_client.start()
 
 import mip
-mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.robust/umqtt/robust.py', target='mqtt')
-mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.simple/umqtt/simple.py', target='mqtt')
+mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.robust/umqtt/robust.py', target='umqtt')
+mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.simple/umqtt/simple.py', target='umqtt')
 
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
