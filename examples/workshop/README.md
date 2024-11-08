@@ -504,7 +504,7 @@ def mqtt_callback(topic, msg):
     elif msg == b'LED OFF':
         led.value(0)
     elif msg == b'STATUS':
-        status = {0: 'LED is OFF', 1: 'LED is OFF'}.get(led.value(), 0)
+        status = {0: 'LED is OFF', 1: 'LED is ON'}.get(led.value(), 0)
         try:
             mqtt_client.send(TOPIC_PUB, status)
         except:
