@@ -3,7 +3,7 @@
 
 ---
 # System setup:
-(1) Instalar IDE )Thonny) usando o python
+(1) Instalar <a href="https://thonny.org/">IDE Thonny</a> usando o python
 ```bash
 pip install thonny esptool --upgrade
 ```
