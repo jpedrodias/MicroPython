@@ -482,6 +482,7 @@ mqtt_client.setup()  # saves data to mqtt_manager.json - change ip to your setti
 A instrução `wlan_client.setup()` pode ser chamada mesmo sem argumentos e irá criar um ficheiro (`wlan_manager.json`) com uma lista de senhas de redes conhecidas. Por exemplo:
 ```python
 wlan_client.setup("Your SSID", "password")
+wlan_client.setup("Your Second SSID", "password", append=True)
 ```
 
 A instrução `mqtt_client.setup()` tem de ser chamada mesmo sem argumentos e irá criar um ficheiro (`mqtt_manager.json`) com uma lista de senhas de redes conhecidas. Por exemplo:
