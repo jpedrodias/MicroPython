@@ -3,7 +3,7 @@
 
 ---
 # System setup:
-(1) Instalar <a href="https://thonny.org/" target="_thonny">IDE Thonny</a> usando o python
+(1) Instalar <a href="https://thonny.org/" target="_new">IDE Thonny</a> usando o python
 ```bash
 pip install thonny esptool --upgrade
 ```
@@ -37,11 +37,11 @@ Exemplo: `ampy -p COM3 put sensor_manager.mpy`
     </tr>
   <tr>
 <td>
-  <a target="_pinout" href="../../pinout/raspberry-pi-pico-pinout-adafruit.png"><img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="Raspberry Pi Pico" style="width:240px; border-radius:8px;" /></a>
+  <a target="_new" href="../../pinout/raspberry-pi-pico-pinout-adafruit.png"><img src="../../pinout/raspberry-pi-pico-pinout-adafruit.png" alt="Raspberry Pi Pico" style="width:240px; border-radius:8px;" /></a>
 <td>  
- <a target="_pinout" href="../../pinout/ESP32-PICO-KIT.jpg"><img src="../../pinout/ESP32-PICO-KIT.jpg" alt="ESP32 PICO" style="width:240px; border-radius:8px;" /></a>
+ <a target="_new" href="../../pinout/ESP32-PICO-KIT.jpg"><img src="../../pinout/ESP32-PICO-KIT.jpg" alt="ESP32 PICO" style="width:240px; border-radius:8px;" /></a>
 <td>
-  <a target="_pinout" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" style="width:240px; border-radius:8px;" /></a>
+  <a target="_new" href="../../pinout/WeMos-d1-mini-Pinout.png"><img src="../../pinout/WeMos-d1-mini-Pinout.png" alt="ESP8266 Wemos D1 Mini" style="width:240px; border-radius:8px;" /></a>
 <tr>
   <td><p style="font-size:14px; color:#555;">RP2040: 264Kb de SRAM; 2mb de flash</p>
   <td><p style="font-size:14px; color:#555;">ESP32: 520kb SRAM; 4mg de flask</p>
