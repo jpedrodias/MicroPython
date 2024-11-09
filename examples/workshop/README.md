@@ -458,24 +458,25 @@ while not wlan.isconnected():
     print('.', end='')
 print()	
 
+# INSTALL MQTT
 import mip
-# My tools
-mip.install('https://github.com/jpedrodias/MicroPython/raw/refs/heads/master/compiled/sensor_manager.mpy')
-mip.install('https://github.com/jpedrodias/MicroPython/raw/refs/heads/master/compiled/wlan_manager.mpy')
-mip.install('https://github.com/jpedrodias/MicroPython/raw/refs/heads/master/compiled/mqtt_manager.mpy')
+mip.install('umqtt.simple', target='/')
+mip.install('umqtt.robust', target='/')
 
-mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.robust/umqtt/robust.py', target='umqtt')
-mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.simple/umqtt/simple.py', target='umqtt')
+# use this if the above fails
+#mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.robust/umqtt/robust.py', target='umqtt')
+#mip.install('https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.simple/umqtt/simple.py', target='umqtt')
 
 
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager() # Connection to Internet
-wlan_client.setup(SSID, PASS)
+wlan_client.setup(SSID, PASS)  # saves data to wlam_manager.json
 wlan_client.start()
+
 
 from mqtt_manager import MQTT_Manager
 mqtt_client = MQTT_Manager()
-mqtt_client.setup()
+mqtt_client.setup()  # saves data to mqtt_manager.json - change ip to your settings
 ```
 
 A instrução `wlan_client.setup()` pode ser chamada mesmo sem argumentos e irá criar um ficheiro (`wlan_manager.json`) com uma lista de senhas de redes conhecidas. Por exemplo:
@@ -511,17 +512,17 @@ def reconnect():
 
 from wlan_manager import WLAN_Manager
 wlan_client = WLAN_Manager() # Connection to Internet
-#wlan_client.setup("Your SSID", "password")
+#wlan_client.setup("Your SSID", "password") # saves data to wlam_manager.json
 wlan_client.start()
 
 
 def mqtt_callback(topic, msg):
     print('MSG! Topic: {}; Data {}'.format(topic, msg))  
-    if msg == b'LED ON':
+    if msg.lower() == b'led on':
         led.value(1)
-    elif msg == b'LED OFF':
+    elif msg.lower() == b'led off':
         led.value(0)
-    elif msg == b'STATUS':
+    elif msg.lower() == b'status':
         status = {0: 'LED is OFF', 1: 'LED is ON'}.get(led.value(), 0)
         try:
             mqtt_client.send(TOPIC_PUB, status)
@@ -535,14 +536,14 @@ mqtt_client = MQTT_Manager()
 #mqtt_client.setup()
 
 # Global variables
-TOPIC_SUB = mqtt_client.get_topic("control") # You talking to the sensor
-TOPIC_PUB = mqtt_client.get_topic("status")  # The sensor talking to you
-chatty_client =  bool(mqtt_client.CONFIG.get("chatty", True))
+TOPIC_SUB = mqtt_client.get_topic('control') # You talking to the sensor
+TOPIC_PUB = mqtt_client.get_topic('status')  # The sensor talking to you
+chatty_client =  bool(mqtt_client.CONFIG.get('chatty', True))
 mqtt_client.broker.set_callback(mqtt_callback)
 
-print( "client_id:", mqtt_client.CONFIG["client_id"] )
-print( "MQTT SUB:", TOPIC_SUB)
-print( "MQTT PUB:", TOPIC_PUB)
+print( 'client_id:', mqtt_client.CONFIG['client_id'] )
+print( 'MQTT SUB:', TOPIC_SUB)
+print( 'MQTT PUB:', TOPIC_PUB)
 
 
 # Main Loop
