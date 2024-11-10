@@ -19,7 +19,7 @@ pip install adafruit-ampy --upgrade
 Como usar AMPY:
 ```bash
 ampy -ls
-ampy -p COM1 put filename
+ampy -p COM3 put filename
 ```
 
 
