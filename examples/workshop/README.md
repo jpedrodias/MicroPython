@@ -564,9 +564,10 @@ while True:
 
 > Download and copy `wlan_manager.mpy` and `mqtt_manager.mpy` using ampy
 > ```bash
-> ampy -p COM? put sensor_manager.mpy
 > ampy -p COM? put wlan_manager.mpy
-> ampy -p COM? put mqtt_manager.mpy```
+> ampy -p COM? put mqtt_manager.mpy
+> ampy -p COM? put sensor_manager.mpy
+> ```
 
 
 > [!NOTE]
