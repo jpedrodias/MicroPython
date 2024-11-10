@@ -27,7 +27,8 @@ Exemplo:
 ```bash
 ampy -p COM3 put wlan_manager.mpy
 ampy -p COM3 put mqtt_manager.mpy
-ampy -p COM3 put sensor_manager.mpy```
+ampy -p COM3 put sensor_manager.mpy
+```
 
 
 
