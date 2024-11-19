@@ -461,7 +461,7 @@ wlan.connect(SSID, PASS)
 print('Connecting', end='')
 while not wlan.isconnected():
     print('.', end='')
-time.sleep(1)
+    time.sleep(1)
 print()	
 
 # INSTALL MQTT
