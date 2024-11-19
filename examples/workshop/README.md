@@ -454,13 +454,14 @@ Na Demonstração 5B: Controle de LED via MQTT, exploramos como utilizar o proto
 SSID = 'Your SSID'
 PASS = 'you password'
 
-import network
+import network, time
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 wlan.connect(SSID, PASS)
 print('Connecting', end='')
 while not wlan.isconnected():
     print('.', end='')
+time.sleep(1)
 print()	
 
 # INSTALL MQTT
