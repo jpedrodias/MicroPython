@@ -1,6 +1,7 @@
 from machine import Pin, PWM
 from time import sleep
 
+
 class Car:
     def __init__(self, *args):
         self.freq = 50
@@ -21,10 +22,8 @@ class Car:
         """Ajusta a velocidade dos motores."""
         self.speed = speed # 0 e 100
         self.duty = 2 ** 16 * speed // 100
-        print(self.duty)
     
     def set_rotation(self, *pins):
-        print(pins)
         for motor in self.motors:
             motor.duty_u16(0)
         
@@ -32,30 +31,45 @@ class Car:
             motor = self.motors[index]
             motor.duty_u16(self.duty)
         
-        
-    def move_forward(self):
+    def forward(self):
         self.set_rotation(0, 2)
 
-    def move_backward(self):
+    def backward(self):
         self.set_rotation(1, 3)
 
-    def turn_left(self):
+    def left(self):
         self.set_rotation(0)
 
-    def turn_right(self):
+    def right(self):
         self.set_rotation(2)
 
     def stop(self, side=0):
         self.speed = 0
         for motor in self.motors:
             motor.duty_u16(0)
-            
 
+RUN_PAUSA = True
+def pausa_on_click(pin):
+    global RUN_PAUSA
+    if pin == pausa:
+        RUN_PAUSA = not RUN_PAUSA
+        
+s_esq = Pin(18, Pin.IN)
+s_dir = Pin(19, Pin.IN)
+pausa = Pin(13, Pin.IN)
+pausa.irq(handler=pausa_on_click, trigger=Pin.IRQ_FALLING)
 car = Car(15, 14, 17, 16)
 
 car.set_speed(30)
 #car.set_rotation(0, 2)
-car.turn_right()
-sleep(2)
+#car.turn_right()
+#sleep(2)
 car.stop()
+
+while True:
+    if RUN_PAUSA:
+        car.stop()
+    else:
+        car.forward()
+
 
