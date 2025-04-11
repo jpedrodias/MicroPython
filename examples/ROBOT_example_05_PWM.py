@@ -4,7 +4,7 @@ from time import sleep
 
 class Car:
     def __init__(self, *args):
-        self.freq = 50
+        self.freq = 1024
         self.motors_map = args
         
         self.calibration = [0, 0, 0, 0]
@@ -29,6 +29,7 @@ class Car:
         
         for index in pins:
             motor = self.motors[index]
+            motor.duty_u16(2**16)
             motor.duty_u16(self.duty)
         
     def forward(self):
@@ -53,23 +54,28 @@ def pausa_on_click(pin):
     global RUN_PAUSA
     if pin == pausa:
         RUN_PAUSA = not RUN_PAUSA
-        
-s_esq = Pin(18, Pin.IN)
-s_dir = Pin(19, Pin.IN)
+        print('Status', RUN_PAUSA)
+        sleep(0.01)
+
+
+sensor_esq = Pin(18, Pin.IN)
+ssensor_dir = Pin(19, Pin.IN)
 pausa = Pin(13, Pin.IN)
 pausa.irq(handler=pausa_on_click, trigger=Pin.IRQ_FALLING)
 car = Car(15, 14, 17, 16)
 
-car.set_speed(30)
-#car.set_rotation(0, 2)
-#car.turn_right()
-#sleep(2)
+car.set_speed(60)
 car.stop()
 
 while True:
     if RUN_PAUSA:
         car.stop()
     else:
-        car.forward()
-
-
+        
+        if sensor_esq.value() and not ssensor_dir.value():
+            car.right()
+        elif not sensor_esq.value() and sensor_dir.value():
+            car.left()
+        else:
+            car.forward()
+#end loop
